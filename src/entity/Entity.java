@@ -8,6 +8,8 @@ public class Entity {
 	
 	private int currentHP;
 	private int currentMP;
+	
+	private int floorLevel = 1;
 	public Entity() {
 		setStats();
 	}
@@ -18,6 +20,14 @@ public class Entity {
 		maxMP=15;
 		currentHP=maxHP;
 		currentMP=maxMP;
+	}
+	public void returnCurrentStats() {
+		System.out.printf("%-12s", "Current HP");
+		System.out.printf("%-12s", "Current MP");
+		System.out.printf("%-12s", "Max HP");
+		System.out.printf("%-12s", "Max MP");
+		System.out.printf("%-12s", "Atk");
+		System.out.printf("%-12s", "Def");
 	}
 //	=======================================================================
 //	getters and setters
@@ -56,6 +66,12 @@ public class Entity {
 	}
 	public void setCurrentMP(int currentMP) {
 		this.currentMP = currentMP;
+	}
+	public int getFloorLevel() {
+		return floorLevel;
+	}
+	public void setFloorLevel(int floorLevel) {
+		this.floorLevel = floorLevel;
 	}
 	
 }
