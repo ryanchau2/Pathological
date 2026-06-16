@@ -1,5 +1,9 @@
 package events;
 
-public class Event {
+import javafx.scene.layout.BorderPane;
 
+public abstract class Event {
+	public Event() {
+		
+	}
 }

@@ -1,8 +1,12 @@
 package items;
 
 public class Equipment extends Item {
-	String equipmentName;
-	String equipmentDesc;
+	private String equipmentName;
+	private String equipmentDesc;
+	
+	private int eq_HP;
+	private int eq_MP;
+	private int eq_def;
 	
 	public Equipment() {
 		//pull name and desc from SQL based on 

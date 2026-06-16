@@ -1,5 +1,5 @@
 package events;
 
-public class Rest {
+public class Rest extends Event {
 
 }

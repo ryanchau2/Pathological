@@ -1,5 +1,7 @@
 package events;
 
-public class Treasure {
-
+public class Treasure extends Event{
+	public Treasure() {
+		
+	}
 }

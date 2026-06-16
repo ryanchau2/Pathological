@@ -4,11 +4,20 @@ import items.Consumable;
 import items.Equipment;
 
 public class Player extends Entity{
-	private static int runID = 0;
 	private Equipment[] currentEquipment;
 	private Consumable[] currentConsumables;
 //	inventory and equipment
 	public Player() {
-		runID=runID+1;
+		setStats();
+		System.out.println("Player Successfully Created");
+		returnCurrentStats();
+	}
+	private void setStats() {
+		setAtk(10);
+		setDef(5);
+		setMaxHP(20);
+		setMaxMP(15);
+		setCurrentHP(getMaxHP());
+		setCurrentMP(getMaxMP());
 	}
 }
