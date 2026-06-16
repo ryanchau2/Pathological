@@ -9,7 +9,8 @@ public class Entity {
 	private int currentHP;
 	private int currentMP;
 	
-	private int floorLevel = 1;
+	private String entity_sprite;
+	
 	public Entity() {
 //		setStats();
 	}
@@ -74,11 +75,11 @@ public class Entity {
 	public void setCurrentMP(int currentMP) {
 		this.currentMP = currentMP;
 	}
-	public int getFloorLevel() {
-		return floorLevel;
+	public String getEntity_sprite() {
+		return entity_sprite;
 	}
-	public void setFloorLevel(int floorLevel) {
-		this.floorLevel = floorLevel;
+	public void setEntity_sprite(String entity_sprite) {
+		this.entity_sprite = entity_sprite;
 	}
 	
 }

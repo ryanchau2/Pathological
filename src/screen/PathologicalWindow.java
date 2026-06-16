@@ -1,7 +1,7 @@
 package screen;
 
+import entity.Enemy;
 import entity.Player;
-import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -12,7 +12,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class PathologicalWindow extends BorderPane{
 	String windowText;
@@ -26,9 +25,31 @@ public class PathologicalWindow extends BorderPane{
 	private Button btPrevRuns = new Button("Previous Runs");
 	private Button btExit = new Button("Exit");
 	
+	
+	private int pathFloor = 0;
+//	Top Path Level Bar
 	Text pathProgressText = new Text("pathProgressTopLOL");
 	HBox pathProgressBox = new HBox();
+//	Choices Box
 	HBox pathChoicesHBox = new HBox(20);
+	
+	Player newPlayer;
+//	===============================================================
+//	Battle
+//	Battle UI elements (Contains the player and enemy container)
+	HBox battleBoxContainer = new HBox(20);
+//	Player Elements (Contains player visual attributes)
+	VBox playerContainer = new VBox(5);
+	HBox playerImageContainer = new HBox();
+	HBox playerHPContainer = new HBox();
+	HBox playerMPContainer = new HBox();
+//	Enemy Elements (Contains enemy visual attributes)
+	VBox enemyContainer = new VBox(5);
+	HBox enemyImageContainer = new HBox();
+	HBox enemyHPContainer = new HBox();
+	HBox enemyMPContainer = new HBox();
+//	===============================================================
+	
 	public PathologicalWindow() {
 		windowText = "Pathological";
 		
@@ -44,7 +65,7 @@ public class PathologicalWindow extends BorderPane{
 		show();
 	}
 	private void startGame() {
-		Player newPlayer = new Player();
+		newPlayer = new Player();
 		displayPaths();
 	}
 	private void displayPaths() {
@@ -82,16 +103,28 @@ public class PathologicalWindow extends BorderPane{
 	}
 //	1
 	private void battleEvent() {
+		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("Battle has been chosen!");
+		
+		playerImageContainer.getChildren().add(new ImageView(newPlayer.getEntity_sprite()));
+		playerContainer.getChildren().addAll(playerImageContainer);
+		
+		Enemy enemy = new Enemy();
+		enemyImageContainer.getChildren().add(new ImageView(enemy.getEntity_sprite()));
+		enemyContainer.getChildren().addAll(enemyImageContainer);
+		battleBoxContainer.getChildren().addAll(playerContainer, enemyContainer);
+		this.setCenter(battleBoxContainer);
 	}
 //	2
 	private void restEvent() {
+		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("time to eep");
 	}
 //	3
 	private void treasureEvent() {
+		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("fre money!");
 	}
