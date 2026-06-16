@@ -3,13 +3,17 @@ package entity;
 public class Enemy extends Entity{
 	private double diffModifier;
 	public Enemy() {
-		diffModifier=getFloorLevel()*0.6;
-		adjustEnemyStats();
+		setStats();
 		returnCurrentStats();
 		
 	}
-	private void adjustEnemyStats() {
-		setMaxHP((int)(diffModifier*getMaxHP()));
-		setMaxMP((int)(diffModifier*getMaxMP()));
+	private void setStats() {
+		diffModifier=getFloorLevel()*0.6;
+		setAtk((int)(10*diffModifier));
+		setDef((int)(5*diffModifier));
+		setMaxHP((int)(20*diffModifier));
+		setMaxMP((int)(15*diffModifier));
+		setCurrentHP(getMaxHP());
+		setCurrentMP(getMaxMP());
 	}
 }

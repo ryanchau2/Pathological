@@ -11,16 +11,16 @@ public class Entity {
 	
 	private int floorLevel = 1;
 	public Entity() {
-		setStats();
+//		setStats();
 	}
-	private void setStats() {
-		atk=10;
-		def=5;
-		maxHP=20;
-		maxMP=15;
-		currentHP=maxHP;
-		currentMP=maxMP;
-	}
+//	private void setStats() {
+//		atk=10;
+//		def=5;
+//		maxHP=20;
+//		maxMP=15;
+//		currentHP=maxHP;
+//		currentMP=maxMP;
+//	}
 	public void returnCurrentStats() {
 		System.out.printf("%-12s", "Current HP");
 		System.out.printf("%-12s", "Current MP");
@@ -28,6 +28,13 @@ public class Entity {
 		System.out.printf("%-12s", "Max MP");
 		System.out.printf("%-12s", "Atk");
 		System.out.printf("%-12s", "Def");
+		System.out.println();
+		System.out.printf("%-12s", currentHP);
+		System.out.printf("%-12s", currentMP);
+		System.out.printf("%-12s", maxHP);
+		System.out.printf("%-12s", maxMP);
+		System.out.printf("%-12s", atk);
+		System.out.printf("%-12s", def);
 	}
 //	=======================================================================
 //	getters and setters
