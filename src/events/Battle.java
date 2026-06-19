@@ -79,6 +79,7 @@ Button btItem = new Button("Items");
 	private void createActionBarListeners() {
 		btAttack.setOnAction(e->{
 			attack(player, enemy);
+			attack(enemy, player);
 		});
 //		btSkills.setOnAction();
 //		btDefend.setOnAction();
@@ -90,11 +91,12 @@ Button btItem = new Button("Items");
 			return;
 		}
 		e2.setCurrentHP(e2.getCurrentHP()-damage);
-		System.out.println(e2.getCurrentHP());
-		enemy_HP.setText(String.valueOf(e2.getCurrentHP()+"/"+e2.getMaxHP()));
-	}
-	private void updateHP(Entity e) {
-		enemy_HP = new Text(String.valueOf(enemy.display_HPStat()));
+		if(e2 instanceof Player) {
+			player_HP.setText(String.valueOf(e2.getCurrentHP()+"/"+e2.getMaxHP()));
+		}
+		else {
+			enemy_HP.setText(String.valueOf(e2.getCurrentHP()+"/"+e2.getMaxHP()));	
+		}
 	}
 	private void createEnemy() {
 //		Retrieves Enemy Information
