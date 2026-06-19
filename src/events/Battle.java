@@ -73,18 +73,37 @@ Button btItem = new Button("Items");
 		styleBattleActionUI();
 	}
 	private void battle() {
-			createActionBarListeners();
-//		actionBarUI.getChildren().clear();
+			createActionBarListeners();	
+	}
+	private void enemyTurn() {
+		if(enemy.getCurrentHP()>0)
+			attack(enemy, player);
+		else {
+			actionBarUI.getChildren().clear();
+			playerContainer.getChildren().clear();
+			enemyContainer.getChildren().clear();
+			new ChoosePath(window, floorLevel, player);
+		}
 	}
 	private void createActionBarListeners() {
 		btAttack.setOnAction(e->{
 			attack(player, enemy);
-			attack(enemy, player);
-//			push to og
+			enemyTurn();
 		});
-//		btSkills.setOnAction();
-//		btDefend.setOnAction();
+//		btSkills.setOnAction(e->{
+//			
+//		});
+		btDefend.setOnAction(e->{
+			defend(player);
+		});
+			
 //		btItem.setOnAction();
+	}
+	private void defend(Entity e1) {
+		int tempDefense = (int)(player.getDef()*.5);
+		player.setDef(player.getDef()+tempDefense);
+		enemyTurn();
+		player.setDef(player.getDef()-tempDefense);
 	}
 	private void attack(Entity e1, Entity e2) {
 		int damage = e1.getAtk()-e2.getDef();
