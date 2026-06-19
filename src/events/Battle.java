@@ -80,6 +80,7 @@ Button btItem = new Button("Items");
 		btAttack.setOnAction(e->{
 			attack(player, enemy);
 			attack(enemy, player);
+//			push to og
 		});
 //		btSkills.setOnAction();
 //		btDefend.setOnAction();
