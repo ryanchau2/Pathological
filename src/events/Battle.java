@@ -97,12 +97,23 @@ Button btItem = new Button("Items");
 			System.out.println("Enemy has been defeated");
 			return;
 		}
+		updateHP(e2);
 		attack(enemy, player);
 		return;
+	}
+	private void updateHP(Entity e) {
+		if(e instanceof Player)
+			setPlayerInfo();
+		else
+			setEnemyInfo();
+		
 	}
 	private void createEnemy() {
 //		Retrieves Enemy Information
 		enemy = new Enemy(floorLevel);							//generate new energy object
+		setEnemyInfo();
+	}
+	private void setEnemyInfo() {
 		enemy_HP = enemy.display_HPStat();
 		enemy_MP = enemy.display_MPStat();
 		enemyStats.getChildren().addAll(enemy_HP, enemy_MP);
