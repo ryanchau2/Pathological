@@ -1,8 +1,6 @@
 package screen;
 
 import database.SQL_Db;
-import entity.Enemy;
-import entity.Entity;
 import entity.Player;
 import events.Battle;
 import javafx.application.Platform;
@@ -29,7 +27,7 @@ public class PathologicalWindow extends BorderPane{
 	private Button btExit = new Button("Exit");
 	
 	
-	private int pathFloor = 0;
+	private int pathFloor;
 //	Top Path Level Bar
 	Text pathProgressText = new Text("pathProgressTopLOL");
 	HBox pathProgressBox = new HBox();
@@ -57,6 +55,7 @@ public class PathologicalWindow extends BorderPane{
 	}
 	private void startGame() {
 		newPlayer = new Player();
+		pathFloor = 0;
 		displayPaths();
 	}
 	private void displayPaths() {
@@ -97,7 +96,7 @@ public class PathologicalWindow extends BorderPane{
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("Battle has been chosen!");
-		new Battle(newPlayer, this);
+		new Battle(newPlayer, this, pathFloor);
 	}
 //	2 - Controls the Options of Rest Event
 	private void restEvent() {

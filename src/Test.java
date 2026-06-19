@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Test {
 	public static void main(String[] args) {
 		System.out.println("Enemy");
-		Enemy testEnemy= new Enemy();
+		Enemy testEnemy= new Enemy(1);
 		System.out.println();
 		System.out.println("Player");
 		Player newPlayer = new Player();

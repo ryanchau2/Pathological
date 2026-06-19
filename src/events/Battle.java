@@ -35,7 +35,9 @@ Text player_MP;
 Enemy enemy;
 Text enemy_HP;
 Text enemy_MP;
+int floorLevel;
 
+VBox enemyStats = new VBox();
 //Action Bar UI
 VBox actionBarUI = new VBox();
 HBox action1Bar = new HBox(10);		//contains Attack | Skills
@@ -46,25 +48,15 @@ Button btSkills = new Button("Skills");
 Button btDefend = new Button("Defend");
 Button btItem = new Button("Items");
 
-	public Battle(Player player, BorderPane window) {
+	public Battle(Player player, BorderPane window, int floorLevel) {
 		this.player = player;
 		this.window = window;
-//		Retrieves Player Information
-		player_HP = player.display_HPStat();
-		player_MP = player.display_MPStat();
-		playerStats.getChildren().addAll(player_HP, player_MP);
-		playerImageContainer.getChildren().add(new ImageView(player.getEntity_sprite()));
-		playerContainer.getChildren().addAll(playerImageContainer,playerStats);
-		
-//		Retrieves Enemy Information
-		enemy = new Enemy();							//generate new energy object
-		VBox enemyStats = new VBox();
-		enemy_HP = enemy.display_HPStat();
-		enemy_MP = enemy.display_MPStat();
-		enemyStats.getChildren().addAll(enemy_HP, enemy_MP);
-		enemyImageContainer.getChildren().add(new ImageView(enemy.getEntity_sprite()));
-		enemyContainer.getChildren().addAll(enemyImageContainer,enemyStats);
-		
+		this.floorLevel = floorLevel;
+		setPlayerInfo();
+		createEnemy();
+		compileBattleWindow();
+	}
+	private void compileBattleWindow() {
 		battleBoxContainer.getChildren().addAll(playerContainer, enemyContainer);
 		window.setCenter(battleBoxContainer);
 		
@@ -78,6 +70,52 @@ Button btItem = new Button("Items");
 		window.setBottom(actionBarUI);
 		
 		styleBattleActionUI();
+	}
+	private void battle() {
+		while(enemy.getCurrentHP()>0) {
+			createActionBarListeners();
+		}
+		actionBarUI.getChildren().clear();
+	}
+	private void createActionBarListeners() {
+		btAttack.setOnAction(e->{
+			attack(player, enemy);
+		});
+//		btSkills.setOnAction();
+//		btDefend.setOnAction();
+//		btItem.setOnAction();
+	}
+	private void attack(Entity e1, Entity e2) {
+		int damage = e1.getAtk()-e2.getDef();
+		if(damage < 0) {
+			return;
+		}
+		e2.setCurrentHP(e2.getCurrentHP()-damage);
+		if(e2.getCurrentHP()>0)
+			System.out.println(e2.getCurrentHP() + " HP remains on the enemy");
+		else {
+			System.out.println("Enemy has been defeated");
+			return;
+		}
+		attack(enemy, player);
+		return;
+	}
+	private void createEnemy() {
+//		Retrieves Enemy Information
+		enemy = new Enemy(floorLevel);							//generate new energy object
+		enemy_HP = enemy.display_HPStat();
+		enemy_MP = enemy.display_MPStat();
+		enemyStats.getChildren().addAll(enemy_HP, enemy_MP);
+		enemyImageContainer.getChildren().add(new ImageView(enemy.getEntity_sprite()));
+		enemyContainer.getChildren().addAll(enemyImageContainer,enemyStats);
+	}
+	private void setPlayerInfo() {
+//		Retrieves Player Information
+		player_HP = player.display_HPStat();
+		player_MP = player.display_MPStat();
+		playerStats.getChildren().addAll(player_HP, player_MP);
+		playerImageContainer.getChildren().add(new ImageView(player.getEntity_sprite()));
+		playerContainer.getChildren().addAll(playerImageContainer,playerStats);
 	}
 	private void styleBattleActionUI() {
 		String btStyle = "-fx-font-size:40";
