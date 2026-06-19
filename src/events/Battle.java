@@ -55,6 +55,7 @@ Button btItem = new Button("Items");
 		setPlayerInfo();
 		createEnemy();
 		compileBattleWindow();
+		battle();
 	}
 	private void compileBattleWindow() {
 		battleBoxContainer.getChildren().addAll(playerContainer, enemyContainer);
@@ -72,10 +73,8 @@ Button btItem = new Button("Items");
 		styleBattleActionUI();
 	}
 	private void battle() {
-		while(enemy.getCurrentHP()>0) {
 			createActionBarListeners();
-		}
-		actionBarUI.getChildren().clear();
+//		actionBarUI.getChildren().clear();
 	}
 	private void createActionBarListeners() {
 		btAttack.setOnAction(e->{
@@ -91,22 +90,11 @@ Button btItem = new Button("Items");
 			return;
 		}
 		e2.setCurrentHP(e2.getCurrentHP()-damage);
-		if(e2.getCurrentHP()>0)
-			System.out.println(e2.getCurrentHP() + " HP remains on the enemy");
-		else {
-			System.out.println("Enemy has been defeated");
-			return;
-		}
-		updateHP(e2);
-		attack(enemy, player);
-		return;
+		System.out.println(e2.getCurrentHP());
+		enemy_HP.setText(String.valueOf(e2.getCurrentHP()+"/"+e2.getMaxHP()));
 	}
 	private void updateHP(Entity e) {
-		if(e instanceof Player)
-			setPlayerInfo();
-		else
-			setEnemyInfo();
-		
+		enemy_HP = new Text(String.valueOf(enemy.display_HPStat()));
 	}
 	private void createEnemy() {
 //		Retrieves Enemy Information
