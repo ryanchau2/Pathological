@@ -4,6 +4,7 @@ import database.SQL_Db;
 import entity.Enemy;
 import entity.Entity;
 import entity.Player;
+import events.Battle;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -37,21 +38,8 @@ public class PathologicalWindow extends BorderPane{
 	
 	Player newPlayer;
 //	===============================================================
-//	Battle
-//	Battle UI elements (Contains the player and enemy container)
-	HBox battleBoxContainer = new HBox(200);
-//	Player Elements (Contains player visual attributes)
-	VBox playerContainer = new VBox(5);
-	HBox playerImageContainer = new HBox();
-	HBox playerHPContainer = new HBox();
-	HBox playerMPContainer = new HBox();
-//	Enemy Elements (Contains enemy visual attributes)
-	VBox enemyContainer = new VBox(5);
-	HBox enemyImageContainer = new HBox();
-	HBox enemyHPContainer = new HBox();
-	HBox enemyMPContainer = new HBox();
-//	===============================================================
 	SQL_Db db;
+	
 	
 	public PathologicalWindow() {
 		windowText = "Pathological";
@@ -73,11 +61,11 @@ public class PathologicalWindow extends BorderPane{
 	}
 	private void displayPaths() {
 //		Paths randomly decided and generated
-		int path1 = (int)(Math.random()*3)+1;
+		int path1 = (int)(Math.random()*2)+1;
 		int path2;
 //		Prevents both paths from being the same event
 		do {
-			path2 = (int)(Math.random()*3)+1;
+			path2 = (int)(Math.random()*2)+1;
 		}while(path2==path1);
 //		1 = Battle // 2 = Rest // 3 = Treasure
 		String path1Text = pathTextSetter(path1);
@@ -109,41 +97,7 @@ public class PathologicalWindow extends BorderPane{
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("Battle has been chosen!");
-		
-//		Retrieves Player Information
-		VBox playerStats = new VBox();
-		Text player_HP = newPlayer.display_HPStat();
-		Text player_MP = newPlayer.display_MPStat();
-		playerStats.getChildren().addAll(player_HP, player_MP);
-		playerImageContainer.getChildren().add(new ImageView(newPlayer.getEntity_sprite()));
-		playerContainer.getChildren().addAll(playerImageContainer,playerStats);
-		
-//		Retrieves Enemy Information
-		Enemy enemy = new Enemy();
-		VBox enemyStats = new VBox();
-		Text enemy_HP = enemy.display_HPStat();
-		Text enemy_MP = enemy.display_MPStat();
-		enemyStats.getChildren().addAll(enemy_HP, enemy_MP);
-		enemyImageContainer.getChildren().add(new ImageView(enemy.getEntity_sprite()));
-		enemyContainer.getChildren().addAll(enemyImageContainer,enemyStats);
-		
-		battleBoxContainer.getChildren().addAll(playerContainer, enemyContainer);
-		this.setCenter(battleBoxContainer);
-		
-//		Container Styles
-		styleBattleEntityContainers(playerStats, enemyStats, player_HP, player_MP, enemy_HP, enemy_MP);
-		
-		while()
-		
-	}
-	private void styleBattleEntityContainers(VBox entity1, VBox entity2, Text e1_hpStat, Text e1_mpStat, Text e2_hpStat, Text e2_mpStat){
-		battleBoxContainer.setAlignment(Pos.CENTER);
-		entity1.setAlignment(Pos.CENTER);
-		entity2.setAlignment(Pos.CENTER);
-		e1_hpStat.setStyle("-fx-font-size:20");
-		e1_mpStat.setStyle("-fx-font-size:20");
-		e2_hpStat.setStyle("-fx-font-size:20");
-		e2_mpStat.setStyle("-fx-font-size:20");
+		new Battle(newPlayer, this);
 	}
 //	2 - Controls the Options of Rest Event
 	private void restEvent() {
