@@ -9,7 +9,7 @@ public class Player extends Entity{
 //	inventory and equipment
 	public Player() {
 		setStats();
-		setEntity_sprite("file:images/sprites/player_test.png");
+		setEntity_sprite("file:images/sprites/player_test1.png");
 		System.out.println("Player Successfully Created");
 		returnCurrentStats();
 	}
@@ -33,7 +33,7 @@ public class Player extends Entity{
 //		replace an item in your equipment message, please
 		System.out.println("There is an error, there is no space in your backpack, please select an item you would like to replace");
 	}
-	public void replaceEquipment(Equipment e, int choice) {
+	public void replaceEquipment(Equipment e, int oldE) {
 //		choice being an int is a placeholder, but effectively will be the button choice that is selected
 	}
 	public void addToConsumables(Consumable c) {
@@ -45,5 +45,8 @@ public class Player extends Entity{
 		}
 //		replace an item in your consumable message, please
 		System.out.println("There is an error, there is no space in your backpack, please select an item you would like to replace");
+	}
+	public void replaceConsumable(Consumable c, int oldC) {
+		
 	}
 }

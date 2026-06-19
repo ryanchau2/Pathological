@@ -1,6 +1,8 @@
 package screen;
 
+import database.SQL_Db;
 import entity.Enemy;
+import entity.Entity;
 import entity.Player;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -37,7 +39,7 @@ public class PathologicalWindow extends BorderPane{
 //	===============================================================
 //	Battle
 //	Battle UI elements (Contains the player and enemy container)
-	HBox battleBoxContainer = new HBox(20);
+	HBox battleBoxContainer = new HBox(200);
 //	Player Elements (Contains player visual attributes)
 	VBox playerContainer = new VBox(5);
 	HBox playerImageContainer = new HBox();
@@ -49,6 +51,7 @@ public class PathologicalWindow extends BorderPane{
 	HBox enemyHPContainer = new HBox();
 	HBox enemyMPContainer = new HBox();
 //	===============================================================
+	SQL_Db db;
 	
 	public PathologicalWindow() {
 		windowText = "Pathological";
@@ -101,33 +104,84 @@ public class PathologicalWindow extends BorderPane{
 			eventCaller(path2);
 		});
 	}
-//	1
+//	1 - Controls the flow of the Battle Event
 	private void battleEvent() {
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("Battle has been chosen!");
 		
+//		Retrieves Player Information
+		VBox playerStats = new VBox();
+		Text player_HP = newPlayer.display_HPStat();
+		Text player_MP = newPlayer.display_MPStat();
+		playerStats.getChildren().addAll(player_HP, player_MP);
 		playerImageContainer.getChildren().add(new ImageView(newPlayer.getEntity_sprite()));
-		playerContainer.getChildren().addAll(playerImageContainer);
+		playerContainer.getChildren().addAll(playerImageContainer,playerStats);
 		
+//		Retrieves Enemy Information
 		Enemy enemy = new Enemy();
+		VBox enemyStats = new VBox();
+		Text enemy_HP = enemy.display_HPStat();
+		Text enemy_MP = enemy.display_MPStat();
+		enemyStats.getChildren().addAll(enemy_HP, enemy_MP);
 		enemyImageContainer.getChildren().add(new ImageView(enemy.getEntity_sprite()));
-		enemyContainer.getChildren().addAll(enemyImageContainer);
+		enemyContainer.getChildren().addAll(enemyImageContainer,enemyStats);
+		
 		battleBoxContainer.getChildren().addAll(playerContainer, enemyContainer);
 		this.setCenter(battleBoxContainer);
+		
+//		Container Styles
+		styleBattleEntityContainers(playerStats, enemyStats, player_HP, player_MP, enemy_HP, enemy_MP);
+		
+		while()
+		
 	}
-//	2
+	private void styleBattleEntityContainers(VBox entity1, VBox entity2, Text e1_hpStat, Text e1_mpStat, Text e2_hpStat, Text e2_mpStat){
+		battleBoxContainer.setAlignment(Pos.CENTER);
+		entity1.setAlignment(Pos.CENTER);
+		entity2.setAlignment(Pos.CENTER);
+		e1_hpStat.setStyle("-fx-font-size:20");
+		e1_mpStat.setStyle("-fx-font-size:20");
+		e2_hpStat.setStyle("-fx-font-size:20");
+		e2_mpStat.setStyle("-fx-font-size:20");
+	}
+//	2 - Controls the Options of Rest Event
 	private void restEvent() {
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		System.out.println("time to eep");
 	}
-//	3
+//	3 - Controls anything Treasure Event related
 	private void treasureEvent() {
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
+//		Pull up 3 items to pick from
+		Object[] treasureItems = new Object[3];
+//		Pull t
+		for(int x=0; x<treasureItems.length; x++) {
+			treasureItems[x] = selectThreeItems();
+		}
 		System.out.println("fre money!");
 	}
+	private Object selectThreeItems() {
+		int eq_cons_decider = (int)(Math.random()*2)+1;
+		int tableSize = -1;
+		switch(eq_cons_decider) {
+		case 1:
+//			pick a random equipment
+			tableSize = db.countRows("equipment");
+			int eqID_selector = (int)(Math.random()*tableSize)+1;
+//			Create a new object with that item
+		case 2:
+//			pick a random consumable
+			tableSize = db.countRows("consumable");
+			int conID_selector = (int)(Math.random()*tableSize)+1;
+		default:
+			System.out.println("Out of bounds item selector error");
+		}
+		return null;
+	}
+//	Controls which event will show on screen based on player selection
 	private void eventCaller(int path) {
 		switch(path) {
 		case 1:

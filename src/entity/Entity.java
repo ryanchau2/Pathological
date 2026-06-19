@@ -1,5 +1,7 @@
 package entity;
 
+import javafx.scene.text.Text;
+
 public class Entity {
 	private int atk;
 	private int def;
@@ -12,16 +14,8 @@ public class Entity {
 	private String entity_sprite;
 	
 	public Entity() {
-//		setStats();
+		
 	}
-//	private void setStats() {
-//		atk=10;
-//		def=5;
-//		maxHP=20;
-//		maxMP=15;
-//		currentHP=maxHP;
-//		currentMP=maxMP;
-//	}
 	public void returnCurrentStats() {
 		System.out.printf("%-12s", "Current HP");
 		System.out.printf("%-12s", "Current MP");
@@ -74,6 +68,12 @@ public class Entity {
 	}
 	public void setCurrentMP(int currentMP) {
 		this.currentMP = currentMP;
+	}
+	public Text display_HPStat() {
+		return new Text(String.valueOf(this.getCurrentHP())+"/"+String.valueOf(this.getMaxHP()));
+	}
+	public Text display_MPStat() {
+		return new Text(String.valueOf(this.getCurrentMP())+"/"+String.valueOf(this.getMaxMP()));
 	}
 	public String getEntity_sprite() {
 		return entity_sprite;

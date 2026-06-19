@@ -48,4 +48,10 @@ public class Equipment extends Item {
 		return null;
 	}
 
+	@Override
+	public String getItemImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

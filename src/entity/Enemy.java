@@ -4,7 +4,7 @@ public class Enemy extends Entity{
 	private double diffModifier;
 	public Enemy() {
 		setStats();
-		setEntity_sprite("file:images/sprites/enemy_test.png");
+		setEntity_sprite("file:images/sprites/enemy_test1.png");
 		returnCurrentStats();
 		
 	}

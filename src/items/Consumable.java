@@ -14,4 +14,10 @@ public class Consumable extends Item{
 		return consumableDesc;
 	}
 
+	@Override
+	public String getItemImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
