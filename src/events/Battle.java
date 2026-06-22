@@ -10,43 +10,44 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import screen.PathologicalWindow;
 
 public class Battle extends Event {
-Player player;
-BorderPane window;
+	private Player player;
+	private BorderPane window;
+	private int floorLevel;
 //Battle
 //Battle UI elements (Contains the player and enemy container)
-HBox battleBoxContainer = new HBox(200);
+	private HBox battleBoxContainer = new HBox(200);
 //Player Elements (Contains player visual attributes)
-VBox playerContainer = new VBox(5);
-HBox playerImageContainer = new HBox();
-HBox playerHPContainer = new HBox();
-HBox playerMPContainer = new HBox();
+	private VBox playerContainer = new VBox(5);
+	private HBox playerImageContainer = new HBox();
+	private HBox playerHPContainer = new HBox();
+	private HBox playerMPContainer = new HBox();
 //Enemy Elements (Contains enemy visual attributes)
-VBox enemyContainer = new VBox(5);
-HBox enemyImageContainer = new HBox();
-HBox enemyHPContainer = new HBox();
-HBox enemyMPContainer = new HBox();
-//
-VBox playerStats = new VBox();
-Text player_HP;
-Text player_MP;
+	private VBox enemyContainer = new VBox(5);
+	private HBox enemyImageContainer = new HBox();
+	private HBox enemyHPContainer = new HBox();
+	private HBox enemyMPContainer = new HBox();
 
-Enemy enemy;
-Text enemy_HP;
-Text enemy_MP;
-int floorLevel;
+	private VBox playerStats = new VBox();
+	private Text player_HP;
+	private Text player_MP;
 
-VBox enemyStats = new VBox();
+	private Enemy enemy;
+	private Text enemy_HP;
+	private Text enemy_MP;
+
+	private VBox enemyStats = new VBox();
 //Action Bar UI
-VBox actionBarUI = new VBox();
-HBox action1Bar = new HBox(10);		//contains Attack | Skills
-HBox action2Bar = new HBox(10);		//contains Defend | Items
+	private VBox actionBarUI = new VBox();
+	private HBox action1Bar = new HBox(10);		//contains Attack | Skills
+	private HBox action2Bar = new HBox(10);		//contains Defend | Items
 //Action Buttons
-Button btAttack = new Button("Attack");
-Button btSkills = new Button("Skills");
-Button btDefend = new Button("Defend");
-Button btItem = new Button("Items");
+	private Button btAttack = new Button("Attack");
+	private Button btSkills = new Button("Skills");
+	private Button btDefend = new Button("Defend");
+	private Button btItem = new Button("Items");
 
 	public Battle(Player player, BorderPane window, int floorLevel) {
 		this.player = player;
@@ -84,19 +85,28 @@ Button btItem = new Button("Items");
 			enemyContainer.getChildren().clear();
 			new ChoosePath(window, floorLevel, player);
 		}
+		if(player.getCurrentHP()<=0) {
+			gameOverScren();
+		}
+	}
+	private void gameOverScren() {
+		System.out.println("Player Lost");
+		actionBarUI.getChildren().clear();
+		battleBoxContainer.getChildren().clear();
+		window.setTop(null);
+		System.out.println("You have lasted " + floorLevel + " paths, but unfortunately passed a tragic death");
+		//get player attributes and display and save
 	}
 	private void createActionBarListeners() {
 		btAttack.setOnAction(e->{
 			attack(player, enemy);
 			enemyTurn();
 		});
-//		btSkills.setOnAction(e->{
-//			
-//		});
+//		btSkill.setOnAction();
 		btDefend.setOnAction(e->{
 			defend(player);
+			enemyTurn();
 		});
-			
 //		btItem.setOnAction();
 	}
 	private void defend(Entity e1) {

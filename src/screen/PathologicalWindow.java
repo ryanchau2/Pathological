@@ -47,6 +47,19 @@ public class PathologicalWindow extends BorderPane{
 		setMenuStyles();
 		show();
 	}
+	public PathologicalWindow(String x) {
+		windowText = "Pathological";
+		
+		titleLogo.getChildren().add(ivTitleLogo);
+		
+		displayMainMenu();
+		
+		this.setTop(titleLogo);
+		this.setCenter(mainMenuButtons);
+		this.setLeft(null);
+		this.setBottom(null);
+		setMenuStyles();
+	}
 	private void startGame() {
 		newPlayer = new Player();
 		new ChoosePath(this, pathFloor, newPlayer);

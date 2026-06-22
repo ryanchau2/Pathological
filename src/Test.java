@@ -6,35 +6,35 @@ import java.util.Scanner;
 
 public class Test {
 	public static void main(String[] args) {
-		System.out.println("Enemy");
-		Enemy testEnemy= new Enemy(1);
-		System.out.println();
-		System.out.println("Player");
-		Player newPlayer = new Player();
-		System.out.println();
-		
-		Scanner scanner = new Scanner(System.in);
-		while(testEnemy.getCurrentHP()>0) {
-			System.out.println("Please select what you would like to do");
-			System.out.printf("1. Attack\n2. Defend\n3. Use Skill\n4. Use Item\n");
-			int x = scanner.nextInt();
-			switch(x) {
-			case 1:		//Attack
-				System.out.println("You have chosen to attack");
-				attack(newPlayer, testEnemy);
-				if(testEnemy.getCurrentHP()<=0)
-					break;
-				System.out.println("Enemy turn");
-				attack(testEnemy, newPlayer);
-				break;
-			case 2:		//Defend
-				System.out.println("You have chosen to Defend");
-				defend(newPlayer, testEnemy);
-				break;
-			}
-		}
-//		SQL_Db test = new SQL_Db();
-//		test.close();
+//		System.out.println("Enemy");
+//		Enemy testEnemy= new Enemy(1);
+//		System.out.println();
+//		System.out.println("Player");
+//		Player newPlayer = new Player();
+//		System.out.println();
+//		
+//		Scanner scanner = new Scanner(System.in);
+//		while(testEnemy.getCurrentHP()>0) {
+//			System.out.println("Please select what you would like to do");
+//			System.out.printf("1. Attack\n2. Defend\n3. Use Skill\n4. Use Item\n");
+//			int x = scanner.nextInt();
+//			switch(x) {
+//			case 1:		//Attack
+//				System.out.println("You have chosen to attack");
+//				attack(newPlayer, testEnemy);
+//				if(testEnemy.getCurrentHP()<=0)
+//					break;
+//				System.out.println("Enemy turn");
+//				attack(testEnemy, newPlayer);
+//				break;
+//			case 2:		//Defend
+//				System.out.println("You have chosen to Defend");
+//				defend(newPlayer, testEnemy);
+//				break;
+//			}
+//		}
+		SQL_Db test = new SQL_Db();
+		test.close();
 	}
 	private static void attack(Entity player, Entity e2) {
 		int damage = player.getAtk()-e2.getDef();

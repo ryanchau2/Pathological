@@ -29,11 +29,11 @@ public class ChoosePath {
 	}
 	private void displayPaths() {
 //		Paths randomly decided and generated
-		int path1 = (int)(Math.random()*2)+1;
+		int path1 = (int)(Math.random()*3)+1;
 		int path2;
 //		Prevents both paths from being the same event
 		do {
-			path2 = (int)(Math.random()*2)+1;
+			path2 = (int)(Math.random()*3)+1;
 		}while(path2==path1);
 //		1 = Battle // 2 = Rest // 3 = Treasure
 		String path1Text = pathTextSetter(path1);
@@ -77,13 +77,14 @@ public class ChoosePath {
 	private void treasureEvent() {
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
-//		Pull up 3 items to pick from
-		Object[] treasureItems = new Object[3];
-//		Pull t
-		for(int x=0; x<treasureItems.length; x++) {
-			treasureItems[x] = selectThreeItems();
-		}
-		System.out.println("fre money!");
+		new Treasure(newPlayer, window, pathFloor);
+////		Pull up 3 items to pick from
+//		Object[] treasureItems = new Object[3];
+////		Pull t
+//		for(int x=0; x<treasureItems.length; x++) {
+//			treasureItems[x] = selectThreeItems();
+//		}
+//		System.out.println("fre money!");
 	}
 	private Object selectThreeItems() {
 		int eq_cons_decider = (int)(Math.random()*2)+1;
