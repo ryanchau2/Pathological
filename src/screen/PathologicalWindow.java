@@ -1,8 +1,6 @@
 package screen;
 
-import database.SQL_Db;
 import entity.Player;
-import events.Battle;
 import events.ChoosePath;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -28,7 +26,7 @@ public class PathologicalWindow extends BorderPane{
 	private Button btExit = new Button("Exit");
 	
 	
-	private int pathFloor = 0;
+	private int pathFloor;
 	Player newPlayer;
 //	===============================================================
 	
@@ -62,6 +60,7 @@ public class PathologicalWindow extends BorderPane{
 	}
 	private void startGame() {
 		newPlayer = new Player();
+		pathFloor = 0;
 		new ChoosePath(this, pathFloor, newPlayer);
 	}
 	private void displayMainMenu() {

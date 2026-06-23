@@ -36,39 +36,45 @@ public class SQL_Db {
 	public int countRows(String table) {
 		ResultSet rs_rCount;
 		int rows = 0;
-		String countQuery = "SELECT * FROM " + table + ";";
+		String countQuery = "SELECT COUNT(*) FROM " + table + ";";
 		try {
 			rs_rCount = statement.executeQuery(countQuery);
-			System.out.println("pass");
+			while(rs_rCount.next()) {
+				rows += rs_rCount.getInt("COUNT(*)");
+			}
 		}
 		catch(SQLException e) {
-			System.out.println("Something keeps happening");
+			System.out.println("Something went wrong with counting rows");
 		}
-//		String rowCount = "SELECT COUNT(*) FROM ";
-//		rowCount+= table + ";";
-//		System.out.println(rowCount);
-//		try {
-//			rs_rCount = statement.executeQuery(rowCount);
-//			System.out.println(rs_rCount.getString(1));
-//			
-//		} catch (SQLException e) {
-//			System.out.println("Could not get total amount of rows");
-//		}
 		return rows;
 	}
-	public ResultSet pickEquipment(int eq_id) {
-		ResultSet rs_pickItem = null;
+	public ResultSet pickConsumable(int cs_id) {
+		ResultSet rs_pickItem;
 		String pickItem_Query =
-				"SELECT * FROM equipment"
-				+ "WHERE equipment_name = ";
-		pickItem_Query+=eq_id +";";
+				"SELECT * FROM consumable"
+				+ " WHERE consumable_id = "+cs_id+";";
 		try {
 			rs_pickItem = statement.executeQuery(pickItem_Query);
+			return rs_pickItem;
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with acquiring the Consumable");
+		}
+		return rs_pickItem=null;
+	}
+	public ResultSet pickEquipment(int eq_id) {
+		ResultSet rs_pickItem;
+		String pickItem_Query =
+				"SELECT * FROM equipment"
+				+ " WHERE equipment_id = "+eq_id+";";
+		try {
+			rs_pickItem = statement.executeQuery(pickItem_Query);
+			return rs_pickItem;
 		}
 		catch(SQLException e) {
 			System.out.println("Something went wrong with acquiring the Equipment");
 		}
-		return rs_pickItem;
+		return rs_pickItem=null;
 	}
 	public void close() {
 		try {

@@ -6,6 +6,7 @@ import items.Equipment;
 public class Player extends Entity{
 	private Equipment[] currentEquipment = new Equipment[4];
 	private Consumable[] currentConsumables = new Consumable[10];
+//	private Skills[] skills = new Skills[4];
 //	inventory and equipment
 	public Player() {
 		setStats();

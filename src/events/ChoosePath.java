@@ -1,6 +1,5 @@
 package events;
 
-import database.SQL_Db;
 import entity.Player;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -13,10 +12,8 @@ public class ChoosePath {
 	private int pathFloor;
 	Player newPlayer;
 	
-	SQL_Db db;
-	
 //	Top Path Level Bar
-	Text pathProgressText = new Text("pathProgressTopLOL");
+	Text pathProgressText = new Text("");
 	HBox pathProgressBox = new HBox();
 //	Choices Box
 	HBox pathChoicesHBox = new HBox(20);
@@ -47,6 +44,8 @@ public class ChoosePath {
 		setPathButtonStyles(btPath1,btPath2);
 //		Path Button Listeners
 		pathButtonListeners(btPath1, btPath2, path1, path2);
+		
+		pathProgressText.setText("Path "+pathFloor+" Decision: Choose a Path to Traverse");
 		pathProgressBox.getChildren().add(pathProgressText);
 		window.setTop(pathProgressBox);
  	}
@@ -78,31 +77,6 @@ public class ChoosePath {
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
 		new Treasure(newPlayer, window, pathFloor);
-////		Pull up 3 items to pick from
-//		Object[] treasureItems = new Object[3];
-////		Pull t
-//		for(int x=0; x<treasureItems.length; x++) {
-//			treasureItems[x] = selectThreeItems();
-//		}
-//		System.out.println("fre money!");
-	}
-	private Object selectThreeItems() {
-		int eq_cons_decider = (int)(Math.random()*2)+1;
-		int tableSize = -1;
-		switch(eq_cons_decider) {
-		case 1:
-//			pick a random equipment
-//			tableSize = db.countRows("equipment");
-			int eqID_selector = (int)(Math.random()*tableSize)+1;
-//			Create a new object with that item
-		case 2:
-//			pick a random consumable
-//			tableSize = db.countRows("consumable");
-			int conID_selector = (int)(Math.random()*tableSize)+1;
-		default:
-			System.out.println("Out of bounds item selector error");
-		}
-		return null;
 	}
 //	Controls which event will show on screen based on player selection
 	private void eventCaller(int path) {

@@ -18,20 +18,45 @@ public class Equipment extends Item {
 	private int eq_def;
 	
 	public Equipment() {
+		createEquipment();
+	}
+	private void createEquipment() {
 		database = new SQL_Db();
 		int r_eq_selector = (int)(Math.random()*(database.countRows("equipment")))+1;
-//		itemResultSet = database.pickEquipment(r_eq_selector);
-//		try {
-//			equipment_id = itemResultSet.getInt("equipment_id");
-//			item_name = itemResultSet.getString("equipment_name");
-//			item_description = itemResultSet.getString("equipment_desc");
-//			eq_HP = itemResultSet.getInt("equipment_hp");
-//			eq_atk = itemResultSet.getInt("equipment_atk");
-//			eq_def = itemResultSet.getInt("equipment_def");
-//		}
-//		catch(SQLException e) {
-//			System.out.println("Something went wrong with setting attributes of an Equipment");
-//		}
+		System.out.println("ID Pulled: "+r_eq_selector);
+		itemResultSet = database.pickEquipment(r_eq_selector);
+		System.out.println("Assigning values");
+		try {
+			while(itemResultSet.next()) {
+				System.out.println("Starting to get equipment ID");
+				equipment_id = itemResultSet.getInt("equipment_id");
+				System.out.println(equipment_id);
+	
+				System.out.println("getting name");
+				item_name = itemResultSet.getString("equipment_name");
+				System.out.println(item_name);
+	
+				System.out.println("Starting to get desc");
+				item_description = itemResultSet.getString("equipment_description");
+				System.out.println(item_description);
+				
+				System.out.println("Starting to get hp");
+				eq_HP = itemResultSet.getInt("equipment_hp");
+				System.out.println(eq_HP);
+				
+				System.out.println("Starting to get atk");
+				eq_atk = itemResultSet.getInt("equipment_atk");
+				System.out.println(eq_atk);
+				
+				System.out.println("Starting to get def");
+				eq_def = itemResultSet.getInt("equipment_def");
+				System.out.println(eq_def);
+				System.out.println("Item succesfully created");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with setting attributes of an Equipment");
+		}
 	}
 	public int getEq_ID() {
 		return equipment_id;
