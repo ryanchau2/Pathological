@@ -4,6 +4,8 @@ import entity.Player;
 import items.Consumable;
 import items.Equipment;
 import items.Item;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -25,7 +27,7 @@ public class Treasure extends Event{
 	VBox vb_item2 = new VBox();
 	VBox vb_item3 = new VBox();
 	
-	HBox treasureSelectUIBar = new HBox(40);
+	HBox treasureSelectUIBar = new HBox(30);
 	Button btItem1 = new Button();
 	Button btItem2 = new Button();
 	Button btItem3 = new Button();
@@ -41,24 +43,37 @@ public class Treasure extends Event{
 		this.player = player;
 		this.window = window;
 		this.pathFloor = pathFloor;
-		
+		enableButtons();
 		compileTreasureWindow();
 		createTreasureButtonListeners();
 	}
 	private void createTreasureButtonListeners() {
 		btItem1.setOnAction(e->{
-			
+			addToInventory(treasure_i1);
+			btItem2.setDisable(true);
+			btItem3.setDisable(true);
+			window.setBottom(null);
+//			new ChoosePath(window, pathFloor, player);
 		});
 		btItem2.setOnAction(e->{
-			
+			addToInventory(treasure_i2);
+			btItem1.setDisable(true);
+			btItem3.setDisable(true);
+			window.setBottom(null);
+//			new ChoosePath(window, pathFloor, player);
 		});
 		btItem3.setOnAction(e->{
-			
+			addToInventory(treasure_i3);
+			btItem1.setDisable(true);
+			btItem2.setDisable(true);
+			window.setBottom(null);
+//			new ChoosePath(window, pathFloor, player);
 		});
 	}
 	private void compileTreasureWindow() {
 //		get 3 items randomly
 		populateChest();
+//		Shows the items at the top
 		treasureItemDisplay.getChildren().addAll(vb_item1, vb_item2, vb_item3);
 		styleTreasureContainers();
 		
@@ -71,6 +86,31 @@ public class Treasure extends Event{
 		btItem3.setText(treasure_i3.getItemName());
 		treasureSelectUIBar.getChildren().addAll(btItem1, btItem2, btItem3);
 		window.setBottom(treasureSelectUIBar);
+		
+	}
+	private void addToInventory(Item item) {
+		if(player.getEquipmentTotal()!=4) {
+			if (item instanceof Equipment) {					
+				player.addToEquipment((Equipment)item, window);
+			}
+			else if (item instanceof Consumable) {
+				player.addToConsumables((Consumable)item, window);
+			}
+			new ChoosePath(window, pathFloor, player);
+		}
+		else {
+			if (item instanceof Equipment) {
+				new replaceEquipment((Equipment)item, pathFloor, player, window);
+			}
+			else {
+//				new replaceEquipment((Consumable)item, pathFloor, player, window);
+			}
+		}
+	}
+	private void enableButtons() {
+		btItem1.setDisable(false);
+		btItem2.setDisable(false);
+		btItem3.setDisable(false);
 	}
 	private void populateChest() {
 		treasure_i1 = generateItems();
@@ -115,6 +155,8 @@ public class Treasure extends Event{
 		btItem2.setPrefWidth(buttonWidth);
 		btItem3.setPrefWidth(buttonWidth);
 
+		
+		treasureSelectUIBar.setPadding(new Insets(0,0,40,0));
 		String pathProgression = "-fx-font-size:28";
 		pathProgressText.setStyle(pathProgression);
 		pathProgressBox.setAlignment(Pos.CENTER);

@@ -13,13 +13,13 @@ public class SQL_Db {
 	public SQL_Db() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			System.out.println("Driver Loaded Succesfully");
+//			System.out.println("Driver Loaded Succesfully");
 			
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/pathological","root","root");
-			System.out.println("Database connected successfully");
+//			System.out.println("Database connected successfully");
 			
 			statement=connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			System.out.println("Statement object created successfully");
+//			System.out.println("Statement object created successfully");
 		}
 		catch(ClassNotFoundException e) {
 			System.out.println("Driver Not Found");

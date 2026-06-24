@@ -26,11 +26,11 @@ public class ChoosePath {
 	}
 	private void displayPaths() {
 //		Paths randomly decided and generated
-		int path1 = (int)(Math.random()*3)+1;
+		int path1 = (int)(Math.random()*2)+2;								// s/b *3)+1
 		int path2;
 //		Prevents both paths from being the same event
 		do {
-			path2 = (int)(Math.random()*3)+1;
+			path2 = (int)(Math.random()*2)+2;
 		}while(path2==path1);
 //		1 = Battle // 2 = Rest // 3 = Treasure
 		String path1Text = pathTextSetter(path1);
