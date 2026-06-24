@@ -37,15 +37,13 @@ public class Player extends Entity{
 		setCurrentMP(getMaxMP());
 	}
 	public void addToEquipment(Equipment e, BorderPane window) {
-//		if(equipmentCount==currentEquipment.length) {
-//			System.out.println("Backpack is full");
-////			new replaceEquipment(e, this, window);
-//			return;
-//		}
 		for(int x=0; x<currentEquipment.length; x++) {
 			if(currentEquipment[x]==null)
 			{
 				currentEquipment[x] = e;
+				setAtk(this.getAtk()+e.getEq_atk());
+				setDef(this.getDef()+e.getEq_def());
+				setMaxHP(this.getMaxHP()+e.getEq_HP());
 				equipmentCount++;
 				break;
 			}
@@ -65,6 +63,9 @@ public class Player extends Entity{
 		System.out.println("There is an error, there is no space in your backpack, please select an item you would like to replace");
 	}
 	public void replaceEquipment(int index, Equipment equipment) {
+		setAtk(this.getAtk()-currentEquipment[index].getEq_atk()+equipment.getEq_atk());
+		setDef(this.getDef()-currentEquipment[index].getEq_def()+equipment.getEq_def());
+		setMaxHP(this.getMaxHP()-currentEquipment[index].getEq_HP()+equipment.getEq_HP());
 		currentEquipment[index] = equipment;
 	}
 	public Equipment[] getEquipmentList() {
