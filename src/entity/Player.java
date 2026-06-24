@@ -1,6 +1,5 @@
 package entity;
 
-import events.replaceEquipment;
 import items.Consumable;
 import items.Equipment;
 import items.Item;
@@ -16,6 +15,7 @@ public class Player extends Entity{
 	private Consumable[] currentConsumables = new Consumable[10];
 	
 	private int equipmentCount = 0;
+	private int consumableCount = 0;
 	VBox replaceWindow;
 	VBox replaceTextContainer;
 	Text replaceText;
@@ -36,6 +36,20 @@ public class Player extends Entity{
 		setCurrentHP(getMaxHP());
 		setCurrentMP(getMaxMP());
 	}
+	public void addToConsumables(Consumable c, BorderPane window) {
+		for(int x=0; x<currentConsumables.length; x++) {
+			if(currentConsumables[x]==null)
+			{
+				currentConsumables[x] = c;
+				consumableCount++;
+				break;
+			}
+		}
+		return;
+	}
+	public void replaceConsumable(int index, Consumable consumable) {
+		currentConsumables[index] = consumable;
+	}
 	public void addToEquipment(Equipment e, BorderPane window) {
 		for(int x=0; x<currentEquipment.length; x++) {
 			if(currentEquipment[x]==null)
@@ -50,23 +64,17 @@ public class Player extends Entity{
 		}
 		return;
 	}
-	public void addToConsumables(Consumable c, BorderPane window) {
-		System.out.println("adding");
-		for (Consumable co : currentConsumables) {
-			if(co==null) {
-				co=c;
-				System.out.println("added");
-				return;
-			}
-		}
-//		replace an item in your consumable message, please
-		System.out.println("There is an error, there is no space in your backpack, please select an item you would like to replace");
-	}
 	public void replaceEquipment(int index, Equipment equipment) {
 		setAtk(this.getAtk()-currentEquipment[index].getEq_atk()+equipment.getEq_atk());
 		setDef(this.getDef()-currentEquipment[index].getEq_def()+equipment.getEq_def());
 		setMaxHP(this.getMaxHP()-currentEquipment[index].getEq_HP()+equipment.getEq_HP());
 		currentEquipment[index] = equipment;
+	}
+	public Consumable[] getConsumableList() {
+		return currentConsumables;
+	}
+	public int getConsumableTotal() {
+		return consumableCount;
 	}
 	public Equipment[] getEquipmentList() {
 		return currentEquipment;

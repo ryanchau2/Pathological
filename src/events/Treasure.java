@@ -89,24 +89,46 @@ public class Treasure extends Event{
 		
 	}
 	private void addToInventory(Item item) {
-		if(player.getEquipmentTotal()!=4) {
-			if (item instanceof Equipment) {					
+		if(item instanceof Equipment) {
+			if(player.getEquipmentTotal() != player.getEquipmentList().length) {
 				player.addToEquipment((Equipment)item, window);
-			}
-			else if (item instanceof Consumable) {
-				player.addToConsumables((Consumable)item, window);
-			}
-			new ChoosePath(window, pathFloor, player);
-		}
-		else {
-			if (item instanceof Equipment) {
-				new replaceEquipment((Equipment)item, pathFloor, player, window);
+				new ChoosePath(window, pathFloor, player);
 			}
 			else {
-//				new replaceEquipment((Consumable)item, pathFloor, player, window);
+				new ReplaceEquipment((Equipment)item, pathFloor, player, window);
 			}
 		}
+		else if(item instanceof Consumable) {
+			if(player.getConsumableTotal() != player.getConsumableList().length) {
+				player.addToConsumables((Consumable)item, window);
+				new ChoosePath(window, pathFloor, player);
+			}
+			else {
+				new ReplaceConsumable((Consumable)item, pathFloor, player, window);
+			}
+		}
+		else
+			System.out.println();
 	}
+//	private void addToInventory(Item item) {
+//		if(player.getEquipmentTotal()!=4 && (!(item instanceof Consumable) {
+//			if (item instanceof Equipment) {					
+//				player.addToEquipment((Equipment)item, window);
+//			}
+//			else if (item instanceof Consumable) {
+//				player.addToConsumables((Consumable)item, window);
+//			}
+//			new ChoosePath(window, pathFloor, player);
+//		}
+//		else {
+//			if (item instanceof Equipment) {
+//				new ReplaceEquipment((Equipment)item, pathFloor, player, window);
+//			}
+//			else {
+//				new ReplaceConsumable((Consumable)item, pathFloor, player, window);
+//			}
+//		}
+//	}
 	private void enableButtons() {
 		btItem1.setDisable(false);
 		btItem2.setDisable(false);
@@ -154,8 +176,6 @@ public class Treasure extends Event{
 		btItem1.setPrefWidth(buttonWidth);
 		btItem2.setPrefWidth(buttonWidth);
 		btItem3.setPrefWidth(buttonWidth);
-
-		
 		treasureSelectUIBar.setPadding(new Insets(0,0,40,0));
 		String pathProgression = "-fx-font-size:28";
 		pathProgressText.setStyle(pathProgression);

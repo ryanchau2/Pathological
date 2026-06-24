@@ -51,11 +51,9 @@ public class ChoosePath {
  	}
 	private void pathButtonListeners(Button btPath1, Button btPath2, int path1, int path2) {
 		btPath1.setOnAction(e->{
-			System.out.println(path1);
 			eventCaller(path1);
 		});
 		btPath2.setOnAction(e->{
-			System.out.println(path2);
 			eventCaller(path2);
 		});
 	}
@@ -63,7 +61,6 @@ public class ChoosePath {
 	private void battleEvent() {
 		pathFloor++;
 		pathChoicesHBox.getChildren().clear();
-		System.out.println("Battle has been chosen!");
 		new Battle(newPlayer, window, pathFloor);
 	}
 //	2 - Controls the Options of Rest Event

@@ -9,7 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class replaceEquipment extends Event {
+public class ReplaceEquipment{
 	private Player player;
 	private BorderPane window;
 	private Equipment equipment;
@@ -26,8 +26,7 @@ public class replaceEquipment extends Event {
 	Button eq3 = new Button();
 	Button eq4 = new Button();
 	
-	public replaceEquipment(Equipment equipment, int pathFloor, Player player, BorderPane window) {
-		System.out.println("Time to replace");
+	public ReplaceEquipment(Equipment equipment, int pathFloor, Player player, BorderPane window) {
 		this.player = player;
 		this.window = window;
 		this.equipment = equipment;
@@ -65,7 +64,6 @@ public class replaceEquipment extends Event {
 		eq4.setText(equipmentList[3].getItemName());
 	}
 	private void setupReplaceUI() {
-		System.out.println("In the funny one");
 		window.setCenter(null);
 		window.setBottom(null);
 		equipmentRow1.getChildren().addAll(eq1, eq2);
