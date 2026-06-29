@@ -29,6 +29,7 @@ public class Consumable extends Item{
 		catch(SQLException e) {
 			System.out.println("Something went wrong with setting attributes of an Consumable");
 		}
+		database.close();
 	}
 	public int getConsumable_id() {
 		return consumable_id;

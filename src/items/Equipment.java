@@ -32,6 +32,7 @@ public class Equipment extends Item {
 		catch(SQLException e) {
 			System.out.println("Something went wrong with setting attributes of an Equipment");
 		}
+		database.close();
 	}
 	public int getEq_ID() {
 		return equipment_id;

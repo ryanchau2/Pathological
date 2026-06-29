@@ -8,6 +8,9 @@ import java.util.Scanner;
 
 public class Test {
 	public static void main(String[] args) {
+		String insertStatement = "INSERT INTO player_run ";
+		insertStatement += "VALUES("+2+", \""+"lmao"+"\", "+2+", "+3+", "+ 3+");";
+		System.out.println(insertStatement);
 //		System.out.println("Enemy");
 //		Enemy testEnemy= new Enemy(1);
 //		System.out.println();
@@ -37,19 +40,19 @@ public class Test {
 //		}
 //		SQL_Db test = new SQL_Db();
 //		test.close();
-		Object[] test = new Object[5];
-		test[0] = 1;
-		test[1] = 2;
-		test[2] = 2;
-		test[3] = 4;
-		for(int x=0; x<test.length;x++) {
-			System.out.println(test[x]);
-			if(test[x]==null) {
-				test[x]= new Equipment();
-				break;
-			}
-			System.out.println("all filled");
-		}
+//		Object[] test = new Object[5];
+//		test[0] = 1;
+//		test[1] = 2;
+//		test[2] = 2;
+//		test[3] = 4;
+//		for(int x=0; x<test.length;x++) {
+//			System.out.println(test[x]);
+//			if(test[x]==null) {
+//				test[x]= new Equipment();
+//				break;
+//			}
+//			System.out.println("all filled");
+//		}
 	}
 	private static void attack(Entity player, Entity e2) {
 		int damage = player.getAtk()-e2.getDef();

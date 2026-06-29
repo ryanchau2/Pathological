@@ -80,6 +80,9 @@ public class Battle extends Event {
 	private Button skill5 = new Button();
 	private Button skill6 = new Button();
 //	Item 
+	
+	
+	private ScrollPane itemsContainer2 = new ScrollPane();
 	private VBox itemsContainer = new VBox();
 	private HBox itemsBar1 = new HBox();
 	private HBox itemsBar2 = new HBox();
@@ -194,6 +197,7 @@ public class Battle extends Event {
 		itemsBar1.getChildren().addAll(btiBack, item1, item2, item3, item4, item5);
 		itemsBar2.getChildren().addAll(item6, item7, item8, item9, item10);
 		itemsContainer.getChildren().addAll(itemsBar1, itemsBar2);
+		itemsContainer2.setContent(itemsContainer);
 	}
 	private void showItems() {
 		window.setBottom(null);
@@ -341,6 +345,7 @@ public class Battle extends Event {
 			window.setLeft(null);
 			window.setRight(null);
 			window.setBottom(null);
+			player.saveStats(pathFloor);
 			Platform.exit();
 		});
 	}
