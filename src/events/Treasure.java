@@ -19,33 +19,39 @@ public class Treasure extends Event{
 	private int pathFloor;
 	
 //	Top Path Level Bar
-	Text pathProgressText = new Text("");
-	HBox pathProgressBox = new HBox();
+	private Text pathProgressText = new Text("");
+	private HBox pathProgressBox = new HBox();
 	
-	HBox treasureItemDisplay = new HBox(20);
-	VBox vb_item1 = new VBox();
-	VBox vb_item2 = new VBox();
-	VBox vb_item3 = new VBox();
+	private HBox treasureItemDisplay = new HBox(20);
+	private VBox vb_item1 = new VBox();
+	private VBox vb_item2 = new VBox();
+	private VBox vb_item3 = new VBox();
 	
-	HBox treasureSelectUIBar = new HBox(30);
-	Button btItem1 = new Button();
-	Button btItem2 = new Button();
-	Button btItem3 = new Button();
-	Text txtItem1 = new Text("");
-	Text txtItem2 = new Text("");
-	Text txtItem3 = new Text("");
+	private HBox treasureSelectUIBar = new HBox(30);
+	private Button btItem1 = new Button();
+	private Button btItem2 = new Button();
+	private Button btItem3 = new Button();
+	private Text txtItem1 = new Text("");
+	private Text txtItem2 = new Text("");
+	private Text txtItem3 = new Text("");
 	
-	Item treasure_i1;
-	Item treasure_i2;
-	Item treasure_i3;
+	private Item treasure_i1;
+	private Item treasure_i2;
+	private Item treasure_i3;
 	
 	public Treasure(Player player, BorderPane window, int pathFloor) {
 		this.player = player;
 		this.window = window;
 		this.pathFloor = pathFloor;
+		updatePathFloor();
 		enableButtons();
 		compileTreasureWindow();
 		createTreasureButtonListeners();
+	}
+	private void updatePathFloor() {
+		pathProgressText.setText("Path "+pathFloor+": Treasure");
+		pathProgressBox.getChildren().addAll(pathProgressText);
+		window.setTop(pathProgressBox);
 	}
 	private void createTreasureButtonListeners() {
 		btItem1.setOnAction(e->{
@@ -110,25 +116,6 @@ public class Treasure extends Event{
 		else
 			System.out.println();
 	}
-//	private void addToInventory(Item item) {
-//		if(player.getEquipmentTotal()!=4 && (!(item instanceof Consumable) {
-//			if (item instanceof Equipment) {					
-//				player.addToEquipment((Equipment)item, window);
-//			}
-//			else if (item instanceof Consumable) {
-//				player.addToConsumables((Consumable)item, window);
-//			}
-//			new ChoosePath(window, pathFloor, player);
-//		}
-//		else {
-//			if (item instanceof Equipment) {
-//				new ReplaceEquipment((Equipment)item, pathFloor, player, window);
-//			}
-//			else {
-//				new ReplaceConsumable((Consumable)item, pathFloor, player, window);
-//			}
-//		}
-//	}
 	private void enableButtons() {
 		btItem1.setDisable(false);
 		btItem2.setDisable(false);

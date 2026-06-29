@@ -5,7 +5,11 @@ import java.util.concurrent.TimeUnit;
 import entity.Enemy;
 import entity.Entity;
 import entity.Player;
+import items.Consumable;
+import items.Equipment;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -22,6 +26,9 @@ public class Battle extends Event {
 	private Player player;
 	private BorderPane window;
 	private int pathFloor;
+	
+	private Equipment[] equipmentList;
+	private Consumable[] consumableList;
 	
 //	Top Path Level Bar
 	Text pathProgressText = new Text("");
@@ -89,20 +96,23 @@ public class Battle extends Event {
 	private Button item10 = new Button();
 	
 //	Turn Order Elements
-	VBox turnOrderContainer = new VBox();
-	Text turnNumText = new Text("");
-	Text turnEntity = new Text("");
-	int turnNum;
+	private VBox turnOrderContainer = new VBox();
+	private Text turnNumText = new Text("");
+	private Text turnEntity = new Text("");
+	private int turnNum;
 	
 //	Gameover Elements
-	HBox gameOverContainer = new HBox();
-	Text gameOverTxt = new Text();
+	private HBox gameOverContainer = new HBox();
+	private Text gameOverTxt = new Text();
+	private HBox restartContainer = new HBox();
+	private Button btRestart = new Button("Exit");
 
 	public Battle(Player player, BorderPane window, int pathFloor) {
 		this.player = player;
 		this.window = window;
 		this.pathFloor = pathFloor;
-		
+		equipmentList = player.getEquipmentList();
+		consumableList = player.getConsumableList();
 		pathProgressText.setText("Path "+pathFloor+": Battle");
 		pathProgressBox.getChildren().addAll(pathProgressText);
 		window.setTop(pathProgressBox);
@@ -114,7 +124,73 @@ public class Battle extends Event {
 		createTurnOrderUI();
 		battle();
 	}
+	private void setButtonsItemsNames() {
+		if (consumableList[0] != null) {
+			item1.setText(consumableList[0].getItemName());
+		}
+		else
+			item1.setDisable(true);
+		if (consumableList[1] != null) {
+			item2.setText(consumableList[1].getItemName());
+		}
+		else
+			item2.setDisable(true);
+		if (consumableList[2] != null) {
+			item3.setText(consumableList[2].getItemName());
+		}
+		else
+			item3.setDisable(true);
+		if (consumableList[3] != null) {
+			item4.setText(consumableList[3].getItemName());
+		}
+		else
+			item4.setDisable(true);
+		if (consumableList[4] != null) {
+			item5.setText(consumableList[4].getItemName());
+		}
+		else
+			item5.setDisable(true);
+		if (consumableList[5] != null) {
+			item6.setText(consumableList[5].getItemName());
+		}
+		else
+			item6.setDisable(true);
+		if (consumableList[6] != null) {
+			item7.setText(consumableList[6].getItemName());
+		}
+		else
+			item7.setDisable(true);
+		if (consumableList[7] != null) {
+			item8.setText(consumableList[7].getItemName());
+		}
+		else
+			item8.setDisable(true);
+		if (consumableList[8] != null) {
+			item9.setText(consumableList[8].getItemName());
+		}
+		else
+			item9.setDisable(true);
+		if (consumableList[9] != null) {
+			item10.setText(consumableList[9].getItemName());
+		}
+		else
+			item10.setDisable(true);
+	}
+	private void resetDisables() {
+		item1.setDisable(false);
+		item2.setDisable(false);
+		item3.setDisable(false);
+		item4.setDisable(false);
+		item5.setDisable(false);
+		item6.setDisable(false);
+		item7.setDisable(false);
+		item8.setDisable(false);
+		item9.setDisable(false);
+		item10.setDisable(false);
+	}
 	private void createItemsInstance() {
+		resetDisables();
+		setButtonsItemsNames();
 		itemsBar1.getChildren().addAll(btiBack, item1, item2, item3, item4, item5);
 		itemsBar2.getChildren().addAll(item6, item7, item8, item9, item10);
 		itemsContainer.getChildren().addAll(itemsBar1, itemsBar2);
@@ -133,6 +209,76 @@ public class Battle extends Event {
 		btiBack.setOnAction(e->{
 			window.setBottom(actionBarUI);
 		});
+		item1.setOnAction(e->{
+			player.useConsumable(consumableList[0]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item1.setDisable(true);
+			consumableList[0] = null;
+			item1.setText("");
+		});
+		item2.setOnAction(e->{
+			player.useConsumable(consumableList[1]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item2.setDisable(true);
+			consumableList[1] = null;
+			item2.setText("");
+		});
+		item3.setOnAction(e->{
+			player.useConsumable(consumableList[2]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item3.setDisable(true);
+			consumableList[2] = null;
+			item3.setText("");
+		});
+		item4.setOnAction(e->{
+			player.useConsumable(consumableList[3]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item4.setDisable(true);
+			consumableList[3] = null;
+			item4.setText("");
+		});
+		item5.setOnAction(e->{
+			player.useConsumable(consumableList[4]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item5.setDisable(true);
+			consumableList[4] = null;
+			item5.setText("");
+		});
+		item6.setOnAction(e->{
+			player.useConsumable(consumableList[5]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item6.setDisable(true);
+			consumableList[5] = null;
+			item6.setText("");
+		});
+		item7.setOnAction(e->{
+			player.useConsumable(consumableList[6]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item7.setDisable(true);
+			consumableList[6] = null;
+			item7.setText("");
+		});
+		item8.setOnAction(e->{
+			player.useConsumable(consumableList[7]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item8.setDisable(true);
+			consumableList[7] = null;
+			item8.setText("");
+		});
+		item9.setOnAction(e->{
+			player.useConsumable(consumableList[8]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item9.setDisable(true);
+			consumableList[8] = null;
+			item9.setText("");
+		});
+		item10.setOnAction(e->{
+			player.useConsumable(consumableList[9]);
+			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+			item10.setDisable(true);
+			consumableList[9] = null;
+			item10.setText("");
+		});
 	}
 	private void showSkills() {
 		window.setBottom(null);
@@ -142,6 +288,8 @@ public class Battle extends Event {
 	private void createSkillsListener() {
 		btsBack.setOnAction(e->{
 			window.setBottom(actionBarUI);
+		});
+		skill1.setOnAction(e->{
 		});
 	}
 	private void compileBattleWindow() {
@@ -171,14 +319,30 @@ public class Battle extends Event {
 	}
 	private void gameOverScreen() {
 		System.out.println("Player Lost");
-		actionBarUI.getChildren().clear();
-		battleBoxContainer.getChildren().clear();
-		turnOrderContainer.getChildren().clear();
+//		actionBarUI.getChildren().clear();
+//		battleBoxContainer.getChildren().clear();
+//		turnOrderContainer.getChildren().clear();
+		window.setCenter(null);
 		window.setTop(null);
+		window.setBottom(null);
+		window.setLeft(null);
 		gameOverTxt.setText("You have lasted " + pathFloor + " paths, but unfortunately passed a tragic death");
 		gameOverContainer.getChildren().addAll(gameOverTxt);
 		window.setCenter(gameOverContainer);
+		restartContainer.getChildren().addAll(btRestart);
+		window.setBottom(restartContainer);
+		setRestartListener();
 		//get player attributes and display and save
+	}
+	private void setRestartListener() {
+		btRestart.setOnAction(e->{
+			window.setTop(null);
+			window.setCenter(null);
+			window.setLeft(null);
+			window.setRight(null);
+			window.setBottom(null);
+			Platform.exit();
+		});
 	}
 	private void enableButtons() {
 		btAttack.setDisable(false);
@@ -342,6 +506,11 @@ public class Battle extends Event {
 		item10.setPrefWidth(btItemWidth);
 		itemsBar1.setAlignment(Pos.CENTER);
 		itemsBar2.setAlignment(Pos.CENTER);
+		
+		
+		btRestart.setStyle(btStyle20);
+		btRestart.setPrefWidth(buttonWidth);
+		btRestart.setPadding(new Insets(0,0,40,0));
 //		===
 	}
 	private void styleBattleEntityContainers(VBox entity1, VBox entity2, Text e1_hpStat, Text e1_mpStat, Text e2_hpStat, Text e2_mpStat){
@@ -358,6 +527,8 @@ public class Battle extends Event {
 		gameOverTxt.setStyle("-fx-font-size:40");
 		gameOverTxt.setWrappingWidth(800);
 		gameOverTxt.setTextAlignment(TextAlignment.CENTER);
+		restartContainer.setAlignment(Pos.CENTER);
+		
 //		Top Progression
 		String pathProgression = "-fx-font-size:28";
 		pathProgressText.setStyle(pathProgression);

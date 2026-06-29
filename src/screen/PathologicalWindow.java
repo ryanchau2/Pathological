@@ -33,9 +33,6 @@ public class PathologicalWindow extends BorderPane{
 	
 	public PathologicalWindow() {
 		windowText = "Pathological";
-		
-		titleLogo.getChildren().add(ivTitleLogo);
-		
 		displayMainMenu();
 		
 		this.setTop(titleLogo);
@@ -46,15 +43,11 @@ public class PathologicalWindow extends BorderPane{
 		show();
 	}
 	public PathologicalWindow(String x) {
-		windowText = "Pathological";
-		
-		titleLogo.getChildren().add(ivTitleLogo);
-		
 		displayMainMenu();
-		
 		this.setTop(titleLogo);
 		this.setCenter(mainMenuButtons);
 		this.setLeft(null);
+		this.setRight(null);
 		this.setBottom(null);
 		setMenuStyles();
 	}
@@ -64,6 +57,7 @@ public class PathologicalWindow extends BorderPane{
 		new ChoosePath(this, pathFloor, newPlayer);
 	}
 	private void displayMainMenu() {
+		titleLogo.getChildren().add(ivTitleLogo);
 		mainMenuButtons.getChildren().addAll(btStart,btPrevRuns,btExit);
 		createMenuListeners();
 	}

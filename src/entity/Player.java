@@ -70,6 +70,13 @@ public class Player extends Entity{
 		setMaxHP(this.getMaxHP()-currentEquipment[index].getEq_HP()+equipment.getEq_HP());
 		currentEquipment[index] = equipment;
 	}
+	public void useConsumable(Consumable c) {
+		if(getCurrentHP()+c.getConsumable_HP()>getMaxHP())
+			setCurrentHP(getMaxHP());
+		else
+			setCurrentHP(getCurrentHP()+c.getConsumable_HP());
+		return;
+	}
 	public Consumable[] getConsumableList() {
 		return currentConsumables;
 	}
