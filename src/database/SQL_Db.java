@@ -6,6 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import items.Consumable;
+import items.Equipment;
+
 public class SQL_Db {
 	Connection connection;
 	Statement statement;
@@ -26,9 +29,80 @@ public class SQL_Db {
 			System.out.println("Something Went Wrong");
 		}
 	}
-//	Insert into player inventory
-	
+	public void saveRun(int playerRunID, String playerName, int HP, int MP, int pathFloor, Equipment[] equipment, Consumable[] consumable) {
+		System.out.println("inserting player stats");
+		insertPlayerRunStats(playerRunID, playerName, HP, MP, pathFloor);
+		System.out.println("inserting player Equipment");
+		insertEquipment(playerRunID,equipment);
+		System.out.println("inserting player consumable");
+		insertConsumable(playerRunID,consumable);
+	}
+	private void insertPlayerRunStats(int playerRunID, String playerName, int HP, int MP, int pathFloor) {
+		String insertStatement = "INSERT INTO player_run ";
+		insertStatement += "VALUES("+playerRunID+", \""+playerName+"\", "+HP+", "+MP+", "+ pathFloor+");";
+		try {
+			statement.executeUpdate(insertStatement);
+		}
+		catch (SQLException e) {
+			System.out.println("Insert PlayerRunStats Unsuccessful");
+		}
+		System.out.println(insertStatement);
+		System.out.println("finished inserting player stats");
+	}
 //	Insert into player equipment
+	private void insertEquipment(int playerRunID, Equipment[] equipment) {
+		String insertStatement = "INSERT INTO current_equipment VALUES";
+		for(int x=0; x<equipment.length; x++) {
+			if(equipment[x]!=null) {
+				insertStatement += "("+playerRunID+", "+x+1+", "+equipment[x].getEq_ID()+")";
+				if(x+1==equipment.length|| equipment[x+1]==null) {
+					break;
+				}
+			}
+			else if(equipment[x]==null & x==0) {
+				return;
+			}
+			else {
+				break;
+			}
+			insertStatement+=", ";
+		}
+		insertStatement += ";";
+		try {
+			statement.executeUpdate(insertStatement);
+		}
+		catch(SQLException e) {
+			System.out.println("Insert Equipment unsuccessful");
+		}
+		System.out.println(insertStatement);
+	}
+//	Insert into player inventory
+	private void insertConsumable(int playerRunID, Consumable[] consumable) {
+		String insertStatement = "INSERT INTO inventory VALUES";
+		for(int x=0; x<consumable.length; x++) {
+			if(consumable[x]!=null) {
+				insertStatement += "("+playerRunID+", "+x+1+", "+consumable[x].getConsumable_id()+")";
+				if(x+1==consumable.length|| consumable[x+1]==null) {
+					break;
+				}
+			}
+			else if(consumable[x]==null & x==0) {
+				return;
+			}
+			else {
+				break;
+			}
+			insertStatement+=", ";
+		}
+		insertStatement += ";";
+		try {
+			statement.executeUpdate(insertStatement);
+		}
+		catch(SQLException e) {
+			System.out.println("Insert Consumable unsuccessful");
+		}
+		System.out.println(insertStatement);
+	}
 //	Insert into player skills
 //	Get number of rows
 	public int countRows(String table) {

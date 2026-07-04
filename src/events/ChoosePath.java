@@ -22,6 +22,7 @@ public class ChoosePath {
 		this.pathFloor = pathFloor++;
 		this.window=window;
 		newPlayer = player;
+		window.setLeft(null);
 		displayPaths();
 	}
 	private void displayPaths() {

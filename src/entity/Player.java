@@ -1,18 +1,17 @@
 package entity;
 
+import database.SQL_Db;
 import items.Consumable;
 import items.Equipment;
-import items.Item;
-import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class Player extends Entity{
 	private Equipment[] currentEquipment = new Equipment[4];
 	private Consumable[] currentConsumables = new Consumable[10];
+	private int pathFloor;
 	
 	private int equipmentCount = 0;
 	private int consumableCount = 0;
@@ -20,6 +19,8 @@ public class Player extends Entity{
 	VBox replaceTextContainer;
 	Text replaceText;
 	HBox replaceContainer;
+	
+	SQL_Db database;
 //	private Skills[] skills = new Skills[4];
 //	inventory and equipment
 	public Player() {
@@ -76,6 +77,14 @@ public class Player extends Entity{
 		else
 			setCurrentHP(getCurrentHP()+c.getConsumable_HP());
 		return;
+	}
+	
+//	Save Stats to SQLDB
+	public void saveStats(int pathFloor) {
+		this.pathFloor = pathFloor;
+		database = new SQL_Db();
+		database.saveRun(pathFloor, "test", getMaxHP(), getMaxMP(), pathFloor, currentEquipment, currentConsumables);
+		database.close();
 	}
 	public Consumable[] getConsumableList() {
 		return currentConsumables;
