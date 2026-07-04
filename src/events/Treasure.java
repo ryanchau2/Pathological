@@ -8,6 +8,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,7 +23,7 @@ public class Treasure extends Event{
 	private Text pathProgressText = new Text("");
 	private HBox pathProgressBox = new HBox();
 	
-	private HBox treasureItemDisplay = new HBox(20);
+	private HBox treasureItemDisplay = new HBox(100);
 	private VBox vb_item1 = new VBox();
 	private VBox vb_item2 = new VBox();
 	private VBox vb_item3 = new VBox();
@@ -124,15 +125,15 @@ public class Treasure extends Event{
 	private void populateChest() {
 		treasure_i1 = generateItems();
 		txtItem1.setText(treasure_i1.getItemName());
-		vb_item1.getChildren().add(txtItem1);
+		vb_item1.getChildren().add(new ImageView(treasure_i1.getItem_sprite()));
 		
 		treasure_i2 = generateItems();
 		txtItem2.setText(treasure_i2.getItemName());
-		vb_item2.getChildren().add(txtItem2);
+		vb_item2.getChildren().add(new ImageView(treasure_i2.getItem_sprite()));
 		
 		treasure_i3 = generateItems();
 		txtItem3.setText(treasure_i3.getItemName());
-		vb_item3.getChildren().add(txtItem3);
+		vb_item3.getChildren().add(new ImageView(treasure_i3.getItem_sprite()));
 	}
 	private Item generateItems() {
 		int item_type = (int)(Math.random()*2)+1;
@@ -156,6 +157,9 @@ public class Treasure extends Event{
 		String btStyle = "-fx-font-size:30";
 		int buttonWidth = 300;
 		treasureItemDisplay.setAlignment(Pos.CENTER);
+		vb_item1.setAlignment(Pos.CENTER);
+		vb_item2.setAlignment(Pos.CENTER);
+		vb_item3.setAlignment(Pos.CENTER);
 		treasureSelectUIBar.setAlignment(Pos.CENTER);
 		btItem1.setStyle(btStyle);
 		btItem2.setStyle(btStyle);

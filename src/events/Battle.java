@@ -210,74 +210,108 @@ public class Battle extends Event {
 			window.setBottom(actionBarUI);
 		});
 		item1.setOnAction(e->{
-			player.useConsumable(consumableList[0]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item1.setDisable(true);
-			consumableList[0] = null;
-			item1.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[0]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item1.setDisable(true);
+				consumableList[0] = null;
+				item1.setText("");
+			}
+			else {
+			}
 		});
 		item2.setOnAction(e->{
-			player.useConsumable(consumableList[1]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item2.setDisable(true);
-			consumableList[1] = null;
-			item2.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[1]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item2.setDisable(true);
+				consumableList[1] = null;
+				item2.setText("");
+			}
+			else {
+			}
 		});
 		item3.setOnAction(e->{
-			player.useConsumable(consumableList[2]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item3.setDisable(true);
-			consumableList[2] = null;
-			item3.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[2]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item3.setDisable(true);
+				consumableList[2] = null;
+				item3.setText("");
+			}
+			else {
+			}
 		});
 		item4.setOnAction(e->{
-			player.useConsumable(consumableList[3]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item4.setDisable(true);
-			consumableList[3] = null;
-			item4.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[3]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item4.setDisable(true);
+				consumableList[3] = null;
+				item4.setText("");
+			}
+			else {	
+			}
 		});
 		item5.setOnAction(e->{
-			player.useConsumable(consumableList[4]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item5.setDisable(true);
-			consumableList[4] = null;
-			item5.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[4]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item5.setDisable(true);
+				consumableList[4] = null;
+				item5.setText("");
+			}
+			else {
+			}
 		});
 		item6.setOnAction(e->{
-			player.useConsumable(consumableList[5]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item6.setDisable(true);
-			consumableList[5] = null;
-			item6.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[5]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item6.setDisable(true);
+				consumableList[5] = null;
+				item6.setText("");
+			}
+			else {
+			}
 		});
 		item7.setOnAction(e->{
-			player.useConsumable(consumableList[6]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item7.setDisable(true);
-			consumableList[6] = null;
-			item7.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[6]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item7.setDisable(true);
+				consumableList[6] = null;
+				item7.setText("");
+			}
 		});
 		item8.setOnAction(e->{
-			player.useConsumable(consumableList[7]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item8.setDisable(true);
-			consumableList[7] = null;
-			item8.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[7]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item8.setDisable(true);
+				consumableList[7] = null;
+				item8.setText("");
+			}
+			else {
+			}
 		});
 		item9.setOnAction(e->{
-			player.useConsumable(consumableList[8]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item9.setDisable(true);
-			consumableList[8] = null;
-			item9.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[8]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item9.setDisable(true);
+				consumableList[8] = null;
+				item9.setText("");
+			}
 		});
 		item10.setOnAction(e->{
-			player.useConsumable(consumableList[9]);
-			player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-			item10.setDisable(true);
-			consumableList[9] = null;
-			item10.setText("");
+			if(player.getCurrentHP()!=player.getMaxHP()) {
+				player.useConsumable(consumableList[9]);
+				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+				item10.setDisable(true);
+				consumableList[9] = null;
+				item10.setText("");
+			}
 		});
 	}
 	private void showSkills() {

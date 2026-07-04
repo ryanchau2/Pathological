@@ -4,6 +4,7 @@ import entity.Player;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
@@ -12,14 +13,14 @@ public class Rest extends Event {
 	private Player player;
 	private BorderPane window;
 	private int pathFloor;
-	
+
 //	Top Path Level Bar
 	private Text pathProgressText = new Text("");
 	private HBox pathProgressBox = new HBox();
 	
 	private HBox mainDisplayContainer = new HBox();
 	private HBox imageContainerPlayer = new HBox();
-	private HBox imageContainerFire = new HBox();
+	private HBox imageContainerFire = new HBox(new ImageView("file:images/sprites/campfire.png"));
 	private HBox buttonContainer = new HBox(15);
 	
 	private Button btRest = new Button("Rest (+20HP)");
@@ -78,6 +79,7 @@ public class Rest extends Event {
 		int buttonWidth = 250;
 		mainDisplayContainer.setAlignment(Pos.CENTER);
 		buttonContainer.setAlignment(Pos.CENTER);
+		imageContainerFire.setAlignment(Pos.CENTER);
 		btRest.setStyle(btStyle);
 		btUpgradeHP.setStyle(btStyle);
 		btUpgradeAtk.setStyle(btStyle);
