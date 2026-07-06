@@ -32,7 +32,6 @@ public class Equipment extends Item {
 		catch(SQLException e) {
 			System.out.println("Something went wrong with setting attributes of an Equipment");
 		}
-<<<<<<< HEAD
 		setSprites();
 	}
 	public void setSprites() {
@@ -47,9 +46,7 @@ public class Equipment extends Item {
 			setItem_sprite("file:images/sprites/copper_sword.png");
 			break;
 		}
-=======
 		database.close();
->>>>>>> c5d4582f2b44594c60eabb67e9e7e243cd3d8afd
 	}
 	public int getEq_ID() {
 		return equipment_id;

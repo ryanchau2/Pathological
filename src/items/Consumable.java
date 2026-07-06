@@ -29,7 +29,6 @@ public class Consumable extends Item{
 		catch(SQLException e) {
 			System.out.println("Something went wrong with setting attributes of an Consumable");
 		}
-<<<<<<< HEAD
 		setSprites();
 	}
 	public void setSprites() {
@@ -44,9 +43,7 @@ public class Consumable extends Item{
 			setItem_sprite("file:images/sprites/large_HPpotion.png");
 			break;
 		}
-=======
 		database.close();
->>>>>>> c5d4582f2b44594c60eabb67e9e7e243cd3d8afd
 	}
 	public int getConsumable_id() {
 		return consumable_id;
