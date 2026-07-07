@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 public class Test {
 	public static void main(String[] args) {
-		String insertStatement = "INSERT INTO player_run ";
-		insertStatement += "VALUES("+2+", \""+"lmao"+"\", "+2+", "+3+", "+ 3+");";
-		System.out.println(insertStatement);
+//		String insertStatement = "INSERT INTO player_run ";
+//		insertStatement += "VALUES("+2+", \""+"lmao"+"\", "+2+", "+3+", "+ 3+");";
+//		System.out.println(insertStatement);
 //		System.out.println("Enemy");
 //		Enemy testEnemy= new Enemy(1);
 //		System.out.println();
@@ -38,7 +38,12 @@ public class Test {
 //				break;
 //			}
 //		}
-//		SQL_Db test = new SQL_Db();
+		SQL_Db test = new SQL_Db();
+		String[] array = test.getPlayerRun(0);
+		for(int x = 0; x<array.length; x++) {
+			System.out.println(array[x]);
+		}
+		test.close();
 //		test.close();
 //		Object[] test = new Object[5];
 //		test[0] = 1;

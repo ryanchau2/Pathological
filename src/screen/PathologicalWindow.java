@@ -1,5 +1,6 @@
 package screen;
 
+import database.SQL_Db;
 import entity.Player;
 import events.ChoosePath;
 import javafx.application.Platform;
@@ -25,15 +26,35 @@ public class PathologicalWindow extends BorderPane{
 	private Button btPrevRuns = new Button("Previous Runs");
 	private Button btExit = new Button("Exit");
 	
+//	Previous Runs UI
+	Button btBack = new Button("Back");			//set left
+	VBox prevRunContainer = new VBox();
+	HBox pRun1 = new HBox();
+	VBox run1Floor = new VBox();
+	VBox run1Atk = new VBox();
+	VBox run1Def = new VBox();
+	VBox run1HP = new VBox();
+	VBox run1MP = new VBox();
+	VBox run1Equipment = new VBox();
+	VBox run1Consumables = new VBox();
+	
+	VBox pRun2 = new VBox();
+	VBox pRun3 = new VBox();
+	VBox pRun4 = new VBox();
+	Button btNewer = new Button();
+	Button btOlder = new Button();
+	
 	
 	private int pathFloor;
 	Player newPlayer;
+	SQL_Db database;
 //	===============================================================
 	
 	
 	public PathologicalWindow() {
 		windowText = "Pathological";
 		displayMainMenu();
+		buildPrevRunMenu();
 		
 		this.setTop(titleLogo);
 		this.setCenter(mainMenuButtons);
@@ -44,6 +65,7 @@ public class PathologicalWindow extends BorderPane{
 	}
 	public PathologicalWindow(String x) {
 		displayMainMenu();
+		setMainMenu();
 		this.setTop(titleLogo);
 		this.setCenter(mainMenuButtons);
 		this.setLeft(null);
@@ -61,14 +83,45 @@ public class PathologicalWindow extends BorderPane{
 		mainMenuButtons.getChildren().addAll(btStart,btPrevRuns,btExit);
 		createMenuListeners();
 	}
+	private void setMainMenu() {
+		this.setTop(titleLogo);
+		this.setCenter(mainMenuButtons);
+		this.setLeft(null);
+		this.setRight(null);
+		this.setBottom(null);
+	}
 	private void createMenuListeners() {
 		btStart.setOnAction(e->{
 			mainMenuButtons.getChildren().clear();
 			titleLogo.getChildren().clear();
 			startGame();
 		});
+		btPrevRuns.setOnAction(e->{
+			this.setTop(null);
+			populateRuns();
+			prevRunMenu();
+		});
 		btExit.setOnAction(e->{
 		Platform.exit();
+		});
+	}
+	private void populateRuns() {
+		database = new SQL_Db();
+		String[] x = database.getPlayerRun(1);
+		database.close();
+	}
+	private void prevRunMenu() {
+		this.setLeft(btBack);
+		this.setCenter(prevRunContainer);
+	}
+	private void buildPrevRunMenu() {
+		createPrevMenuBtListeners();
+		//create way to retrieve runs
+		prevRunContainer.getChildren().addAll(pRun1, pRun2, pRun3, pRun4);
+	}
+	private void createPrevMenuBtListeners() {
+		btBack.setOnAction(e->{
+			setMainMenu();
 		});
 	}
 	private void setMenuStyles() {

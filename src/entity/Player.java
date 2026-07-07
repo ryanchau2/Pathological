@@ -12,6 +12,8 @@ public class Player extends Entity{
 	private Equipment[] currentEquipment = new Equipment[4];
 	private Consumable[] currentConsumables = new Consumable[10];
 	private int pathFloor;
+	private int runID;
+	
 	
 	private int equipmentCount = 0;
 	private int consumableCount = 0;
@@ -24,10 +26,17 @@ public class Player extends Entity{
 //	private Skills[] skills = new Skills[4];
 //	inventory and equipment
 	public Player() {
+		setRunID();
 		setStats();
 		setEntity_sprite("file:images/sprites/player_test1.png");
 		System.out.println("Player Successfully Created");
 		returnCurrentStats();
+	}
+	private void setRunID() {
+		database = new SQL_Db();
+		runID = database.setRunID();
+//		System.out.println("RUN ID = " + runID);
+		database.close();
 	}
 	private void setStats() {
 		setAtk(10);
@@ -83,7 +92,7 @@ public class Player extends Entity{
 	public void saveStats(int pathFloor) {
 		this.pathFloor = pathFloor;
 		database = new SQL_Db();
-		database.saveRun(pathFloor, "test", getMaxHP(), getMaxMP(), pathFloor, currentEquipment, currentConsumables);
+		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, currentEquipment, currentConsumables);
 		database.close();
 	}
 	public Consumable[] getConsumableList() {

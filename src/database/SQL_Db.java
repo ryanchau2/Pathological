@@ -29,17 +29,52 @@ public class SQL_Db {
 			System.out.println("Something Went Wrong");
 		}
 	}
-	public void saveRun(int playerRunID, String playerName, int HP, int MP, int pathFloor, Equipment[] equipment, Consumable[] consumable) {
+	public String[] getPlayerRun(int runID) {
+		ResultSet returnpRun;
+		String[] returnStats = new String[6];
+		String selectStatement = "SELECT * FROM player_run WHERE run_id = " + runID+";";
+		try {
+			returnpRun = statement.executeQuery(selectStatement);
+			while(returnpRun.next()) {
+				returnStats[0] = String.valueOf(returnpRun.getInt("run_id"));
+				returnStats[1] = String.valueOf(returnpRun.getInt("atk"));
+				returnStats[2] = String.valueOf(returnpRun.getInt("def"));
+				returnStats[3] = String.valueOf(returnpRun.getInt("hp"));
+				returnStats[4] = String.valueOf(returnpRun.getInt("mp"));
+				returnStats[5] = String.valueOf(returnpRun.getInt("pathFloor"));
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong trying to retreive the playerRun info from ID" + runID);
+		}
+		return returnStats;
+	}
+	public int setRunID() {
+		ResultSet rs_runCt;
+		int runID = 1;
+		String selectStatement = "SELECT COUNT(*) FROM player_run;";
+		try {
+			rs_runCt = statement.executeQuery(selectStatement);
+			while(rs_runCt.next()) {
+				runID = rs_runCt.getInt("COUNT(*)") + 1;
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with the Select statement trying to retrieve runID");
+		}
+		return runID;
+	}
+	public void saveRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, Equipment[] equipment, Consumable[] consumable) {
 		System.out.println("inserting player stats");
-		insertPlayerRunStats(playerRunID, playerName, HP, MP, pathFloor);
+		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor);
 		System.out.println("inserting player Equipment");
 		insertEquipment(playerRunID,equipment);
 		System.out.println("inserting player consumable");
 		insertConsumable(playerRunID,consumable);
 	}
-	private void insertPlayerRunStats(int playerRunID, String playerName, int HP, int MP, int pathFloor) {
+	private void insertPlayerRunStats(int playerRunID, int atk, int def, int HP, int MP, int pathFloor) {
 		String insertStatement = "INSERT INTO player_run ";
-		insertStatement += "VALUES("+playerRunID+", \""+playerName+"\", "+HP+", "+MP+", "+ pathFloor+");";
+		insertStatement += "VALUES("+playerRunID+", "+ atk + ", "+ def +", "+HP+", "+MP+", "+ pathFloor+");";
 		try {
 			statement.executeUpdate(insertStatement);
 		}
@@ -54,7 +89,7 @@ public class SQL_Db {
 		String insertStatement = "INSERT INTO current_equipment VALUES";
 		for(int x=0; x<equipment.length; x++) {
 			if(equipment[x]!=null) {
-				insertStatement += "("+playerRunID+", "+x+1+", "+equipment[x].getEq_ID()+")";
+				insertStatement += "("+playerRunID+", "+(x+1)+", "+equipment[x].getEq_ID()+")";
 				if(x+1==equipment.length|| equipment[x+1]==null) {
 					break;
 				}
@@ -68,6 +103,7 @@ public class SQL_Db {
 			insertStatement+=", ";
 		}
 		insertStatement += ";";
+//		System.out.println(insertStatement);
 		try {
 			statement.executeUpdate(insertStatement);
 		}
@@ -81,7 +117,7 @@ public class SQL_Db {
 		String insertStatement = "INSERT INTO inventory VALUES";
 		for(int x=0; x<consumable.length; x++) {
 			if(consumable[x]!=null) {
-				insertStatement += "("+playerRunID+", "+x+1+", "+consumable[x].getConsumable_id()+")";
+				insertStatement += "("+playerRunID+", "+(x+1)+", "+consumable[x].getConsumable_id()+", 'ACTIVE')";
 				if(x+1==consumable.length|| consumable[x+1]==null) {
 					break;
 				}
