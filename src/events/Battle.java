@@ -126,6 +126,7 @@ public class Battle extends Event {
 		createItemsInstance();
 		createTurnOrderUI();
 		battle();
+		presetGameOverScreen();
 	}
 	private void setButtonsItemsNames() {
 		if (consumableList[0] != null) {
@@ -365,12 +366,16 @@ public class Battle extends Event {
 		window.setBottom(null);
 		window.setLeft(null);
 		gameOverTxt.setText("You have lasted " + pathFloor + " paths, but unfortunately passed a tragic death");
-		gameOverContainer.getChildren().addAll(gameOverTxt);
+		
 		window.setCenter(gameOverContainer);
-		restartContainer.getChildren().addAll(btRestart);
+		
 		window.setBottom(restartContainer);
 		setRestartListener();
 		//get player attributes and display and save
+	}
+	private void presetGameOverScreen() {
+		gameOverContainer.getChildren().addAll(gameOverTxt);
+		restartContainer.getChildren().addAll(btRestart);
 	}
 	private void setRestartListener() {
 		btRestart.setOnAction(e->{

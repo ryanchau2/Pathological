@@ -23,6 +23,7 @@ public class PathologicalWindow extends BorderPane{
 	VBox mainMenuButtons = new VBox(10);
 	
 	private Button btStart = new Button("Start");
+	private Button btContinue = new Button("Continue");
 	private Button btPrevRuns = new Button("Previous Runs");
 	private Button btExit = new Button("Exit");
 	
@@ -30,24 +31,63 @@ public class PathologicalWindow extends BorderPane{
 	Button btBack = new Button("Back");			//set left
 	VBox prevRunContainer = new VBox();
 	HBox pRun1 = new HBox();
-	VBox run1Floor = new VBox();
-	VBox run1Atk = new VBox();
-	VBox run1Def = new VBox();
-	VBox run1HP = new VBox();
-	VBox run1MP = new VBox();
-	VBox run1Equipment = new VBox();
-	VBox run1Consumables = new VBox();
+	VBox pRun1statContainer = new VBox();
+	HBox pRun1InventoryContainer = new HBox(15);
+	VBox pRun1Equipment = new VBox();
+	VBox pRun1Consumables = new VBox();
+	String[] p1Stats;
+	String[] p1Equips;
+	String[] p1Consumables;
+	Text txtRun1Stats = new Text("");
+	Text txtRun1Equipment = new Text("");
+	Text txtRun1Consumables = new Text("");
 	
-	VBox pRun2 = new VBox();
-	VBox pRun3 = new VBox();
-	VBox pRun4 = new VBox();
-	Button btNewer = new Button();
-	Button btOlder = new Button();
+	HBox pRun2 = new HBox();
+	VBox pRun2statContainer = new VBox();
+	HBox pRun2InventoryContainer = new HBox(15);
+	VBox pRun2Equipment = new VBox();
+	VBox pRun2Consumables = new VBox();
+	String[] p2Stats;
+	String[] p2Equips;
+	String[] p2Consumables;
+	Text txtRun2Stats = new Text("");
+	Text txtRun2Equipment = new Text("");
+	Text txtRun2Consumables = new Text("");
+	
+	HBox pRun3 = new HBox();
+	VBox pRun3statContainer = new VBox();
+	HBox pRun3InventoryContainer = new HBox(15);
+	VBox pRun3Equipment = new VBox();
+	VBox pRun3Consumables = new VBox();
+	String[] p3Stats;
+	String[] p3Equips;
+	String[] p3Consumables;
+	Text txtRun3Stats = new Text("");
+	Text txtRun3Equipment = new Text("");
+	Text txtRun3Consumables = new Text("");
+	
+	HBox pRun4 = new HBox();
+	VBox pRun4statContainer = new VBox();
+	HBox pRun4InventoryContainer = new HBox(15);
+	VBox pRun4Equipment = new VBox();
+	VBox pRun4Consumables = new VBox();
+	String[] p4Stats;
+	String[] p4Equips;
+	String[] p4Consumables;
+	Text txtRun4Stats = new Text("");
+	Text txtRun4Equipment = new Text("");
+	Text txtRun4Consumables = new Text("");
+	
+	BorderPane buttonContainer = new BorderPane();
+	Button btNewer = new Button("Newer");
+	Button btOlder = new Button("Older");
 	
 	
 	private int pathFloor;
 	Player newPlayer;
 	SQL_Db database;
+	
+	int totalRuns;
 //	===============================================================
 	
 	
@@ -82,6 +122,8 @@ public class PathologicalWindow extends BorderPane{
 		titleLogo.getChildren().add(ivTitleLogo);
 		mainMenuButtons.getChildren().addAll(btStart,btPrevRuns,btExit);
 		createMenuListeners();
+		
+		preparePrevRunMenu();
 	}
 	private void setMainMenu() {
 		this.setTop(titleLogo);
@@ -96,34 +138,283 @@ public class PathologicalWindow extends BorderPane{
 			titleLogo.getChildren().clear();
 			startGame();
 		});
+		btContinue.setOnAction(e->{
+			//change players stats to what they were
+			//equip the player with the gear if there is any
+			//give player consumables if there are any
+			//delete items from SQL
+			//continue run
+		});
 		btPrevRuns.setOnAction(e->{
 			this.setTop(null);
-			populateRuns();
 			prevRunMenu();
 		});
 		btExit.setOnAction(e->{
 		Platform.exit();
 		});
 	}
+//	------------------------------------------------------------------------------------------------
+//	VBox prevRunContainer = new VBox();
+//	HBox pRun1 = new HBox();
+//	VBox pRun1statContainer = new VBox();
+//	VBox pRun1InventoryContainer = new VBox();
+//	VBox pRun1Equipment = new VBox();
+//	VBox pRun1Consumables = new VBox();
+	private void preparePrevRunMenu() {
+		database = new SQL_Db();
+		totalRuns = database.countRows("player_run"); //3
+		if(totalRuns-4<0)
+			btOlder.setDisable(true);
+		database.close();
+		populateRuns();
+		
+		buttonContainer.setLeft(btNewer);
+		btNewer.setDisable(true);
+		
+		buttonContainer.setRight(btOlder);
+		createPrevRunMenuListeners();
+		
+		//Creates Run1 Box
+		pRun1statContainer.getChildren().add(txtRun1Stats);
+		pRun1Equipment.getChildren().add(txtRun1Equipment);
+		pRun1Consumables.getChildren().add(txtRun1Consumables);
+		pRun1InventoryContainer.getChildren().addAll(pRun1Equipment,pRun1Consumables);
+		pRun1.getChildren().addAll(pRun1statContainer,pRun1InventoryContainer);
+		prevRunContainer.getChildren().addAll(pRun1);
+		//Creates Run2 Box
+		pRun2statContainer.getChildren().add(txtRun2Stats);
+		pRun2Equipment.getChildren().add(txtRun2Equipment);
+		pRun2Consumables.getChildren().add(txtRun2Consumables);
+		pRun2InventoryContainer.getChildren().addAll(pRun2Equipment,pRun2Consumables);
+		pRun2.getChildren().addAll(pRun2statContainer,pRun2InventoryContainer);
+		prevRunContainer.getChildren().addAll(pRun2);
+		//Creates Run3 Box
+		pRun3statContainer.getChildren().add(txtRun3Stats);
+		pRun3Equipment.getChildren().add(txtRun3Equipment);
+		pRun3Consumables.getChildren().add(txtRun3Consumables);
+		pRun3InventoryContainer.getChildren().addAll(pRun3Equipment,pRun3Consumables);
+		pRun3.getChildren().addAll(pRun3statContainer,pRun3InventoryContainer);
+		prevRunContainer.getChildren().addAll(pRun3);
+		//Creates Run4 Box
+		pRun4statContainer.getChildren().add(txtRun4Stats);
+		pRun4Equipment.getChildren().add(txtRun4Equipment);
+		pRun4Consumables.getChildren().add(txtRun4Consumables);
+		pRun4InventoryContainer.getChildren().addAll(pRun4Equipment,pRun4Consumables);
+		pRun4.getChildren().addAll(pRun4statContainer,pRun4InventoryContainer);
+		prevRunContainer.getChildren().addAll(pRun4);
+	}
 	private void populateRuns() {
 		database = new SQL_Db();
-		String[] x = database.getPlayerRun(1);
+		if(database.countRows("player_run")==0) {
+			return;
+		}
+		else {
+			populateRun1(totalRuns);
+			populateRun2(totalRuns-1);
+			populateRun3(totalRuns-2);
+			populateRun4(totalRuns-3);
+		}
 		database.close();
+	}
+	private void createPrevRunMenuListeners() {
+		btNewer.setOnAction(e->{
+			database = new SQL_Db();
+			totalRuns=totalRuns+4;
+			if(totalRuns+4>database.countRows("player_run")) {
+				btNewer.setDisable(true);
+				btOlder.setDisable(false);
+			}
+			populateRuns();
+		});
+		btOlder.setOnAction(e->{
+			totalRuns=totalRuns-4;
+			if(totalRuns-4<0) {
+				btNewer.setDisable(false);
+				btOlder.setDisable(true);
+			}
+			populateRuns();
+		});
+	}
+	//Run Box1 (Top)
+	private void populateRun1(int runID) {
+		if(runID <= 0) {
+			txtRun1Stats.setText("");
+			txtRun1Equipment.setText("");
+			txtRun1Consumables.setText("");
+			return;
+		}
+		p1Stats = database.getPlayerRun(runID);
+		String p1StatsString = "";
+		for(int x = 0; x<p1Stats.length; x++) {
+			p1StatsString += p1Stats[x];
+			if(x+1!=p1Stats.length)
+				p1StatsString += "\n";
+		}
+		txtRun1Stats.setText(p1StatsString);
+		
+		//get equipment
+		p1Equips = database.getEquipmentHistory(runID);
+		String p1EquipString = "";
+		for(int y = 0; y<p1Equips.length; y++) {
+			if(p1Equips[y]==null)
+				break;
+			p1EquipString += p1Equips[y];
+			if(y+1!=p1Equips.length)
+				p1EquipString += "\n";
+		}
+		txtRun1Equipment.setText(p1EquipString);
+		
+		//get consumables/inventory
+		p1Consumables = database.getConsumableHistory(runID);
+		String p1ConsumableString = "";
+		for(int z=0; z<p1Consumables.length; z++) {
+			if(p1Consumables[z]==null)
+				break;
+			p1ConsumableString += p1Consumables[z];
+			if(z+1!=p1Consumables.length)
+				p1ConsumableString += "\n";
+		}
+		txtRun1Consumables.setText(p1ConsumableString);
+	}
+	
+	//Run Box2
+	private void populateRun2(int runID) {
+		if(runID <= 0) {
+			txtRun2Stats.setText("");
+			txtRun2Equipment.setText("");
+			txtRun2Consumables.setText("");
+			return;
+		}
+		p2Stats = database.getPlayerRun(runID);
+		String p2StatsString = "";
+		for(int x = 0; x<p2Stats.length; x++) {
+			p2StatsString += p2Stats[x];
+			if(x+1!=p2Stats.length)
+				p2StatsString += "\n";
+		}
+		txtRun2Stats.setText(p2StatsString);
+		
+		//get equipment
+		p2Equips = database.getEquipmentHistory(runID);
+		String p2EquipString = "";
+		for(int y = 0; y<p2Equips.length; y++) {
+			if(p2Equips[y]==null)
+				break;
+			p2EquipString += p2Equips[y];
+			if(y+1!=p2Equips.length)
+				p2EquipString += "\n";
+		}
+		txtRun2Equipment.setText(p2EquipString);
+		
+		//get consumables/inventory
+		p2Consumables = database.getConsumableHistory(runID);
+		String p2ConsumableString = "";
+		for(int z=0; z<p2Consumables.length; z++) {
+			if(p2Consumables[z]==null)
+				break;
+			p2ConsumableString += p2Consumables[z];
+			if(z+1!=p2Consumables.length)
+				p2ConsumableString += "\n";
+		}
+		txtRun2Consumables.setText(p2ConsumableString);
+	}
+	//Run Box 3
+	private void populateRun3(int runID) {
+		if(runID <= 0) {
+			txtRun3Stats.setText("");
+			txtRun3Equipment.setText("");
+			txtRun3Consumables.setText("");
+			return;
+		}
+		p3Stats = database.getPlayerRun(runID);
+		String p3StatsString = "";
+		for(int x = 0; x<p3Stats.length; x++) {
+			p3StatsString += p3Stats[x];
+			if(x+1!=p3Stats.length)
+				p3StatsString += "\n";
+		}
+		txtRun3Stats.setText(p3StatsString);
+		
+		//get equipment
+		p3Equips = database.getEquipmentHistory(runID);
+		String p3EquipString = "";
+		for(int y = 0; y<p3Equips.length; y++) {
+			if(p3Equips[y]==null)
+				break;
+			p3EquipString += p3Equips[y];
+			if(y+1!=p3Equips.length)
+				p3EquipString += "\n";
+		}
+		txtRun2Equipment.setText(p3EquipString);
+		
+		//get consumables/inventory
+		p3Consumables = database.getConsumableHistory(runID);
+		String p3ConsumableString = "";
+		for(int z=0; z<p3Consumables.length; z++) {
+			if(p3Consumables[z]==null)
+				break;
+			p3ConsumableString += p3Consumables[z];
+			if(z+1!=p3Consumables.length)
+				p3ConsumableString += "\n";
+		}
+		txtRun3Consumables.setText(p3ConsumableString);
+	}
+	private void populateRun4(int runID) {
+		if(runID <= 0) {
+			txtRun4Stats.setText("");
+			txtRun4Equipment.setText("");
+			txtRun4Consumables.setText("");
+			return;
+		}
+		p4Stats = database.getPlayerRun(runID);
+		String p4StatsString = "";
+		for(int x = 0; x<p4Stats.length; x++) {
+			p4StatsString += p4Stats[x];
+			if(x+1!=p4Stats.length)
+				p4StatsString += "\n";
+		}
+		txtRun4Stats.setText(p4StatsString);
+		
+		//get equipment
+		p4Equips = database.getEquipmentHistory(runID);
+		String p4EquipString = "";
+		for(int y = 0; y<p4Equips.length; y++) {
+			if(p4Equips[y]==null)
+				break;
+			p4EquipString += p4Equips[y];
+			if(y+1!=p4Equips.length)
+				p4EquipString += "\n";
+		}
+		txtRun4Equipment.setText(p4EquipString);
+		
+		//get consumables/inventory
+		p4Consumables = database.getConsumableHistory(runID);
+		String p4ConsumableString = "";
+		for(int z=0; z<p4Consumables.length; z++) {
+			if(p4Consumables[z]==null)
+				break;
+			p4ConsumableString += p4Consumables[z];
+			if(z+1!=p4Consumables.length)
+				p4ConsumableString += "\n";
+		}
+		txtRun4Consumables.setText(p4ConsumableString);
 	}
 	private void prevRunMenu() {
 		this.setLeft(btBack);
 		this.setCenter(prevRunContainer);
+		this.setBottom(buttonContainer);
 	}
 	private void buildPrevRunMenu() {
 		createPrevMenuBtListeners();
 		//create way to retrieve runs
-		prevRunContainer.getChildren().addAll(pRun1, pRun2, pRun3, pRun4);
+//		prevRunContainer.getChildren().addAll(pRun1, pRun2, pRun3, pRun4);
 	}
 	private void createPrevMenuBtListeners() {
 		btBack.setOnAction(e->{
 			setMainMenu();
 		});
 	}
+//	------------------------------------------------------------------------------------------------
 	private void setMenuStyles() {
 		//Styling
 		String buttonStyle = "-fx-font-size:28";

@@ -84,4 +84,29 @@ public class Test {
 		player.setDef(player.getDef()-tempDefense);
 		System.out.println();
 	}
+	
+//	old populate run code
+//	populateRun3(totalRuns-2);
+//	populateRun4(totalRuns-3);
+//	p1Stats = database.getPlayerRun(1);
+//	for(int x = 0; x<p1Stats.length; x++) {
+//		pRun1statContainer.getChildren().add(new Text(p1Stats[x]));
+//	}
+//	//get equipment
+//	p1Equips = database.getEquipmentHistory(1);
+//	for(int y = 0; y<p1Equips.length; y++) {
+////		System.out.println(p1Equips[y]);
+////		System.out.println(y);
+////		System.out.println();
+//		pRun1Equipment.getChildren().add(new Text(p1Equips[y]));
+//	}
+//	//get consumables/inventory
+//	p1Consumables = database.getConsumableHistory(1);
+//	for(int z=0; z<p1Consumables.length; z++) {
+//		pRun1Consumables.getChildren().add(new Text(p1Consumables[z]));
+//	}
+////	pRun1InventoryContainer.getChildren().addAll(pRun1Equipment);
+//	pRun1InventoryContainer.getChildren().addAll(pRun1Equipment,pRun1Consumables);
+//	pRun1.getChildren().addAll(pRun1statContainer,pRun1InventoryContainer);
+//	prevRunContainer.getChildren().addAll(pRun1);
 }

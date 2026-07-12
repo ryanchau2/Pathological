@@ -32,22 +32,75 @@ public class SQL_Db {
 	public String[] getPlayerRun(int runID) {
 		ResultSet returnpRun;
 		String[] returnStats = new String[6];
-		String selectStatement = "SELECT * FROM player_run WHERE run_id = " + runID+";";
+		String selectStatement = "SELECT * FROM player_run WHERE run_id = " + runID + ";";
 		try {
 			returnpRun = statement.executeQuery(selectStatement);
 			while(returnpRun.next()) {
-				returnStats[0] = String.valueOf(returnpRun.getInt("run_id"));
-				returnStats[1] = String.valueOf(returnpRun.getInt("atk"));
-				returnStats[2] = String.valueOf(returnpRun.getInt("def"));
-				returnStats[3] = String.valueOf(returnpRun.getInt("hp"));
-				returnStats[4] = String.valueOf(returnpRun.getInt("mp"));
-				returnStats[5] = String.valueOf(returnpRun.getInt("pathFloor"));
+				returnStats[0] = "ID: " + String.valueOf(returnpRun.getInt("run_id"));
+				returnStats[1] = "Atk: " + String.valueOf(returnpRun.getInt("atk"));
+				returnStats[2] = "Def: " + String.valueOf(returnpRun.getInt("def"));
+				returnStats[3] = "HP: " + String.valueOf(returnpRun.getInt("hp"));
+				returnStats[4] = "MP: "+ String.valueOf(returnpRun.getInt("mp"));
+				returnStats[5] = "Deepest Path: " + String.valueOf(returnpRun.getInt("pathFloor"));
 			}
 		}
 		catch(SQLException e) {
 			System.out.println("Something went wrong trying to retreive the playerRun info from ID" + runID);
 		}
 		return returnStats;
+	}
+	public String[] getEquipmentHistory(int runID) {
+		ResultSet returnEquip;
+		int equipCount = countIDRows(runID, "current_equipment");
+		String[] returnEquips = new String[equipCount];
+		String selectStatement = "SELECT equipment_name FROM current_equipment ce JOIN equipment e ON ce.equipment_equipment_id = e.equipment_id WHERE run_id = " + runID + ";";
+		try {
+			returnEquip = statement.executeQuery(selectStatement);
+			int eqIterator = 0;
+			while(returnEquip.next()) {
+				System.out.println(returnEquip.getString("equipment_name"));
+				returnEquips[eqIterator] = returnEquip.getString("equipment_name");
+				eqIterator++;
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with GETTING EQUIPMENT HISTORY for id: " + runID);
+		}
+		return returnEquips;
+//		return null;
+	}
+	public String[] getConsumableHistory(int runID) {
+		ResultSet returnConsumables;
+		int consumableCount = countIDRows(runID, "inventory");
+		String[] returnInventory = new String[consumableCount];
+		String selectStatement = "SELECT consumable_name FROM inventory i JOIN consumable c ON i.items_item_id = c.consumable_id WHERE run_id = " + runID + ";";
+		try {
+			returnConsumables = statement.executeQuery(selectStatement);
+			int cIterator = 0;
+			while(returnConsumables.next()) {
+				returnInventory[cIterator] = returnConsumables.getString("consumable_name");
+				cIterator++;
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with GETTING INVENTORY HISTORY for id: " + runID);
+		}
+		return returnInventory;
+	}
+	public int countIDRows(int runID, String table) {
+		ResultSet returnRowCount;
+		int rows = 0;
+		String countQuery = "SELECT COUNT(*) FROM " + table + ";";
+		try {
+			returnRowCount = statement.executeQuery(countQuery);
+			while(returnRowCount.next()) {
+				rows += returnRowCount.getInt("COUNT(*)");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with counting rows for id: " + runID + "on table: " + table);
+		}
+		return rows;
 	}
 	public int setRunID() {
 		ResultSet rs_runCt;
