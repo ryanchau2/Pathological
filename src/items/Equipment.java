@@ -15,6 +15,24 @@ public class Equipment extends Item {
 	public Equipment() {
 		createEquipment();
 	}
+	public Equipment(int itemID) {
+		database = new SQL_Db();
+		itemResultSet = database.pickEquipment(itemID);
+		try {
+			while(itemResultSet.next()) {
+				equipment_id = itemResultSet.getInt("equipment_id");
+				item_name = itemResultSet.getString("equipment_name");
+				item_description = itemResultSet.getString("equipment_description");
+				eq_HP = itemResultSet.getInt("equipment_hp");
+				eq_atk = itemResultSet.getInt("equipment_atk");
+				eq_def = itemResultSet.getInt("equipment_def");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with setting attributes of an Equipment");
+		}
+		setSprites();
+	}
 	private void createEquipment() {
 		database = new SQL_Db();
 		int r_eq_selector = (int)(Math.random()*(database.countRows("equipment")))+1;

@@ -3,6 +3,8 @@ package screen;
 import database.SQL_Db;
 import entity.Player;
 import events.ChoosePath;
+import items.Consumable;
+import items.Equipment;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -28,66 +30,69 @@ public class PathologicalWindow extends BorderPane{
 	private Button btExit = new Button("Exit");
 	
 //	Previous Runs UI
-	Button btBack = new Button("Back");			//set left
-	VBox prevRunContainer = new VBox();
-	HBox pRun1 = new HBox();
-	VBox pRun1statContainer = new VBox();
-	HBox pRun1InventoryContainer = new HBox(15);
-	VBox pRun1Equipment = new VBox();
-	VBox pRun1Consumables = new VBox();
-	String[] p1Stats;
-	String[] p1Equips;
-	String[] p1Consumables;
-	Text txtRun1Stats = new Text("");
-	Text txtRun1Equipment = new Text("");
-	Text txtRun1Consumables = new Text("");
+	private Button btBack = new Button("Back");			//set left
+	private VBox prevRunContainer = new VBox();
+	private HBox pRun1 = new HBox();
+	private VBox pRun1statContainer = new VBox();
+	private HBox pRun1InventoryContainer = new HBox(15);
+	private VBox pRun1Equipment = new VBox();
+	private VBox pRun1Consumables = new VBox();
+	private String[] p1Stats;
+	private String[] p1Equips;
+	private String[] p1Consumables;
+	private Text txtRun1Stats = new Text("");
+	private Text txtRun1Equipment = new Text("");
+	private Text txtRun1Consumables = new Text("");
 	
-	HBox pRun2 = new HBox();
-	VBox pRun2statContainer = new VBox();
-	HBox pRun2InventoryContainer = new HBox(15);
-	VBox pRun2Equipment = new VBox();
-	VBox pRun2Consumables = new VBox();
-	String[] p2Stats;
-	String[] p2Equips;
-	String[] p2Consumables;
-	Text txtRun2Stats = new Text("");
-	Text txtRun2Equipment = new Text("");
-	Text txtRun2Consumables = new Text("");
+	private HBox pRun2 = new HBox();
+	private VBox pRun2statContainer = new VBox();
+	private HBox pRun2InventoryContainer = new HBox(15);
+	private VBox pRun2Equipment = new VBox();
+	private VBox pRun2Consumables = new VBox();
+	private String[] p2Stats;
+	private String[] p2Equips;
+	private String[] p2Consumables;
+	private Text txtRun2Stats = new Text("");
+	private Text txtRun2Equipment = new Text("");
+	private Text txtRun2Consumables = new Text("");
 	
-	HBox pRun3 = new HBox();
-	VBox pRun3statContainer = new VBox();
-	HBox pRun3InventoryContainer = new HBox(15);
-	VBox pRun3Equipment = new VBox();
-	VBox pRun3Consumables = new VBox();
-	String[] p3Stats;
-	String[] p3Equips;
-	String[] p3Consumables;
-	Text txtRun3Stats = new Text("");
-	Text txtRun3Equipment = new Text("");
-	Text txtRun3Consumables = new Text("");
+	private HBox pRun3 = new HBox();
+	private VBox pRun3statContainer = new VBox();
+	private HBox pRun3InventoryContainer = new HBox(15);
+	private VBox pRun3Equipment = new VBox();
+	private VBox pRun3Consumables = new VBox();
+	private String[] p3Stats;
+	private String[] p3Equips;
+	private String[] p3Consumables;
+	private Text txtRun3Stats = new Text("");
+	private Text txtRun3Equipment = new Text("");
+	private Text txtRun3Consumables = new Text("");
 	
-	HBox pRun4 = new HBox();
-	VBox pRun4statContainer = new VBox();
-	HBox pRun4InventoryContainer = new HBox(15);
-	VBox pRun4Equipment = new VBox();
-	VBox pRun4Consumables = new VBox();
-	String[] p4Stats;
-	String[] p4Equips;
-	String[] p4Consumables;
-	Text txtRun4Stats = new Text("");
-	Text txtRun4Equipment = new Text("");
-	Text txtRun4Consumables = new Text("");
+	private HBox pRun4 = new HBox();
+	private VBox pRun4statContainer = new VBox();
+	private HBox pRun4InventoryContainer = new HBox(15);
+	private VBox pRun4Equipment = new VBox();
+	private VBox pRun4Consumables = new VBox();
+	private String[] p4Stats;
+	private String[] p4Equips;
+	private String[] p4Consumables;
+	private Text txtRun4Stats = new Text("");
+	private Text txtRun4Equipment = new Text("");
+	private Text txtRun4Consumables = new Text("");
 	
-	BorderPane buttonContainer = new BorderPane();
-	Button btNewer = new Button("Newer");
-	Button btOlder = new Button("Older");
+	private BorderPane buttonContainer = new BorderPane();
+	private Button btNewer = new Button("Previous Page");
+	private Button btOlder = new Button("Next Page");
 	
 	
 	private int pathFloor;
-	Player newPlayer;
-	SQL_Db database;
+	private Player newPlayer;
+	private SQL_Db database;
 	
-	int totalRuns;
+	private int totalRuns;
+	
+//	Prev runID if available
+	private int prevRunID;
 //	===============================================================
 	
 	
@@ -95,6 +100,7 @@ public class PathologicalWindow extends BorderPane{
 		windowText = "Pathological";
 		displayMainMenu();
 		buildPrevRunMenu();
+		checkUnfinishedRun();
 		
 		this.setTop(titleLogo);
 		this.setCenter(mainMenuButtons);
@@ -103,16 +109,19 @@ public class PathologicalWindow extends BorderPane{
 		setMenuStyles();
 		show();
 	}
-	public PathologicalWindow(String x) {
-		displayMainMenu();
-		setMainMenu();
-		this.setTop(titleLogo);
-		this.setCenter(mainMenuButtons);
-		this.setLeft(null);
-		this.setRight(null);
-		this.setBottom(null);
-		setMenuStyles();
-	}
+//	public PathologicalWindow(BorderPane window) {
+//		setMainMenu();
+//		System.out.println("Entered");
+//		displayMainMenu();
+//		buildPrevRunMenu();
+//		this.setTop(titleLogo);
+//		this.setCenter(mainMenuButtons);
+////		this.setLeft(null);
+////		this.setRight(null);
+////		this.setBottom(null);
+//		setMenuStyles();
+//		show();
+//	}
 	private void startGame() {
 		newPlayer = new Player();
 		pathFloor = 0;
@@ -120,7 +129,7 @@ public class PathologicalWindow extends BorderPane{
 	}
 	private void displayMainMenu() {
 		titleLogo.getChildren().add(ivTitleLogo);
-		mainMenuButtons.getChildren().addAll(btStart,btPrevRuns,btExit);
+		mainMenuButtons.getChildren().addAll(btStart,btContinue,btPrevRuns,btExit);
 		createMenuListeners();
 		
 		preparePrevRunMenu();
@@ -132,6 +141,14 @@ public class PathologicalWindow extends BorderPane{
 		this.setRight(null);
 		this.setBottom(null);
 	}
+	private void checkUnfinishedRun() {
+		database = new SQL_Db();
+		prevRunID = database.getIncompleteRunsDB();
+		if(prevRunID==0)
+			btContinue.setDisable(true);
+		else
+			btContinue.setDisable(false);
+	}
 	private void createMenuListeners() {
 		btStart.setOnAction(e->{
 			mainMenuButtons.getChildren().clear();
@@ -140,10 +157,28 @@ public class PathologicalWindow extends BorderPane{
 		});
 		btContinue.setOnAction(e->{
 			//change players stats to what they were
+			database = new SQL_Db();
+			int[] prevStats = database.setPlayerStats(prevRunID);
+			newPlayer = new Player(prevStats[0], prevStats[1], prevStats[2], prevStats[3], prevStats[4], prevStats[5], prevStats[6]);
+			pathFloor = prevStats[7];
 			//equip the player with the gear if there is any
+			if(database.countRows("currentEquipment")!=0) {
+				int[] prevEquip = database.pullPrevRunEquipment(prevRunID);
+				for(int x=0; x<prevEquip.length; x++) {
+					newPlayer.addToEquipment(new Equipment(prevEquip[x]), this);
+				}
+			}
 			//give player consumables if there are any
+			if(database.countRows("inventory")!=0) {
+				int[] prevConsumables = database.pullPrevRunConsumable(prevRunID);
+				for(int x=0; x<prevConsumables.length; x++) {
+					newPlayer.addToConsumables(new Consumable(prevConsumables[x]), this);
+				}
+			}
+//			pathFloor = 0;
 			//delete items from SQL
 			//continue run
+//			ChoosePath(BorderPane window, int pathFloor, Player player)
 		});
 		btPrevRuns.setOnAction(e->{
 			this.setTop(null);
@@ -222,16 +257,16 @@ public class PathologicalWindow extends BorderPane{
 			totalRuns=totalRuns+4;
 			if(totalRuns+4>database.countRows("player_run")) {
 				btNewer.setDisable(true);
-				btOlder.setDisable(false);
 			}
+			btOlder.setDisable(false);
 			populateRuns();
 		});
 		btOlder.setOnAction(e->{
 			totalRuns=totalRuns-4;
 			if(totalRuns-4<0) {
-				btNewer.setDisable(false);
 				btOlder.setDisable(true);
 			}
+			btNewer.setDisable(false);
 			populateRuns();
 		});
 	}

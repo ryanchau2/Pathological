@@ -386,6 +386,7 @@ public class Battle extends Event {
 			window.setBottom(null);
 			player.saveStats(pathFloor);
 			Platform.exit();
+//			new PathologicalWindow(window);
 		});
 	}
 	private void enableButtons() {
@@ -554,7 +555,8 @@ public class Battle extends Event {
 		
 		btRestart.setStyle(btStyle20);
 		btRestart.setPrefWidth(buttonWidth);
-		btRestart.setPadding(new Insets(0,0,40,0));
+//		btRestart.setPadding(new Insets(0,0,0,0));
+		btRestart.setAlignment(Pos.CENTER);
 //		===
 	}
 	private void styleBattleEntityContainers(VBox entity1, VBox entity2, Text e1_hpStat, Text e1_mpStat, Text e2_hpStat, Text e2_mpStat){

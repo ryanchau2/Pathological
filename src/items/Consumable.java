@@ -10,8 +10,28 @@ public class Consumable extends Item{
 	ResultSet itemResultSet;
 	private int consumable_id;
 	private int consumable_HP;
+	
+	
 	public Consumable() {
 		createConsumable();
+	}
+	//overwrites original constructor (used for previous runs)
+	public Consumable(int itemID) {
+		database = new SQL_Db();
+		itemResultSet = database.pickConsumable(itemID);
+		try {
+			while(itemResultSet.next()) {
+//				System.out.println("Starting to get consumable ID");
+				consumable_id = itemResultSet.getInt("consumable_id");
+				item_name = itemResultSet.getString("consumable_name");
+				item_description = itemResultSet.getString("consumable_description");
+				consumable_HP = itemResultSet.getInt("consumable_hp_mod");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with setting attributes of an Consumable");
+		}
+		setSprites();
 	}
 	private void createConsumable() {
 		database = new SQL_Db();

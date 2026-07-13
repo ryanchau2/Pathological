@@ -1,6 +1,10 @@
 package events;
 
+import database.SQL_Db;
 import entity.Player;
+import items.Consumable;
+import items.Equipment;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -18,11 +22,17 @@ public class ChoosePath {
 //	Choices Box
 	HBox pathChoicesHBox = new HBox(20);
 	
+	SQL_Db database;
+//	SaveQuit
+	Button btSaveQuit = new Button("Save and Quit");
+	
 	public ChoosePath(BorderPane window, int pathFloor, Player player) {
 		this.pathFloor = pathFloor++;
 		this.window=window;
 		newPlayer = player;
 		window.setLeft(null);
+		if(pathFloor != 1)
+			window.setRight(btSaveQuit);
 		displayPaths();
 	}
 	private void displayPaths() {
@@ -56,6 +66,12 @@ public class ChoosePath {
 		});
 		btPath2.setOnAction(e->{
 			eventCaller(path2);
+		});
+		btSaveQuit.setOnAction(e->{
+			database = new SQL_Db();
+			database.saveTempRun(newPlayer.getRunID(), newPlayer.getAtk(), newPlayer.getDef(), newPlayer.getMaxHP(), newPlayer.getMaxMP(), pathFloor, newPlayer.getCurrentHP(), newPlayer.getCurrentMP(), newPlayer.getEquipmentList(), newPlayer.getConsumableList());
+			database.close();
+			Platform.exit();
 		});
 	}
 //	1 - Controls the flow of the Battle Event

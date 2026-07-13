@@ -32,6 +32,13 @@ public class Player extends Entity{
 		System.out.println("Player Successfully Created");
 		returnCurrentStats();
 	}
+	public Player(int runID, int atk, int def, int hp, int mp, int cHP, int cMP) {
+		this.runID = runID;
+		setAtk(atk);
+		setDef(def);
+		setMaxHP(hp);
+		setMaxMP(mp);
+	}
 	private void setRunID() {
 		database = new SQL_Db();
 		runID = database.setRunID();
@@ -92,8 +99,11 @@ public class Player extends Entity{
 	public void saveStats(int pathFloor) {
 		this.pathFloor = pathFloor;
 		database = new SQL_Db();
-		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, currentEquipment, currentConsumables);
+		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, getCurrentMP(), currentEquipment, currentConsumables);
 		database.close();
+	}
+	public int getRunID() {
+		return runID;
 	}
 	public Consumable[] getConsumableList() {
 		return currentConsumables;

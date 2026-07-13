@@ -31,7 +31,7 @@ public class SQL_Db {
 	}
 	public String[] getPlayerRun(int runID) {
 		ResultSet returnpRun;
-		String[] returnStats = new String[6];
+		String[] returnStats = new String[7];
 		String selectStatement = "SELECT * FROM player_run WHERE run_id = " + runID + ";";
 		try {
 			returnpRun = statement.executeQuery(selectStatement);
@@ -42,6 +42,7 @@ public class SQL_Db {
 				returnStats[3] = "HP: " + String.valueOf(returnpRun.getInt("hp"));
 				returnStats[4] = "MP: "+ String.valueOf(returnpRun.getInt("mp"));
 				returnStats[5] = "Deepest Path: " + String.valueOf(returnpRun.getInt("pathFloor"));
+				returnStats[6] = "Status: " + returnpRun.getString("activeStatus");
 			}
 		}
 		catch(SQLException e) {
@@ -117,17 +118,25 @@ public class SQL_Db {
 		}
 		return runID;
 	}
-	public void saveRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, Equipment[] equipment, Consumable[] consumable) {
+	public void saveRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cMP, Equipment[] equipment, Consumable[] consumable) {
 		System.out.println("inserting player stats");
-		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor);
+		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor, "Complete", 0 , cMP);
 		System.out.println("inserting player Equipment");
 		insertEquipment(playerRunID,equipment);
 		System.out.println("inserting player consumable");
 		insertConsumable(playerRunID,consumable);
 	}
-	private void insertPlayerRunStats(int playerRunID, int atk, int def, int HP, int MP, int pathFloor) {
+	public void saveTempRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cHP, int cMP, Equipment[] equipment, Consumable[] consumable) {
+		System.out.println("inserting player stats");
+		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor, "Incomplete", cHP, cMP);
+		System.out.println("inserting player Equipment");
+		insertEquipment(playerRunID,equipment);
+		System.out.println("inserting player consumable");
+		insertConsumable(playerRunID,consumable);
+	}
+	private void insertPlayerRunStats(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, String status, int cHP, int cMP) {
 		String insertStatement = "INSERT INTO player_run ";
-		insertStatement += "VALUES("+playerRunID+", "+ atk + ", "+ def +", "+HP+", "+MP+", "+ pathFloor+");";
+		insertStatement += "VALUES("+playerRunID+", "+ atk + ", "+ def +", "+HP+", "+MP+", "+ pathFloor+", \"" + status +"\", " + cHP + ", " + cMP + ");";
 		try {
 			statement.executeUpdate(insertStatement);
 		}
@@ -209,6 +218,21 @@ public class SQL_Db {
 		}
 		return rows;
 	}
+	public int countRowsbyID(String table, int runID) {
+		ResultSet rs_rCount;
+		int rows = 0;
+		String countQuery = "SELECT COUNT(*) FROM " + table + "WHERE run_id = " + runID + ";";
+		try {
+			rs_rCount = statement.executeQuery(countQuery);
+			while(rs_rCount.next()) {
+				rows += rs_rCount.getInt("COUNT(*)");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with counting rows");
+		}
+		return rows;
+	}
 	public ResultSet pickConsumable(int cs_id) {
 		ResultSet rs_pickItem;
 		String pickItem_Query =
@@ -236,6 +260,77 @@ public class SQL_Db {
 			System.out.println("Something went wrong with acquiring the Equipment");
 		}
 		return rs_pickItem=null;
+	}
+	public int getIncompleteRunsDB() {
+		ResultSet rs_incompleteID;
+		int incompleteID = 0;
+		String unfinishedQuery = "SELECT run_id FROM player_run WHERE activeStatus=\"Incomplete\";";
+		try {
+			rs_incompleteID = statement.executeQuery(unfinishedQuery);
+			while(rs_incompleteID.next()) {
+				incompleteID = rs_incompleteID.getInt("run_id");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with finding the unfinishedrunID");
+		}
+		return incompleteID;
+	}
+	public int[] setPlayerStats(int runID) {
+		int[] returnStats = new int[8];
+		ResultSet rs_returnStats;
+		String returnStats_Query = "SELECT run_id, atk, def, hp, mp, remainingHP, remainingMP, pathFloor FROM player_run WHERE run_id=" + runID;
+		try {
+			rs_returnStats = statement.executeQuery(returnStats_Query);
+			while(rs_returnStats.next()){
+				returnStats[0] = rs_returnStats.getInt("run_id");
+				returnStats[1] = rs_returnStats.getInt("atk");
+				returnStats[2] = rs_returnStats.getInt("def");
+				returnStats[3] = rs_returnStats.getInt("hp");
+				returnStats[4] = rs_returnStats.getInt("mp");
+				returnStats[5] = rs_returnStats.getInt("remainingHP");
+				returnStats[6] = rs_returnStats.getInt("remainingMP");
+				returnStats[7] = rs_returnStats.getInt("pathFloor");
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with pulling the player's stats from player run");
+		}
+		return returnStats;
+	}
+	public int[] pullPrevRunEquipment(int runID) {
+		int[] returnEquip = new int[countRowsbyID("current_equipment", runID)];
+		String returnEquipQuery = "SELECT equipment_equipment_id FROM current_equipment WHERE run_id = " + runID + ";";
+		ResultSet rs_ReturnEquip;
+		int x=0;
+		try {
+			rs_ReturnEquip = statement.executeQuery(returnEquipQuery);
+			while(rs_ReturnEquip.next()) {
+				returnEquip[x] = rs_ReturnEquip.getInt("equipment_equipment_id");
+				x++;
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with pulling the player's equipment from currentEquipment");
+		}
+		return returnEquip;
+	}
+	public int[] pullPrevRunConsumable(int runID) {
+		int[] returnConsumable = new int[countRowsbyID("inventory", runID)];
+		String returnConsumableQuery = "SELECT items_item_id FROM inventory WHERE run_id = " + runID + ";";
+		ResultSet rs_ReturnConsum;
+		int x=0;
+		try {
+			rs_ReturnConsum = statement.executeQuery(returnConsumableQuery);
+			while(rs_ReturnConsum.next()) {
+				returnConsumable[x] = rs_ReturnConsum.getInt("equipment_equipment_id");
+				x++;
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with pulling the player's consumables from inventory");
+		}
+		return returnConsumable;
 	}
 	public void close() {
 		try {
