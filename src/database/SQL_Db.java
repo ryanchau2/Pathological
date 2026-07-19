@@ -221,7 +221,7 @@ public class SQL_Db {
 	public int countRowsbyID(String table, int runID) {
 		ResultSet rs_rCount;
 		int rows = 0;
-		String countQuery = "SELECT COUNT(*) FROM " + table + "WHERE run_id = " + runID + ";";
+		String countQuery = "SELECT COUNT(*) FROM " + table + " WHERE run_id = " + runID + ";";
 		try {
 			rs_rCount = statement.executeQuery(countQuery);
 			while(rs_rCount.next()) {
@@ -229,7 +229,7 @@ public class SQL_Db {
 			}
 		}
 		catch(SQLException e) {
-			System.out.println("Something went wrong with counting rows");
+			System.out.println("Something went wrong with counting rows at table " + table + " ID: " + runID);
 		}
 		return rows;
 	}
@@ -323,7 +323,7 @@ public class SQL_Db {
 		try {
 			rs_ReturnConsum = statement.executeQuery(returnConsumableQuery);
 			while(rs_ReturnConsum.next()) {
-				returnConsumable[x] = rs_ReturnConsum.getInt("equipment_equipment_id");
+				returnConsumable[x] = rs_ReturnConsum.getInt("items_item_id");
 				x++;
 			}
 		}
@@ -331,6 +331,21 @@ public class SQL_Db {
 			System.out.println("Something went wrong with pulling the player's consumables from inventory");
 		}
 		return returnConsumable;
+	}
+	//removes records of "incomplete run" to continue after setting new run
+	public void continueRun(int runID) {
+		String deleteCurrentEquipment = "DELETE FROM current_equipment WHERE run_id = " + runID + ";";
+		String deleteInventory = "DELETE FROM inventory WHERE run_id = " + runID + ";";
+		String deleteRun = "DELETE FROM player_run WHERE run_id = " + runID + ";";
+		try {
+			statement.execute(deleteCurrentEquipment);
+			statement.execute(deleteInventory);
+			statement.execute(deleteRun);
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with deleting the saved record");
+		}
+		
 	}
 	public void close() {
 		try {

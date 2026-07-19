@@ -5,6 +5,7 @@ import entity.Player;
 import items.Consumable;
 import items.Equipment;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -129,6 +130,9 @@ public class ChoosePath {
 		b1.setPrefWidth(buttonWidth);
 		b2.setStyle(buttonStyle);
 		b2.setPrefWidth(buttonWidth);
+		
+		btSaveQuit.setStyle(buttonStyle);
+		btSaveQuit.setPrefWidth(buttonWidth-100);
 		
 		String pathProgression = "-fx-font-size:28";
 		pathProgressText.setStyle(pathProgression);

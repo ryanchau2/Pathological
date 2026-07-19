@@ -6,6 +6,7 @@ import events.ChoosePath;
 import items.Consumable;
 import items.Equipment;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -25,7 +26,7 @@ public class PathologicalWindow extends BorderPane{
 	VBox mainMenuButtons = new VBox(10);
 	
 	private Button btStart = new Button("Start");
-	private Button btContinue = new Button("Continue");
+	private Button btContinue = new Button("Continue Previous Run");
 	private Button btPrevRuns = new Button("Previous Runs");
 	private Button btExit = new Button("Exit");
 	
@@ -101,6 +102,7 @@ public class PathologicalWindow extends BorderPane{
 		displayMainMenu();
 		buildPrevRunMenu();
 		checkUnfinishedRun();
+		setPreviousMenuBoxStyles();
 		
 		this.setTop(titleLogo);
 		this.setCenter(mainMenuButtons);
@@ -146,8 +148,10 @@ public class PathologicalWindow extends BorderPane{
 		prevRunID = database.getIncompleteRunsDB();
 		if(prevRunID==0)
 			btContinue.setDisable(true);
-		else
+		else {
 			btContinue.setDisable(false);
+			btStart.setDisable(true);
+		}
 	}
 	private void createMenuListeners() {
 		btStart.setOnAction(e->{
@@ -158,27 +162,38 @@ public class PathologicalWindow extends BorderPane{
 		btContinue.setOnAction(e->{
 			//change players stats to what they were
 			database = new SQL_Db();
+			System.out.println("Setting player stats");
 			int[] prevStats = database.setPlayerStats(prevRunID);
 			newPlayer = new Player(prevStats[0], prevStats[1], prevStats[2], prevStats[3], prevStats[4], prevStats[5], prevStats[6]);
 			pathFloor = prevStats[7];
+			System.out.println("Finished Setting player stats and floor");
+			
 			//equip the player with the gear if there is any
-			if(database.countRows("currentEquipment")!=0) {
+			System.out.println("Setting current equipment");
+			if(database.countRowsbyID("current_Equipment", prevRunID)!=0) {
 				int[] prevEquip = database.pullPrevRunEquipment(prevRunID);
 				for(int x=0; x<prevEquip.length; x++) {
 					newPlayer.addToEquipment(new Equipment(prevEquip[x]), this);
 				}
+				System.out.println("Finished Equipment");
 			}
+		
+			System.out.println("Setting Current Consumables");
 			//give player consumables if there are any
-			if(database.countRows("inventory")!=0) {
+			if(database.countRowsbyID("inventory", prevRunID)!=0) {
 				int[] prevConsumables = database.pullPrevRunConsumable(prevRunID);
 				for(int x=0; x<prevConsumables.length; x++) {
 					newPlayer.addToConsumables(new Consumable(prevConsumables[x]), this);
 				}
+				System.out.println("Finished Settin Current Consumables");
 			}
+			
 //			pathFloor = 0;
 			//delete items from SQL
+			database.continueRun(prevRunID);
+			database.close();
 			//continue run
-//			ChoosePath(BorderPane window, int pathFloor, Player player)
+			new ChoosePath(this, pathFloor, newPlayer);
 		});
 		btPrevRuns.setOnAction(e->{
 			this.setTop(null);
@@ -189,12 +204,6 @@ public class PathologicalWindow extends BorderPane{
 		});
 	}
 //	------------------------------------------------------------------------------------------------
-//	VBox prevRunContainer = new VBox();
-//	HBox pRun1 = new HBox();
-//	VBox pRun1statContainer = new VBox();
-//	VBox pRun1InventoryContainer = new VBox();
-//	VBox pRun1Equipment = new VBox();
-//	VBox pRun1Consumables = new VBox();
 	private void preparePrevRunMenu() {
 		database = new SQL_Db();
 		totalRuns = database.countRows("player_run"); //3
@@ -290,6 +299,7 @@ public class PathologicalWindow extends BorderPane{
 		//get equipment
 		p1Equips = database.getEquipmentHistory(runID);
 		String p1EquipString = "";
+		p1EquipString+="Equipment\n";
 		for(int y = 0; y<p1Equips.length; y++) {
 			if(p1Equips[y]==null)
 				break;
@@ -302,6 +312,7 @@ public class PathologicalWindow extends BorderPane{
 		//get consumables/inventory
 		p1Consumables = database.getConsumableHistory(runID);
 		String p1ConsumableString = "";
+		p1ConsumableString+="Consumables\n";
 		for(int z=0; z<p1Consumables.length; z++) {
 			if(p1Consumables[z]==null)
 				break;
@@ -332,6 +343,7 @@ public class PathologicalWindow extends BorderPane{
 		//get equipment
 		p2Equips = database.getEquipmentHistory(runID);
 		String p2EquipString = "";
+		p2EquipString+="Equipment\n";
 		for(int y = 0; y<p2Equips.length; y++) {
 			if(p2Equips[y]==null)
 				break;
@@ -344,6 +356,7 @@ public class PathologicalWindow extends BorderPane{
 		//get consumables/inventory
 		p2Consumables = database.getConsumableHistory(runID);
 		String p2ConsumableString = "";
+		p2ConsumableString+="Consumables\n";
 		for(int z=0; z<p2Consumables.length; z++) {
 			if(p2Consumables[z]==null)
 				break;
@@ -373,6 +386,7 @@ public class PathologicalWindow extends BorderPane{
 		//get equipment
 		p3Equips = database.getEquipmentHistory(runID);
 		String p3EquipString = "";
+		p3EquipString+="Equipment\n";
 		for(int y = 0; y<p3Equips.length; y++) {
 			if(p3Equips[y]==null)
 				break;
@@ -380,11 +394,12 @@ public class PathologicalWindow extends BorderPane{
 			if(y+1!=p3Equips.length)
 				p3EquipString += "\n";
 		}
-		txtRun2Equipment.setText(p3EquipString);
+		txtRun3Equipment.setText(p3EquipString);
 		
 		//get consumables/inventory
 		p3Consumables = database.getConsumableHistory(runID);
 		String p3ConsumableString = "";
+		p3ConsumableString+="Consumables\n";
 		for(int z=0; z<p3Consumables.length; z++) {
 			if(p3Consumables[z]==null)
 				break;
@@ -413,6 +428,7 @@ public class PathologicalWindow extends BorderPane{
 		//get equipment
 		p4Equips = database.getEquipmentHistory(runID);
 		String p4EquipString = "";
+		p4EquipString+="Equipment\n";
 		for(int y = 0; y<p4Equips.length; y++) {
 			if(p4Equips[y]==null)
 				break;
@@ -425,6 +441,7 @@ public class PathologicalWindow extends BorderPane{
 		//get consumables/inventory
 		p4Consumables = database.getConsumableHistory(runID);
 		String p4ConsumableString = "";
+		p4ConsumableString+="Consumables\n";
 		for(int z=0; z<p4Consumables.length; z++) {
 			if(p4Consumables[z]==null)
 				break;
@@ -456,12 +473,44 @@ public class PathologicalWindow extends BorderPane{
 		int buttonWidth = 250;
 		btStart.setStyle(buttonStyle);
 		btStart.setPrefWidth(buttonWidth);
+		btContinue.setStyle(buttonStyle);
+		btContinue.setPrefWidth(buttonWidth+100);
 		btPrevRuns.setStyle(buttonStyle);
 		btPrevRuns.setPrefWidth(buttonWidth);
 		btExit.setStyle(buttonStyle);
 		btExit.setPrefWidth(buttonWidth);
 		mainMenuButtons.setAlignment(Pos.CENTER);
 		titleLogo.setAlignment(Pos.CENTER);
+	}
+	private void setPreviousMenuBoxStyles() {
+		String cssLayout = 
+				"-fx-border-color: black;\n" +
+                "-fx-border-insets: 5;\n" +
+                "-fx-border-width: 0 0 5px 0;\n" +
+                "-fx-border-style: solid;\n";
+		pRun1.setStyle(cssLayout);
+		pRun2.setStyle(cssLayout);
+		pRun3.setStyle(cssLayout);
+		pRun4.setStyle(cssLayout);
+		
+		String pRunCText = "-fx-font-size:18";
+		pRun1statContainer.setStyle(pRunCText);
+		pRun2statContainer.setStyle(pRunCText);
+		pRun3statContainer.setStyle(pRunCText);
+		pRun4statContainer.setStyle(pRunCText);
+		pRun1InventoryContainer.setStyle(pRunCText);
+		pRun2InventoryContainer.setStyle(pRunCText);
+		pRun3InventoryContainer.setStyle(pRunCText);
+		pRun4InventoryContainer.setStyle(pRunCText);
+		
+		pRun1statContainer.setPadding(new Insets(0, 0, 0, 20));
+		pRun2statContainer.setPadding(new Insets(0, 0, 0, 20));
+		pRun3statContainer.setPadding(new Insets(0, 0, 0, 20));
+		pRun4statContainer.setPadding(new Insets(0, 0, 0, 20));
+		pRun1InventoryContainer.setPadding(new Insets(0, 0, 0, 50));
+		pRun2InventoryContainer.setPadding(new Insets(0, 0, 0, 50));
+		pRun3InventoryContainer.setPadding(new Insets(0, 0, 0, 50));
+		pRun4InventoryContainer.setPadding(new Insets(0, 0, 0, 50));
 	}
 	private void show() {
 		Stage stage = new Stage();

@@ -30,6 +30,7 @@ public class Player extends Entity{
 		setStats();
 		setEntity_sprite("file:images/sprites/player_test1.png");
 		System.out.println("Player Successfully Created");
+		
 		returnCurrentStats();
 	}
 	public Player(int runID, int atk, int def, int hp, int mp, int cHP, int cMP) {
@@ -38,6 +39,11 @@ public class Player extends Entity{
 		setDef(def);
 		setMaxHP(hp);
 		setMaxMP(mp);
+		setCurrentHP(cHP);
+		setCurrentMP(cMP);
+		System.out.println("ID: " + runID);
+		setEntity_sprite("file:images/sprites/player_test1.png");
+		returnCurrentStats();
 	}
 	private void setRunID() {
 		database = new SQL_Db();
