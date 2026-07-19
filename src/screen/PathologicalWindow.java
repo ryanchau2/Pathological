@@ -94,6 +94,9 @@ public class PathologicalWindow extends BorderPane{
 	
 //	Prev runID if available
 	private int prevRunID;
+	
+//	Credits
+	private Text credits = new Text("Credits: Knight Sprite by aamatniekss and Skeleton Sprite by Jesse Munguia both on itch.io");
 //	===============================================================
 	
 	
@@ -107,23 +110,10 @@ public class PathologicalWindow extends BorderPane{
 		this.setTop(titleLogo);
 		this.setCenter(mainMenuButtons);
 		this.setLeft(null);
-		this.setBottom(null);
+		this.setBottom(credits);
 		setMenuStyles();
 		show();
 	}
-//	public PathologicalWindow(BorderPane window) {
-//		setMainMenu();
-//		System.out.println("Entered");
-//		displayMainMenu();
-//		buildPrevRunMenu();
-//		this.setTop(titleLogo);
-//		this.setCenter(mainMenuButtons);
-////		this.setLeft(null);
-////		this.setRight(null);
-////		this.setBottom(null);
-//		setMenuStyles();
-//		show();
-//	}
 	private void startGame() {
 		newPlayer = new Player();
 		pathFloor = 0;
@@ -517,6 +507,7 @@ public class PathologicalWindow extends BorderPane{
 		Scene scene = new Scene(this, 1024, 768);
 		stage.setTitle(windowText);
 		stage.setScene(scene);
+		stage.setResizable(false);
 		stage.show();
 	}
 }

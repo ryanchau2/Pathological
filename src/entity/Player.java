@@ -24,14 +24,14 @@ public class Player extends Entity{
 	
 	SQL_Db database;
 //	private Skills[] skills = new Skills[4];
+	
 //	inventory and equipment
 	public Player() {
 		setRunID();
 		setStats();
-		setEntity_sprite("file:images/sprites/player_test1.png");
-		System.out.println("Player Successfully Created");
+		setEntity_sprite("file:images/sprites/player_idle.gif");
 		
-		returnCurrentStats();
+//		returnCurrentStats();
 	}
 	public Player(int runID, int atk, int def, int hp, int mp, int cHP, int cMP) {
 		this.runID = runID;
@@ -42,13 +42,12 @@ public class Player extends Entity{
 		setCurrentHP(cHP);
 		setCurrentMP(cMP);
 		System.out.println("ID: " + runID);
-		setEntity_sprite("file:images/sprites/player_test1.png");
+		setEntity_sprite("file:images/sprites/player_idle.gif");
 		returnCurrentStats();
 	}
 	private void setRunID() {
 		database = new SQL_Db();
 		runID = database.setRunID();
-//		System.out.println("RUN ID = " + runID);
 		database.close();
 	}
 	private void setStats() {
@@ -107,6 +106,18 @@ public class Player extends Entity{
 		database = new SQL_Db();
 		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, getCurrentMP(), currentEquipment, currentConsumables);
 		database.close();
+	}
+	public void battleReward() {
+		setMaxHP(this.getMaxHP()+6);
+		setMaxMP(this.getMaxMP()+2);
+		setAtk(this.getAtk()+3);
+		setDef(this.getDef()+2);
+	}
+	public String changeAttackSprite() {
+		return "file:images/sprites/player_attack.gif";
+	}
+	public String changeIdleSprite() {
+		return "file:images/sprites/player_idle.gif";
 	}
 	public int getRunID() {
 		return runID;

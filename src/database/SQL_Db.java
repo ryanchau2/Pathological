@@ -351,7 +351,7 @@ public class SQL_Db {
 		try {
 			connection.close();
 			statement.close();
-			System.out.println("Connection Closed Successfully");
+//			System.out.println("Connection Closed Successfully");
 		}
 		catch(SQLException e) {
 			System.out.println("Something went wrong and could not close the connection");

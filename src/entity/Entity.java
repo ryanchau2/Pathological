@@ -16,6 +16,7 @@ public class Entity {
 	public Entity() {
 		
 	}
+//	Return stats of the entity for debugging purposes
 	public void returnCurrentStats() {
 		System.out.printf("%-12s", "Current HP");
 		System.out.printf("%-12s", "Current MP");

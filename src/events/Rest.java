@@ -25,13 +25,14 @@ public class Rest extends Event {
 	
 	private Button btRest = new Button("Rest (+20HP)");
 	private Button btUpgradeHP = new Button("Upgrade (+10 Max HP)");
-	private Button btUpgradeAtk = new Button("Upgrade (+5 Atk)");
-	private Button btUpgradeDef = new Button("Upgrade (+5 Def)");
+	private Button btUpgradeAtk = new Button("Upgrade (+3 Atk)");
+	private Button btUpgradeDef = new Button("Upgrade (+1 Def)");
 	
 	public Rest(Player player, BorderPane window, int pathFloor) {
 		this.player = player;
 		this.window = window;
 		this.pathFloor = pathFloor;
+		window.setRight(null);
 		updatePathFloor();
 		displayRestScreen();
 		createButtonListeners();
@@ -64,12 +65,12 @@ public class Rest extends Event {
 			new ChoosePath(window, pathFloor, player);
 		});
 		btUpgradeAtk.setOnAction(e->{
-			player.setAtk(player.getAtk()+5);
+			player.setAtk(player.getAtk()+3);
 			window.setBottom(null);
 			new ChoosePath(window, pathFloor, player);
 		});
 		btUpgradeDef.setOnAction(e->{
-			player.setDef(player.getAtk()+5);
+			player.setDef(player.getAtk()+1);
 			window.setBottom(null);
 			new ChoosePath(window, pathFloor, player);
 		});

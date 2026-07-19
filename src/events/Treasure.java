@@ -44,6 +44,7 @@ public class Treasure extends Event{
 		this.player = player;
 		this.window = window;
 		this.pathFloor = pathFloor;
+		window.setRight(null);
 		updatePathFloor();
 		enableButtons();
 		compileTreasureWindow();

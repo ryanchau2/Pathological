@@ -8,24 +8,29 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 public class ChoosePath {
 	private BorderPane window;
 	private int pathFloor;
-	Player newPlayer;
+	private Player newPlayer;
 	
 //	Top Path Level Bar
-	Text pathProgressText = new Text("");
-	HBox pathProgressBox = new HBox();
-//	Choices Box
-	HBox pathChoicesHBox = new HBox(20);
+	private Text pathProgressText = new Text("");
+	private HBox pathProgressBox = new HBox();
 	
-	SQL_Db database;
+//	Choices Box
+	private VBox centerPathBox = new VBox(20);
+	private HBox caveViewContainer = new HBox();
+	private HBox pathChoicesHBox = new HBox(20);
+	ImageView caveView = new ImageView("file:images/sprites/cave.png");
+	private SQL_Db database;
 //	SaveQuit
-	Button btSaveQuit = new Button("Save and Quit");
+	private Button btSaveQuit = new Button("Save & Quit");
 	
 	public ChoosePath(BorderPane window, int pathFloor, Player player) {
 		this.pathFloor = pathFloor++;
@@ -50,8 +55,10 @@ public class ChoosePath {
 //		Create Paths Buttons
 		Button btPath1 = new Button(path1Text);
 		Button btPath2 = new Button(path2Text);
+		caveViewContainer.getChildren().addAll(caveView);
 		pathChoicesHBox.getChildren().addAll(btPath1, btPath2);
-		window.setCenter(pathChoicesHBox);
+		centerPathBox.getChildren().addAll(caveViewContainer, pathChoicesHBox);
+		window.setCenter(centerPathBox);
 		pathChoicesHBox.setAlignment(Pos.CENTER);
 		setPathButtonStyles(btPath1,btPath2);
 //		Path Button Listeners
@@ -124,8 +131,9 @@ public class ChoosePath {
 	}
 	private void setPathButtonStyles(Button b1, Button b2) {
 		//Styling
-		String buttonStyle = "-fx-font-size:20";
-		int buttonWidth = 250;
+		String buttonStyle = "-fx-font-size:18";
+		int buttonWidth = 225;
+		caveViewContainer.setAlignment(Pos.CENTER);
 		b1.setStyle(buttonStyle);
 		b1.setPrefWidth(buttonWidth);
 		b2.setStyle(buttonStyle);
@@ -137,5 +145,6 @@ public class ChoosePath {
 		String pathProgression = "-fx-font-size:28";
 		pathProgressText.setStyle(pathProgression);
 		pathProgressBox.setAlignment(Pos.CENTER);
+		pathProgressBox.setPadding(new Insets(40, 0, 80, 0));
 	}
 }

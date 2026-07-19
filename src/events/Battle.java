@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -39,6 +40,8 @@ public class Battle extends Event {
 //Player Elements (Contains player visual attributes)
 	private VBox playerContainer = new VBox(5);
 	private HBox playerImageContainer = new HBox();
+	private ImageView playerImage;
+	
 	private HBox playerHPContainer = new HBox();
 	private HBox playerMPContainer = new HBox();
 //Enemy Elements (Contains enemy visual attributes)
@@ -46,6 +49,7 @@ public class Battle extends Event {
 	private HBox enemyImageContainer = new HBox();
 	private HBox enemyHPContainer = new HBox();
 	private HBox enemyMPContainer = new HBox();
+	private ImageView enemyImage;
 
 	private VBox playerStats = new VBox();
 	private Text player_HP;
@@ -57,8 +61,8 @@ public class Battle extends Event {
 
 	private VBox enemyStats = new VBox();
 	
-	PauseTransition e_pause5 = new PauseTransition(Duration.seconds(5));
-	PauseTransition p_pause5 = new PauseTransition(Duration.seconds(5));
+	PauseTransition e_pause = new PauseTransition(Duration.seconds(2));
+	PauseTransition p_pause = new PauseTransition(Duration.seconds(0.5));
 //Action Bar UI
 	private VBox actionBarUI = new VBox();
 	private HBox action1Bar = new HBox(10);		//contains Attack | Skills
@@ -81,7 +85,7 @@ public class Battle extends Event {
 	private Button skill6 = new Button();
 //	Item 
 	
-	
+//	Item Containers and Buttons
 	private ScrollPane itemsContainer2 = new ScrollPane();
 	private VBox itemsContainer = new VBox();
 	private HBox itemsBar1 = new HBox();
@@ -114,6 +118,7 @@ public class Battle extends Event {
 		this.player = player;
 		this.window = window;
 		this.pathFloor = pathFloor;
+		window.setRight(null);
 		equipmentList = player.getEquipmentList();
 		consumableList = player.getConsumableList();
 		pathProgressText.setText("Path "+pathFloor+": Battle");
@@ -128,6 +133,7 @@ public class Battle extends Event {
 		battle();
 		presetGameOverScreen();
 	}
+//	Sets all the button's text to the item they correspond to
 	private void setButtonsItemsNames() {
 		if (consumableList[0] != null) {
 			item1.setText(consumableList[0].getItemName());
@@ -180,6 +186,7 @@ public class Battle extends Event {
 		else
 			item10.setDisable(true);
 	}
+//	Sets non-null items to be enabled
 	private void resetDisables() {
 		item1.setDisable(false);
 		item2.setDisable(false);
@@ -192,6 +199,7 @@ public class Battle extends Event {
 		item9.setDisable(false);
 		item10.setDisable(false);
 	}
+//	Creates the user interface for items container and the buttons for items
 	private void createItemsInstance() {
 		resetDisables();
 		setButtonsItemsNames();
@@ -200,16 +208,19 @@ public class Battle extends Event {
 		itemsContainer.getChildren().addAll(itemsBar1, itemsBar2);
 		itemsContainer2.setContent(itemsContainer);
 	}
+//	Change bottom UI to items when the player wishes to look at
 	private void showItems() {
 		window.setBottom(null);
 		window.setBottom(itemsContainer);
 		createItemsListener();
 	}
+//	Creates the UI for skills container
 	private void createSkillInstance() {
 		skillBar1.getChildren().addAll(btsBack, skill1, skill2, skill3);
 		skillBar2.getChildren().addAll(skill4, skill5, skill6);
 		skillsContainer.getChildren().addAll(skillBar1,skillBar2);
 	}
+	//Creates the Listener for each itemm in the inventory
 	private void createItemsListener() {
 		btiBack.setOnAction(e->{
 			window.setBottom(actionBarUI);
@@ -319,11 +330,13 @@ public class Battle extends Event {
 			}
 		});
 	}
+//	Creates the Skill Menu
 	private void showSkills() {
 		window.setBottom(null);
 		window.setBottom(skillsContainer);
 		createSkillsListener();
 	}
+//	Skills Menu Listener
 	private void createSkillsListener() {
 		btsBack.setOnAction(e->{
 			window.setBottom(actionBarUI);
@@ -331,6 +344,7 @@ public class Battle extends Event {
 		skill1.setOnAction(e->{
 		});
 	}
+//	Compiles the Creation of the Battle Window, containing all the player's information and enemy information (including sprites)
 	private void compileBattleWindow() {
 		battleBoxContainer.getChildren().addAll(playerContainer, enemyContainer);
 		window.setCenter(battleBoxContainer);
@@ -346,6 +360,7 @@ public class Battle extends Event {
 		
 		styleBattleActionUI();
 	}
+//	Manages the User Interface when the turn alternates
 	private void createTurnOrderUI() {
 		turnEntity.setText("Player's turn");
 		turnNum = 1;
@@ -353,30 +368,28 @@ public class Battle extends Event {
 		turnOrderContainer.getChildren().addAll(turnEntity, turnNumText);
 		window.setLeft(turnOrderContainer);
 	}
+//	Creates the Listeners for the Player's Actions
 	private void battle() {
 			createActionBarListeners();
 	}
+//	This section controls the actions when the player hits a GameOver
 	private void gameOverScreen() {
 		System.out.println("Player Lost");
-//		actionBarUI.getChildren().clear();
-//		battleBoxContainer.getChildren().clear();
-//		turnOrderContainer.getChildren().clear();
 		window.setCenter(null);
 		window.setTop(null);
 		window.setBottom(null);
 		window.setLeft(null);
 		gameOverTxt.setText("You have lasted " + pathFloor + " paths, but unfortunately passed a tragic death");
-		
 		window.setCenter(gameOverContainer);
-		
 		window.setBottom(restartContainer);
 		setRestartListener();
-		//get player attributes and display and save
 	}
+//	Assigns the GameOver and Restart Container
 	private void presetGameOverScreen() {
 		gameOverContainer.getChildren().addAll(gameOverTxt);
 		restartContainer.getChildren().addAll(btRestart);
 	}
+//	Exit Listener to save the player's stats and closes the run
 	private void setRestartListener() {
 		btRestart.setOnAction(e->{
 			window.setTop(null);
@@ -386,30 +399,33 @@ public class Battle extends Event {
 			window.setBottom(null);
 			player.saveStats(pathFloor);
 			Platform.exit();
-//			new PathologicalWindow(window);
 		});
 	}
+//	Enables UI buttons when the player is able to make their turn
 	private void enableButtons() {
 		btAttack.setDisable(false);
 		btSkills.setDisable(false);
 		btDefend.setDisable(false);
 		btItem.setDisable(false);
 	}
+//	Disables the UI when it is not the player's turn
 	private void disableButtons() {
 		btAttack.setDisable(true);
 		btSkills.setDisable(true);
 		btDefend.setDisable(true);
 		btItem.setDisable(true);
 	}
+//	This method controls the actions taken during the enemy's turn
 	private void enemyTurn() {
 		if(enemy.getCurrentHP()>0) {
-//			enemyTurnDelay();
 			attack(enemy, player);
 		}
 		else {
 			actionBarUI.getChildren().clear();
 			playerContainer.getChildren().clear();
 			enemyContainer.getChildren().clear();
+//			Upgrade Player's stats when winning battle
+			player.battleReward();
 			new ChoosePath(window, pathFloor, player);
 		}
 		turnEntity.setText("Player's turn");
@@ -418,25 +434,21 @@ public class Battle extends Event {
 		}
 		
 	}
+//	This method controls the delay for the enemy once the player has made up their turn
 	private void enemyTurnDelay() {
 		turnEntity.setText("Enemy's turn");
 		disableButtons();
-		e_pause5.setOnFinished(f->{
+		e_pause.setOnFinished(f->{
 			enemyTurn();
-//			attack(enemy, player);
 			enableButtons();
 			turnNum++;
 			turnNumText.setText("Turn "+turnNum);
+			enemyImage.setImage(new Image(enemy.changeIdleSprite()));
 		});
-		e_pause5.play();
+		enemyImage.setImage(new Image(enemy.changeAttackSprite()));
+		e_pause.play();
 	}
-	
-	private void defend(Entity e1) {
-		int tempDefense = (int)(player.getDef()*.5);
-		player.setDef(player.getDef()+tempDefense);
-		enemyTurn();
-		player.setDef(player.getDef()-tempDefense);
-	}
+//	Controls the actions of the Attack Button Functionality for the player
 	private void attack(Entity e1, Entity e2) {
 		int damage = e1.getAtk()-e2.getDef();
 		if(damage < 0) {
@@ -450,9 +462,25 @@ public class Battle extends Event {
 			enemy_HP.setText(String.valueOf(e2.getCurrentHP()+"/"+e2.getMaxHP()));	
 		}
 	}
-//	Action Bar Listeners
+//	Controls the Defend Button Functionality for the player
+	private void defend(Entity e1) {
+		int tempDefense = (int)(player.getDef()*.5);
+		player.setDef(player.getDef()+tempDefense);
+		enemyTurn();
+		player.setDef(player.getDef()-tempDefense);
+	}
+//	Action Bar Listeners for the Attack, Skill, Defend, and Item Buttons on the User Interface
 	private void createActionBarListeners() {
 		btAttack.setOnAction(e->{
+			p_pause.setOnFinished(f->{
+				playerImage.setImage(new Image(player.changeIdleSprite()));
+				if(enemy.getCurrentHP()<=0) {
+					new ChoosePath(window, pathFloor, player);
+				}
+			});
+			playerImage.setImage(new Image(player.changeAttackSprite()));
+			p_pause.play();
+			
 			attack(player, enemy);
 			enemyTurnDelay();
 		});
@@ -467,26 +495,30 @@ public class Battle extends Event {
 			showItems();
 		});
 	}
+	//This method creates a new enemy for the player to fight
 	private void createEnemy() {
 //		Retrieves Enemy Information
 		enemy = new Enemy(pathFloor);							//generate new energy object
 		setEnemyInfo();
 	}
+//	Sets Enemy Information Containers
 	private void setEnemyInfo() {
 		enemy_HP = enemy.display_HPStat();
 		enemy_MP = enemy.display_MPStat();
 		enemyStats.getChildren().addAll(enemy_HP, enemy_MP);
-		enemyImageContainer.getChildren().add(new ImageView(enemy.getEntity_sprite()));
+		enemyImageContainer.getChildren().add(enemyImage = new ImageView(enemy.getEntity_sprite()));
 		enemyContainer.getChildren().addAll(enemyImageContainer,enemyStats);
 	}
+//	Sets Player Information Containers
 	private void setPlayerInfo() {
 //		Retrieves Player Information
 		player_HP = player.display_HPStat();
 		player_MP = player.display_MPStat();
 		playerStats.getChildren().addAll(player_HP, player_MP);
-		playerImageContainer.getChildren().add(new ImageView(player.getEntity_sprite()));
+		playerImageContainer.getChildren().add(playerImage = new ImageView(player.getEntity_sprite()));
 		playerContainer.getChildren().addAll(playerImageContainer,playerStats);
 	}
+//	Customizes the User Interface for the Battle
 	private void styleBattleActionUI() {
 		String btStyle = "-fx-font-size:40";
 		String btStyle20 = "-fx-font-size:20";
@@ -558,7 +590,7 @@ public class Battle extends Event {
 //		btRestart.setPadding(new Insets(0,0,0,0));
 		btRestart.setAlignment(Pos.CENTER);
 //		===
-	}
+		}
 	private void styleBattleEntityContainers(VBox entity1, VBox entity2, Text e1_hpStat, Text e1_mpStat, Text e2_hpStat, Text e2_mpStat){
 		battleBoxContainer.setAlignment(Pos.CENTER);
 		entity1.setAlignment(Pos.CENTER);
