@@ -13,6 +13,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -64,7 +65,7 @@ public class Battle extends Event {
 	PauseTransition e_pause = new PauseTransition(Duration.seconds(2));
 	PauseTransition p_pause = new PauseTransition(Duration.seconds(0.5));
 //Action Bar UI
-	private VBox actionBarUI = new VBox();
+	private VBox actionBarUI = new VBox(10);
 	private HBox action1Bar = new HBox(10);		//contains Attack | Skills
 	private HBox action2Bar = new HBox(10);		//contains Defend | Items
 //Action Buttons
@@ -73,23 +74,21 @@ public class Battle extends Event {
 	private Button btDefend = new Button("Defend");
 	private Button btItem = new Button("Items");
 //	Skills
-	private VBox skillsContainer = new VBox();
-	private HBox skillBar1 = new HBox();
-	private HBox skillBar2 = new HBox();
+	private VBox skillsContainer = new VBox(10);
+	private HBox skillBar1 = new HBox(10);
+	private HBox skillBar2 = new HBox(10);
 	private Button btsBack = new Button("Back");
 	private Button skill1 = new Button();
 	private Button skill2 = new Button();
 	private Button skill3 = new Button();
 	private Button skill4 = new Button();
-	private Button skill5 = new Button();
-	private Button skill6 = new Button();
 //	Item 
 	
 //	Item Containers and Buttons
 	private ScrollPane itemsContainer2 = new ScrollPane();
-	private VBox itemsContainer = new VBox();
-	private HBox itemsBar1 = new HBox();
-	private HBox itemsBar2 = new HBox();
+	private VBox itemsContainer = new VBox(10);
+	private HBox itemsBar1 = new HBox(10);
+	private HBox itemsBar2 = new HBox(10);
 	private Button btiBack = new Button("Back");
 	private Button item1 = new Button();
 	private Button item2 = new Button();
@@ -119,7 +118,7 @@ public class Battle extends Event {
 		this.window = window;
 		this.pathFloor = pathFloor;
 		window.setRight(null);
-		equipmentList = player.getEquipmentList();
+//		equipmentList = player.getEquipmentList();
 		consumableList = player.getConsumableList();
 		pathProgressText.setText("Path "+pathFloor+": Battle");
 		pathProgressBox.getChildren().addAll(pathProgressText);
@@ -137,51 +136,71 @@ public class Battle extends Event {
 	private void setButtonsItemsNames() {
 		if (consumableList[0] != null) {
 			item1.setText(consumableList[0].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[0].getItemDesc());
+			item1.setTooltip(tooltip);
 		}
 		else
 			item1.setDisable(true);
 		if (consumableList[1] != null) {
 			item2.setText(consumableList[1].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[1].getItemDesc());
+			item2.setTooltip(tooltip);
 		}
 		else
 			item2.setDisable(true);
 		if (consumableList[2] != null) {
 			item3.setText(consumableList[2].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[2].getItemDesc());
+			item3.setTooltip(tooltip);
 		}
 		else
 			item3.setDisable(true);
 		if (consumableList[3] != null) {
 			item4.setText(consumableList[3].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[3].getItemDesc());
+			item4.setTooltip(tooltip);
 		}
 		else
 			item4.setDisable(true);
 		if (consumableList[4] != null) {
 			item5.setText(consumableList[4].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[4].getItemDesc());
+			item5.setTooltip(tooltip);
 		}
 		else
 			item5.setDisable(true);
 		if (consumableList[5] != null) {
 			item6.setText(consumableList[5].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[5].getItemDesc());
+			item6.setTooltip(tooltip);
 		}
 		else
 			item6.setDisable(true);
 		if (consumableList[6] != null) {
 			item7.setText(consumableList[6].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[6].getItemDesc());
+			item7.setTooltip(tooltip);
 		}
 		else
 			item7.setDisable(true);
 		if (consumableList[7] != null) {
 			item8.setText(consumableList[7].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[7].getItemDesc());
+			item8.setTooltip(tooltip);
 		}
 		else
 			item8.setDisable(true);
 		if (consumableList[8] != null) {
 			item9.setText(consumableList[8].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[8].getItemDesc());
+			item9.setTooltip(tooltip);
 		}
 		else
 			item9.setDisable(true);
 		if (consumableList[9] != null) {
 			item10.setText(consumableList[9].getItemName());
+			Tooltip tooltip = new Tooltip(consumableList[9].getItemDesc());
+			item10.setTooltip(tooltip);
 		}
 		else
 			item10.setDisable(true);
@@ -203,9 +222,9 @@ public class Battle extends Event {
 	private void createItemsInstance() {
 		resetDisables();
 		setButtonsItemsNames();
-		itemsBar1.getChildren().addAll(btiBack, item1, item2, item3, item4, item5);
+		itemsBar1.getChildren().addAll(item1, item2, item3, item4, item5);
 		itemsBar2.getChildren().addAll(item6, item7, item8, item9, item10);
-		itemsContainer.getChildren().addAll(itemsBar1, itemsBar2);
+		itemsContainer.getChildren().addAll(btiBack, itemsBar1, itemsBar2);
 		itemsContainer2.setContent(itemsContainer);
 	}
 //	Change bottom UI to items when the player wishes to look at
@@ -216,9 +235,9 @@ public class Battle extends Event {
 	}
 //	Creates the UI for skills container
 	private void createSkillInstance() {
-		skillBar1.getChildren().addAll(btsBack, skill1, skill2, skill3);
-		skillBar2.getChildren().addAll(skill4, skill5, skill6);
-		skillsContainer.getChildren().addAll(skillBar1,skillBar2);
+		skillBar1.getChildren().addAll(skill1, skill2);
+		skillBar2.getChildren().addAll(skill3, skill4);
+		skillsContainer.getChildren().addAll(btsBack, skillBar1,skillBar2);
 	}
 	//Creates the Listener for each itemm in the inventory
 	private void createItemsListener() {
@@ -226,107 +245,216 @@ public class Battle extends Event {
 			window.setBottom(actionBarUI);
 		});
 		item1.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[0]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item1.setDisable(true);
-				consumableList[0] = null;
-				item1.setText("");
+			if(consumableList[0].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[0]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item1.setDisable(true);
+					consumableList[0] = null;
+					item1.setText("");
+				}
 			}
-			else {
+			else if(consumableList[0].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[0]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item1.setDisable(true);
+					consumableList[0] = null;
+					item1.setText("");
+				}
 			}
 		});
 		item2.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[1]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item2.setDisable(true);
-				consumableList[1] = null;
-				item2.setText("");
+			if(consumableList[1].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[1]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					item2.setDisable(true);
+					consumableList[1] = null;
+					item2.setText("");
+				}
 			}
-			else {
+			else if(consumableList[1].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[1]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item2.setDisable(true);
+					consumableList[1] = null;
+					item2.setText("");
+				}
 			}
 		});
 		item3.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[2]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item3.setDisable(true);
-				consumableList[2] = null;
-				item3.setText("");
+			if(consumableList[2].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[2]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item3.setDisable(true);
+					consumableList[2] = null;
+					item3.setText("");
+				}
 			}
-			else {
+			else if(consumableList[2].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[2]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item3.setDisable(true);
+					consumableList[2] = null;
+					item3.setText("");
+				}
 			}
 		});
 		item4.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[3]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item4.setDisable(true);
-				consumableList[3] = null;
-				item4.setText("");
+			if(consumableList[3].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[3]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item4.setDisable(true);
+					consumableList[3] = null;
+					item4.setText("");
+				}
 			}
-			else {	
+			else if(consumableList[3].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[3]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item4.setDisable(true);
+					consumableList[3] = null;
+					item4.setText("");
+				}
 			}
 		});
 		item5.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[4]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item5.setDisable(true);
-				consumableList[4] = null;
-				item5.setText("");
+			if(consumableList[4].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[4]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item5.setDisable(true);
+					consumableList[4] = null;
+					item5.setText("");
+				}
 			}
-			else {
+			else if(consumableList[4].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[4]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item5.setDisable(true);
+					consumableList[4] = null;
+					item5.setText("");
+				}
 			}
 		});
 		item6.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[5]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item6.setDisable(true);
-				consumableList[5] = null;
-				item6.setText("");
+			if(consumableList[5].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[5]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item6.setDisable(true);
+					consumableList[5] = null;
+					item6.setText("");
+				}
 			}
-			else {
+			else if(consumableList[5].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[5]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item6.setDisable(true);
+					consumableList[5] = null;
+					item6.setText("");
+				}
 			}
 		});
 		item7.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[6]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item7.setDisable(true);
-				consumableList[6] = null;
-				item7.setText("");
+			if(consumableList[6].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[6]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item7.setDisable(true);
+					consumableList[6] = null;
+					item7.setText("");
+				}
+			}
+			else if(consumableList[6].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[6]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item7.setDisable(true);
+					consumableList[6] = null;
+					item7.setText("");
+				}
 			}
 		});
 		item8.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[7]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item8.setDisable(true);
-				consumableList[7] = null;
-				item8.setText("");
+			if(consumableList[7].getConsumable_HP()>0) {
+				if(consumableList[7].getConsumable_HP()>0) {
+					if(player.getCurrentHP()!=player.getMaxHP()) {
+						player.useConsumable(consumableList[7]);
+						player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+						player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+						item8.setDisable(true);
+						consumableList[7] = null;
+						item8.setText("");
+					}
+				}
 			}
-			else {
+			else if(consumableList[7].getConsumable_MP()>0) {
+				if(consumableList[7].getConsumable_MP()>0) {
+					if(player.getCurrentMP()!=player.getMaxMP()) {
+							player.useConsumable(consumableList[7]);
+							player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+							item8.setDisable(true);
+							consumableList[7] = null;
+							item8.setText("");
+					}
+				}
 			}
 		});
 		item9.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[8]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item9.setDisable(true);
-				consumableList[8] = null;
-				item9.setText("");
+			if(consumableList[8].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[8]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item9.setDisable(true);
+					consumableList[8] = null;
+					item9.setText("");
+				}
+			}
+			else if(consumableList[8].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[8]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item9.setDisable(true);
+					consumableList[8] = null;
+					item9.setText("");
+				}
 			}
 		});
 		item10.setOnAction(e->{
-			if(player.getCurrentHP()!=player.getMaxHP()) {
-				player.useConsumable(consumableList[9]);
-				player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
-				item10.setDisable(true);
-				consumableList[9] = null;
-				item10.setText("");
+			if(consumableList[9].getConsumable_HP()>0) {
+				if(player.getCurrentHP()!=player.getMaxHP()) {
+					player.useConsumable(consumableList[9]);
+					player_HP.setText(String.valueOf(player.getCurrentHP()+"/"+player.getMaxHP()));
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item10.setDisable(true);
+					consumableList[9] = null;
+					item10.setText("");
+				}
+			}
+			else if(consumableList[9].getConsumable_MP()>0) {
+				if(player.getCurrentMP()!=player.getMaxMP()) {
+					player.useConsumable(consumableList[9]);
+					player_MP.setText(String.valueOf(player.getCurrentMP()+"/"+player.getMaxMP()));
+					item10.setDisable(true);
+					consumableList[9] = null;
+					item10.setText("");
+				}
 			}
 		});
 	}
@@ -438,6 +566,7 @@ public class Battle extends Event {
 	private void enemyTurnDelay() {
 		turnEntity.setText("Enemy's turn");
 		disableButtons();
+		enemyImage.setImage(new Image(enemy.changeAttackSprite()));
 		e_pause.setOnFinished(f->{
 			enemyTurn();
 			enableButtons();
@@ -445,7 +574,6 @@ public class Battle extends Event {
 			turnNumText.setText("Turn "+turnNum);
 			enemyImage.setImage(new Image(enemy.changeIdleSprite()));
 		});
-		enemyImage.setImage(new Image(enemy.changeAttackSprite()));
 		e_pause.play();
 	}
 //	Controls the actions of the Attack Button Functionality for the player
@@ -475,7 +603,7 @@ public class Battle extends Event {
 			p_pause.setOnFinished(f->{
 				playerImage.setImage(new Image(player.changeIdleSprite()));
 				if(enemy.getCurrentHP()<=0) {
-					new ChoosePath(window, pathFloor, player);
+//					new ChoosePath(window, pathFloor, player);
 				}
 			});
 			playerImage.setImage(new Image(player.changeAttackSprite()));
@@ -533,23 +661,21 @@ public class Battle extends Event {
 //		Skill Buttons
 		String btSkillStyle = "-fx-font-size:25";
 		int btSkillWidth = 300;
+		skillsContainer.setPadding(new Insets(0,0,20,0));
 		btsBack.setStyle(btSkillStyle);
 		skill1.setStyle(btSkillStyle);
 		skill2.setStyle(btSkillStyle);
 		skill3.setStyle(btSkillStyle);
 		skill4.setStyle(btSkillStyle);
-		skill5.setStyle(btSkillStyle);
-		skill6.setStyle(btSkillStyle);
 		skill1.setPrefWidth(btSkillWidth);
 		skill2.setPrefWidth(btSkillWidth);
 		skill3.setPrefWidth(btSkillWidth);
 		skill4.setPrefWidth(btSkillWidth);
-		skill5.setPrefWidth(btSkillWidth);
-		skill6.setPrefWidth(btSkillWidth);
 		skillBar1.setAlignment(Pos.CENTER);
 		skillBar2.setAlignment(Pos.CENTER);
 		
 //		Standard ActionBar UI
+		actionBarUI.setPadding(new Insets(0,0,20,0));
 		btAttack.setPrefWidth(buttonWidth);
 		btSkills.setPrefWidth(buttonWidth);
 		btDefend.setPrefWidth(buttonWidth);
@@ -557,9 +683,12 @@ public class Battle extends Event {
 		action1Bar.setAlignment(Pos.CENTER);
 		action2Bar.setAlignment(Pos.CENTER);
 		
+		turnOrderContainer.setPadding(new Insets(0, 0, 0, 20));
+		
 //		Items
 		String btItemStyle = "-fx-font-size:20";
-		int btItemWidth = 175;
+		int btItemWidth = 185;
+		itemsContainer.setPadding(new Insets(0,0,20,0));
 		btiBack.setStyle(btItemStyle);
 		item1.setStyle(btItemStyle);
 		item2.setStyle(btItemStyle);
@@ -587,7 +716,7 @@ public class Battle extends Event {
 		
 		btRestart.setStyle(btStyle20);
 		btRestart.setPrefWidth(buttonWidth);
-//		btRestart.setPadding(new Insets(0,0,0,0));
+		restartContainer.setPadding(new Insets(0,0,0,0));
 		btRestart.setAlignment(Pos.CENTER);
 //		===
 		}

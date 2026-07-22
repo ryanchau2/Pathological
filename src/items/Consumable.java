@@ -10,6 +10,7 @@ public class Consumable extends Item{
 	ResultSet itemResultSet;
 	private int consumable_id;
 	private int consumable_HP;
+	private int consumable_MP;
 	
 	
 	public Consumable() {
@@ -26,6 +27,7 @@ public class Consumable extends Item{
 				item_name = itemResultSet.getString("consumable_name");
 				item_description = itemResultSet.getString("consumable_description");
 				consumable_HP = itemResultSet.getInt("consumable_hp_mod");
+				consumable_MP = itemResultSet.getInt("consumable_mp_mod");
 			}
 		}
 		catch(SQLException e) {
@@ -44,6 +46,7 @@ public class Consumable extends Item{
 				item_name = itemResultSet.getString("consumable_name");
 				item_description = itemResultSet.getString("consumable_description");
 				consumable_HP = itemResultSet.getInt("consumable_hp_mod");
+				consumable_MP = itemResultSet.getInt("consumable_mp_mod");
 			}
 		}
 		catch(SQLException e) {
@@ -62,6 +65,8 @@ public class Consumable extends Item{
 		case 3:
 			setItem_sprite("file:images/sprites/large_HPpotion.png");
 			break;
+		case 4:
+			setItem_sprite("file:images/sprites/manaPotion.png");
 		}
 		database.close();
 	}
@@ -76,5 +81,8 @@ public class Consumable extends Item{
 	}
 	public int getConsumable_HP() {
 		return consumable_HP;
+	}
+	public int getConsumable_MP() {
+		return consumable_MP;
 	}
 }

@@ -509,5 +509,9 @@ public class PathologicalWindow extends BorderPane{
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
+		
+		stage.setOnCloseRequest(e->{
+			e.consume();
+		});
 	}
 }

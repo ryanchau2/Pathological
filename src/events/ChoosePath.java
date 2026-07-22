@@ -30,15 +30,18 @@ public class ChoosePath {
 	ImageView caveView = new ImageView("file:images/sprites/cave.png");
 	private SQL_Db database;
 //	SaveQuit
+	private VBox quitOptions = new VBox(20);
 	private Button btSaveQuit = new Button("Save & Quit");
+	private Button btQuitNoSave = new Button("Quit Without Saving");
 	
 	public ChoosePath(BorderPane window, int pathFloor, Player player) {
 		this.pathFloor = pathFloor++;
 		this.window=window;
 		newPlayer = player;
+		window.setBottom(null);
 		window.setLeft(null);
 		if(pathFloor != 1)
-			window.setRight(btSaveQuit);
+			window.setRight(quitOptions);
 		displayPaths();
 	}
 	private void displayPaths() {
@@ -67,6 +70,8 @@ public class ChoosePath {
 		pathProgressText.setText("Path "+pathFloor+" Decision: Choose a Path to Traverse");
 		pathProgressBox.getChildren().add(pathProgressText);
 		window.setTop(pathProgressBox);
+		
+		quitOptions.getChildren().addAll(btSaveQuit, btQuitNoSave);
  	}
 	private void pathButtonListeners(Button btPath1, Button btPath2, int path1, int path2) {
 		btPath1.setOnAction(e->{
@@ -79,6 +84,9 @@ public class ChoosePath {
 			database = new SQL_Db();
 			database.saveTempRun(newPlayer.getRunID(), newPlayer.getAtk(), newPlayer.getDef(), newPlayer.getMaxHP(), newPlayer.getMaxMP(), pathFloor, newPlayer.getCurrentHP(), newPlayer.getCurrentMP(), newPlayer.getEquipmentList(), newPlayer.getConsumableList());
 			database.close();
+			Platform.exit();
+		});
+		btQuitNoSave.setOnAction(e->{
 			Platform.exit();
 		});
 	}
@@ -141,6 +149,7 @@ public class ChoosePath {
 		
 		btSaveQuit.setStyle(buttonStyle);
 		btSaveQuit.setPrefWidth(buttonWidth-100);
+		quitOptions.setPadding(new Insets(0,20,0,0));
 		
 		String pathProgression = "-fx-font-size:28";
 		pathProgressText.setStyle(pathProgression);
