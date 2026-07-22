@@ -7,7 +7,7 @@ import database.SQL_Db;
 
 public class Consumable extends Item{
 	private SQL_Db database;
-	ResultSet itemResultSet;
+	private ResultSet itemResultSet;
 	private int consumable_id;
 	private int consumable_HP;
 	private int consumable_MP;

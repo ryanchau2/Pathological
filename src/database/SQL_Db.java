@@ -8,6 +8,7 @@ import java.sql.Statement;
 
 import items.Consumable;
 import items.Equipment;
+import items.Skill;
 
 public class SQL_Db {
 	Connection connection;
@@ -118,21 +119,24 @@ public class SQL_Db {
 		}
 		return runID;
 	}
-	public void saveRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cMP, Equipment[] equipment, Consumable[] consumable) {
+	public void saveRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cMP, Equipment[] equipment, Consumable[] consumable, Skill[] skills) {
 		System.out.println("inserting player stats");
 		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor, "Complete", 0 , cMP);
 		System.out.println("inserting player Equipment");
 		insertEquipment(playerRunID,equipment);
 		System.out.println("inserting player consumable");
 		insertConsumable(playerRunID,consumable);
+		System.out.println("inserting player skills");
 	}
-	public void saveTempRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cHP, int cMP, Equipment[] equipment, Consumable[] consumable) {
+	public void saveTempRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cHP, int cMP, Equipment[] equipment, Consumable[] consumable, Skill[] skills) {
 		System.out.println("inserting player stats");
 		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor, "Incomplete", cHP, cMP);
 		System.out.println("inserting player Equipment");
 		insertEquipment(playerRunID,equipment);
 		System.out.println("inserting player consumable");
 		insertConsumable(playerRunID,consumable);
+		System.out.println("inserting skills");
+		insertSkills(playerRunID, skills);
 	}
 	private void insertPlayerRunStats(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, String status, int cHP, int cMP) {
 		String insertStatement = "INSERT INTO player_run ";
@@ -202,6 +206,30 @@ public class SQL_Db {
 		System.out.println(insertStatement);
 	}
 //	Insert into player skills
+	private void insertSkills(int playerRunID, Skill[] skills) {
+		String insertStatement = "INSERT INTO skills_list VALUES";
+		for(int x=0; x<skills.length; x++) {
+			if(skills[x]!=null) {
+				insertStatement+="("+playerRunID+", "+(x+1)+", "+skills[x].getSkill_id()+")";
+				if(x+1==skills.length || skills[x+1] == null) {
+					break;
+				}
+			}
+			else if(skills[x]==null & x==0)
+				return;
+			else
+				break;
+			insertStatement+=", ";
+		}
+		insertStatement+= ";";
+		try {
+			statement.executeUpdate(insertStatement);
+		}
+		catch(SQLException e) {
+			System.out.println("Insert Skills unsuccessful");
+		}
+		System.out.println(insertStatement);
+	}
 //	Get number of rows
 	public int countRows(String table) {
 		ResultSet rs_rCount;
@@ -332,20 +360,53 @@ public class SQL_Db {
 		}
 		return returnConsumable;
 	}
+	public int[] pullPrevRunSkills(int runID) {
+		int[] returnSkills = new int[countRowsbyID("skills_list", runID)];
+		String returnSkillsQuery = "SELECT skills_skill_id FROM skills_list WHERE run_id = " + runID + ";";
+		ResultSet rs_ReturnSkills;
+		int x=0;
+		try {
+			rs_ReturnSkills = statement.executeQuery(returnSkillsQuery);
+			while(rs_ReturnSkills.next()) {
+				returnSkills[x] = rs_ReturnSkills.getInt("skills_skill_id");
+				x++;
+			}
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with pulling the player's skills from previous run");
+		}
+		return returnSkills;
+	}
 	//removes records of "incomplete run" to continue after setting new run
 	public void continueRun(int runID) {
 		String deleteCurrentEquipment = "DELETE FROM current_equipment WHERE run_id = " + runID + ";";
 		String deleteInventory = "DELETE FROM inventory WHERE run_id = " + runID + ";";
+		String deleteSkills = "DELETE FROM skills_list WHERE run_id = " + runID + ";";
 		String deleteRun = "DELETE FROM player_run WHERE run_id = " + runID + ";";
 		try {
 			statement.execute(deleteCurrentEquipment);
 			statement.execute(deleteInventory);
+			statement.execute(deleteSkills);
 			statement.execute(deleteRun);
 		}
 		catch(SQLException e) {
 			System.out.println("Something went wrong with deleting the saved record");
 		}
 		
+	}
+	public ResultSet createSkill(int id) {
+		ResultSet returnSkill;
+		String skill_query =
+				"SELECT * FROM skills"
+				+ " WHERE skill_id = "+id+";";
+		try {
+			returnSkill = statement.executeQuery(skill_query);
+			return returnSkill;
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong with acquiring the Skill");
+		}
+		return returnSkill=null;
 	}
 	public void close() {
 		try {

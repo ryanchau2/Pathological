@@ -25,4 +25,7 @@ public class Enemy extends Entity{
 	public String changeIdleSprite() {
 		return "file:images/sprites/enemy_idle.gif";
 	}
+	public String changeDeadSprite() {
+		return "file:images/sprites/enemy_dead.gif";
+	}
 }

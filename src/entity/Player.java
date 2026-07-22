@@ -3,6 +3,7 @@ package entity;
 import database.SQL_Db;
 import items.Consumable;
 import items.Equipment;
+import items.Skill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -23,7 +24,7 @@ public class Player extends Entity{
 	HBox replaceContainer;
 	
 	SQL_Db database;
-//	private Skills[] skills = new Skills[4];
+	private Skill[] skills = new Skill[4];
 	
 //	inventory and equipment
 	public Player() {
@@ -86,6 +87,15 @@ public class Player extends Entity{
 		}
 		return;
 	}
+	public void addToSkills(Skill s) {
+		for(int x=0; x<skills.length; x++) {
+			if(skills[x]==null) {
+				skills[x]=s;
+				break;
+			}
+		}
+		return;
+	}
 	public void replaceEquipment(int index, Equipment equipment) {
 		setAtk(this.getAtk()-currentEquipment[index].getEq_atk()+equipment.getEq_atk());
 		setDef(this.getDef()-currentEquipment[index].getEq_def()+equipment.getEq_def());
@@ -113,14 +123,26 @@ public class Player extends Entity{
 	public void saveStats(int pathFloor) {
 		this.pathFloor = pathFloor;
 		database = new SQL_Db();
-		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, getCurrentMP(), currentEquipment, currentConsumables);
+		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, getCurrentMP(), currentEquipment, currentConsumables, skills);
 		database.close();
 	}
 	public void battleReward() {
+//		Automatically increases the player's stats after every battle
 		setMaxHP(this.getMaxHP()+6);
 		setMaxMP(this.getMaxMP()+2);
 		setAtk(this.getAtk()+3);
 		setDef(this.getDef()+2);
+//		If the skill list is not full, add a skill from the skill list
+//		Should not enter this if-statement if the skills list is full (after 4th battle, player should have acquired all learnable skills)
+		if(skills[3]==null) {
+			for(int skillIndex = 0; skillIndex<skills.length; skillIndex++) {
+				if(skills[skillIndex]==null) {
+					skills[skillIndex] = new Skill(skillIndex+1);
+					System.out.println("Skill added");
+					break;
+				}
+			}
+		}
 	}
 	public String changeAttackSprite() {
 		return "file:images/sprites/player_attack.gif";
@@ -142,5 +164,8 @@ public class Player extends Entity{
 	}
 	public int getEquipmentTotal() {
 		return equipmentCount;
+	}
+	public Skill[] getSkills() {
+		return skills;
 	}
 }

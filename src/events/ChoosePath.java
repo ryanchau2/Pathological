@@ -82,7 +82,7 @@ public class ChoosePath {
 		});
 		btSaveQuit.setOnAction(e->{
 			database = new SQL_Db();
-			database.saveTempRun(newPlayer.getRunID(), newPlayer.getAtk(), newPlayer.getDef(), newPlayer.getMaxHP(), newPlayer.getMaxMP(), pathFloor, newPlayer.getCurrentHP(), newPlayer.getCurrentMP(), newPlayer.getEquipmentList(), newPlayer.getConsumableList());
+			database.saveTempRun(newPlayer.getRunID(), newPlayer.getAtk(), newPlayer.getDef(), newPlayer.getMaxHP(), newPlayer.getMaxMP(), pathFloor, newPlayer.getCurrentHP(), newPlayer.getCurrentMP(), newPlayer.getEquipmentList(), newPlayer.getConsumableList(), newPlayer.getSkills());
 			database.close();
 			Platform.exit();
 		});

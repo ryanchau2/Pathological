@@ -5,6 +5,7 @@ import entity.Player;
 import events.ChoosePath;
 import items.Consumable;
 import items.Equipment;
+import items.Skill;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -177,7 +178,14 @@ public class PathologicalWindow extends BorderPane{
 				}
 				System.out.println("Finished Settin Current Consumables");
 			}
-			
+			System.out.println("Setting Up Skills");
+			if(database.countRowsbyID("skills_list", prevRunID)!=0) {
+				int[] prevSkills = database.pullPrevRunSkills(prevRunID);
+				for(int x=0; x<prevSkills.length; x++) {
+					newPlayer.addToSkills(new Skill(prevSkills[x]));
+				}
+				System.out.println("Finished Setting Skills");
+			}
 //			pathFloor = 0;
 			//delete items from SQL
 			database.continueRun(prevRunID);
