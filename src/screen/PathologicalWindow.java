@@ -456,8 +456,6 @@ public class PathologicalWindow extends BorderPane{
 	}
 	private void buildPrevRunMenu() {
 		createPrevMenuBtListeners();
-		//create way to retrieve runs
-//		prevRunContainer.getChildren().addAll(pRun1, pRun2, pRun3, pRun4);
 	}
 	private void createPrevMenuBtListeners() {
 		btBack.setOnAction(e->{
