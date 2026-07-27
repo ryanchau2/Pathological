@@ -32,6 +32,7 @@ public class Equipment extends Item {
 			System.out.println("Something went wrong with setting attributes of an Equipment");
 		}
 		setSprites();
+		database.close();
 	}
 	private void createEquipment() {
 		database = new SQL_Db();
@@ -51,6 +52,7 @@ public class Equipment extends Item {
 			System.out.println("Something went wrong with setting attributes of an Equipment");
 		}
 		setSprites();
+		database.close();
 	}
 	public void setSprites() {
 		switch(equipment_id) {

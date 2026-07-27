@@ -150,6 +150,30 @@ public class Player extends Entity{
 	public String changeIdleSprite() {
 		return "file:images/sprites/player_idle.gif";
 	}
+	public String getDeathSprite() {
+		return "file:images/sprites/player_death.png";
+	}
+	public String useSkill1Sprite() {
+		return "file:images/sprites/player_skill1.gif";
+	}
+	public String useSkill2Sprite() {
+		return "file:images/sprites/player_skill2.gif";
+	}
+	public String useSkill3Sprite() {
+		return "file:images/sprites/player_skill3.gif";
+	}
+	public String useSkill4Sprite() {
+		return "file:images/sprites/player_skill4.gif";
+	}
+	public void restMP() {
+		if(getCurrentMP()+15>getMaxMP()) {
+			setCurrentMP(getMaxMP());
+		}
+		else {
+			setCurrentMP(getCurrentMP()+15);
+		}
+		return;
+	}
 	public int getRunID() {
 		return runID;
 	}

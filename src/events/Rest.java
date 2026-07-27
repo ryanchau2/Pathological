@@ -33,6 +33,7 @@ public class Rest extends Event {
 		this.window = window;
 		this.pathFloor = pathFloor;
 		window.setRight(null);
+		player.restMP();
 		updatePathFloor();
 		displayRestScreen();
 		createButtonListeners();

@@ -107,7 +107,8 @@ public class Battle extends Event {
 	private int turnNum;
 	
 //	Gameover Elements
-	private HBox gameOverContainer = new HBox();
+	private HBox playerLoseImageContainer =  new HBox();
+	private VBox gameOverContainer = new VBox();
 	private Text gameOverTxt = new Text();
 	private HBox restartContainer = new HBox();
 	private Button btRestart = new Button("Exit");
@@ -704,21 +705,53 @@ public class Battle extends Event {
 			window.setBottom(actionBarUI);
 		});
 		skill1.setOnAction(e->{
+			p_pause.setOnFinished(f->{
+				playerImage.setImage(new Image(player.changeIdleSprite()));
+				if(enemy.getCurrentHP()<=0) {
+					enemyImage.setImage(new Image(enemy.changeDeadSprite()));
+				}
+			});
+			playerImage.setImage(new Image(player.useSkill1Sprite()));
+			p_pause.play();
 			useSkill(player, enemy, skills[0].getSkill_dmg_mod(), skills[0].getMp_cost());
 			enemyTurnDelay();
 			window.setBottom(actionBarUI);
 		});
 		skill2.setOnAction(e->{
+			p_pause.setOnFinished(f->{
+				playerImage.setImage(new Image(player.changeIdleSprite()));
+				if(enemy.getCurrentHP()<=0) {
+					enemyImage.setImage(new Image(enemy.changeDeadSprite()));
+				}
+			});
+			playerImage.setImage(new Image(player.useSkill2Sprite()));
+			p_pause.play();
 			useSkill(player, enemy, skills[1].getSkill_dmg_mod(), skills[1].getMp_cost());
 			enemyTurnDelay();
 			window.setBottom(actionBarUI);
 		});
 		skill3.setOnAction(e->{
+			p_pause.setOnFinished(f->{
+				playerImage.setImage(new Image(player.changeIdleSprite()));
+				if(enemy.getCurrentHP()<=0) {
+					enemyImage.setImage(new Image(enemy.changeDeadSprite()));
+				}
+			});
+			playerImage.setImage(new Image(player.useSkill3Sprite()));
+			p_pause.play();
 			useSkill(player, enemy, skills[2].getSkill_dmg_mod(), skills[2].getMp_cost());
 			enemyTurnDelay();
 			window.setBottom(actionBarUI);
 		});
 		skill4.setOnAction(e->{
+			p_pause.setOnFinished(f->{
+				playerImage.setImage(new Image(player.changeIdleSprite()));
+				if(enemy.getCurrentHP()<=0) {
+					enemyImage.setImage(new Image(enemy.changeDeadSprite()));
+				}
+			});
+			playerImage.setImage(new Image(player.useSkill4Sprite()));
+			p_pause.play();
 			useSkill(player, enemy, skills[3].getSkill_dmg_mod(), skills[3].getMp_cost());
 			enemyTurnDelay();
 			window.setBottom(actionBarUI);
@@ -739,7 +772,8 @@ public class Battle extends Event {
 	}
 //	Assigns the GameOver and Restart Container
 	private void presetGameOverScreen() {
-		gameOverContainer.getChildren().addAll(gameOverTxt);
+		playerLoseImageContainer.getChildren().addAll(new ImageView(player.getDeathSprite()));
+		gameOverContainer.getChildren().addAll(playerLoseImageContainer,gameOverTxt);
 		restartContainer.getChildren().addAll(btRestart);
 	}
 //	Exit Listener to save the player's stats and closes the run
@@ -840,6 +874,7 @@ public class Battle extends Event {
 		e2_mpStat.setStyle("-fx-font-size:20");
 		
 //		Gameover Styling
+		playerLoseImageContainer.setAlignment(Pos.CENTER);
 		gameOverContainer.setAlignment(Pos.CENTER);
 		gameOverTxt.setStyle("-fx-font-size:40");
 		gameOverTxt.setWrappingWidth(800);

@@ -2,8 +2,8 @@ package events;
 
 import database.SQL_Db;
 import entity.Player;
-import items.Consumable;
-import items.Equipment;
+//import items.Consumable;
+//import items.Equipment;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

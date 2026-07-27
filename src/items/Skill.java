@@ -30,6 +30,7 @@ public class Skill {
 		catch(SQLException e) {
 			System.out.println("Something went wrong creating the Skill");
 		}
+		database.close();
 	}
 	public int getSkill_id() {
 		return skill_id;
