@@ -64,6 +64,8 @@ public class ChoosePath {
 		window.setCenter(centerPathBox);
 		pathChoicesHBox.setAlignment(Pos.CENTER);
 		setPathButtonStyles(btPath1,btPath2);
+		
+		
 //		Path Button Listeners
 		pathButtonListeners(btPath1, btPath2, path1, path2);
 		

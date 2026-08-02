@@ -132,7 +132,7 @@ public class PathologicalWindow extends BorderPane{
 		this.setCenter(mainMenuButtons);
 		this.setLeft(null);
 		this.setRight(null);
-		this.setBottom(null);
+		this.setBottom(credits);
 	}
 	private void checkUnfinishedRun() {
 		database = new SQL_Db();
@@ -452,7 +452,8 @@ public class PathologicalWindow extends BorderPane{
 	private void prevRunMenu() {
 		this.setLeft(btBack);
 		this.setCenter(prevRunContainer);
-		this.setBottom(buttonContainer);
+		this.setRight(buttonContainer);
+		this.setBottom(null);
 	}
 	private void buildPrevRunMenu() {
 		createPrevMenuBtListeners();
@@ -494,10 +495,11 @@ public class PathologicalWindow extends BorderPane{
 		pRun2statContainer.setStyle(pRunCText);
 		pRun3statContainer.setStyle(pRunCText);
 		pRun4statContainer.setStyle(pRunCText);
-		pRun1InventoryContainer.setStyle(pRunCText);
-		pRun2InventoryContainer.setStyle(pRunCText);
-		pRun3InventoryContainer.setStyle(pRunCText);
-		pRun4InventoryContainer.setStyle(pRunCText);
+		String pRunInventoryText = "-fx-font-size:12";
+		pRun1InventoryContainer.setStyle(pRunInventoryText);
+		pRun2InventoryContainer.setStyle(pRunInventoryText);
+		pRun3InventoryContainer.setStyle(pRunInventoryText);
+		pRun4InventoryContainer.setStyle(pRunInventoryText);
 		
 		pRun1statContainer.setPadding(new Insets(0, 0, 0, 20));
 		pRun2statContainer.setPadding(new Insets(0, 0, 0, 20));

@@ -11,7 +11,7 @@ public class Enemy extends Entity{
 		
 	}
 	private void setStats() {
-		diffModifier=floorLevel*0.35;				//floor modifier*.6
+		diffModifier=floorLevel*0.35;			//allows scaling for enemies at higher difficulty
 		setAtk((int)((5)*diffModifier+5));
 		setDef((int)(2*diffModifier+2));
 		setMaxHP((int)(20*diffModifier+4));

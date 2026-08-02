@@ -32,8 +32,8 @@ public class Battle extends Event {
 	private Consumable[] consumableList;
 	
 //	Top Path Level Bar
-	Text pathProgressText = new Text("");
-	HBox pathProgressBox = new HBox();
+	private Text pathProgressText = new Text("");
+	private HBox pathProgressBox = new HBox();
 //Battle Elements
 //Battle UI elements (Contains the player and enemy container)
 	private HBox battleBoxContainer = new HBox(200);
@@ -42,13 +42,9 @@ public class Battle extends Event {
 	private HBox playerImageContainer = new HBox();
 	private ImageView playerImage;
 	
-	private HBox playerHPContainer = new HBox();
-	private HBox playerMPContainer = new HBox();
 //Enemy Elements (Contains enemy visual attributes)
-	private VBox enemyContainer = new VBox(5);
+	private VBox enemyContainer = new VBox(5);	
 	private HBox enemyImageContainer = new HBox();
-	private HBox enemyHPContainer = new HBox();
-	private HBox enemyMPContainer = new HBox();
 	private ImageView enemyImage;
 
 	private VBox playerStats = new VBox();
@@ -110,8 +106,8 @@ public class Battle extends Event {
 	private HBox playerLoseImageContainer =  new HBox();
 	private VBox gameOverContainer = new VBox();
 	private Text gameOverTxt = new Text();
-	private HBox restartContainer = new HBox();
-	private Button btRestart = new Button("Exit");
+	private HBox exitContainer = new HBox();
+	private Button btExit = new Button("Exit");
 //	============================================================================================================
 	
 	public Battle(Player player, BorderPane window, int pathFloor) {
@@ -767,18 +763,18 @@ public class Battle extends Event {
 		window.setLeft(null);
 		gameOverTxt.setText("You have lasted " + pathFloor + " paths, but unfortunately passed a tragic death");
 		window.setCenter(gameOverContainer);
-		window.setBottom(restartContainer);
+		window.setBottom(exitContainer);
 		setRestartListener();
 	}
 //	Assigns the GameOver and Restart Container
 	private void presetGameOverScreen() {
 		playerLoseImageContainer.getChildren().addAll(new ImageView(player.getDeathSprite()));
 		gameOverContainer.getChildren().addAll(playerLoseImageContainer,gameOverTxt);
-		restartContainer.getChildren().addAll(btRestart);
+		exitContainer.getChildren().addAll(btExit);
 	}
 //	Exit Listener to save the player's stats and closes the run
 	private void setRestartListener() {
-		btRestart.setOnAction(e->{
+		btExit.setOnAction(e->{
 			window.setTop(null);
 			window.setCenter(null);
 			window.setLeft(null);
@@ -858,10 +854,10 @@ public class Battle extends Event {
 		itemsBar2.setAlignment(Pos.CENTER);
 		
 		
-		btRestart.setStyle(btStyle20);
-		btRestart.setPrefWidth(buttonWidth);
-		restartContainer.setPadding(new Insets(0,0,0,0));
-		btRestart.setAlignment(Pos.CENTER);
+		btExit.setStyle(btStyle20);
+		btExit.setPrefWidth(buttonWidth);
+		exitContainer.setPadding(new Insets(0,0,0,0));
+		btExit.setAlignment(Pos.CENTER);
 //		============================================================================================================
 		}
 	private void styleBattleEntityContainers(VBox entity1, VBox entity2, Text e1_hpStat, Text e1_mpStat, Text e2_hpStat, Text e2_mpStat){
@@ -879,7 +875,7 @@ public class Battle extends Event {
 		gameOverTxt.setStyle("-fx-font-size:40");
 		gameOverTxt.setWrappingWidth(800);
 		gameOverTxt.setTextAlignment(TextAlignment.CENTER);
-		restartContainer.setAlignment(Pos.CENTER);
+		exitContainer.setAlignment(Pos.CENTER);
 		
 //		Top Progression
 		String pathProgression = "-fx-font-size:28";

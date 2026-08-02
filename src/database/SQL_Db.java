@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import items.Consumable;
 import items.Equipment;
@@ -69,7 +70,6 @@ public class SQL_Db {
 			System.out.println("Something went wrong with GETTING EQUIPMENT HISTORY for id: " + runID);
 		}
 		return returnEquips;
-//		return null;
 	}
 	public String[] getConsumableHistory(int runID) {
 		ResultSet returnConsumables;
@@ -120,24 +120,25 @@ public class SQL_Db {
 		return runID;
 	}
 	public void saveRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cMP, Equipment[] equipment, Consumable[] consumable, Skill[] skills) {
-		System.out.println("inserting player stats");
+//		System.out.println("inserting player stats");
 		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor, "Complete", 0 , cMP);
-		System.out.println("inserting player Equipment");
+//		System.out.println("inserting player Equipment");
 		insertEquipment(playerRunID,equipment);
-		System.out.println("inserting player consumable");
+//		System.out.println("inserting player consumable");
 		insertConsumable(playerRunID,consumable);
-		System.out.println("inserting player skills");
+//		System.out.println("inserting player skills");
 	}
 	public void saveTempRun(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, int cHP, int cMP, Equipment[] equipment, Consumable[] consumable, Skill[] skills) {
-		System.out.println("inserting player stats");
+//		System.out.println("inserting player stats");
 		insertPlayerRunStats(playerRunID, atk, def, HP, MP, pathFloor, "Incomplete", cHP, cMP);
-		System.out.println("inserting player Equipment");
+//		System.out.println("inserting player Equipment");
 		insertEquipment(playerRunID,equipment);
-		System.out.println("inserting player consumable");
+//		System.out.println("inserting player consumable");
 		insertConsumable(playerRunID,consumable);
-		System.out.println("inserting skills");
+//		System.out.println("inserting skills");
 		insertSkills(playerRunID, skills);
 	}
+//	When the player loses and run is finished, stats are saved
 	private void insertPlayerRunStats(int playerRunID, int atk, int def, int HP, int MP, int pathFloor, String status, int cHP, int cMP) {
 		String insertStatement = "INSERT INTO player_run ";
 		insertStatement += "VALUES("+playerRunID+", "+ atk + ", "+ def +", "+HP+", "+MP+", "+ pathFloor+", \"" + status +"\", " + cHP + ", " + cMP + ");";
@@ -169,32 +170,32 @@ public class SQL_Db {
 			insertStatement+=", ";
 		}
 		insertStatement += ";";
-//		System.out.println(insertStatement);
 		try {
 			statement.executeUpdate(insertStatement);
 		}
 		catch(SQLException e) {
 			System.out.println("Insert Equipment unsuccessful");
 		}
-		System.out.println(insertStatement);
 	}
 //	Insert into player inventory
 	private void insertConsumable(int playerRunID, Consumable[] consumable) {
 		String insertStatement = "INSERT INTO inventory VALUES";
+		ArrayList<String> nonNullConsumables = new ArrayList<>();
 		for(int x=0; x<consumable.length; x++) {
+//			If there is an item in this spot, add it into an arraylist of Strings to be used for the insert statement
 			if(consumable[x]!=null) {
-				insertStatement += "("+playerRunID+", "+(x+1)+", "+consumable[x].getConsumable_id()+", 'ACTIVE')";
-				if(x+1==consumable.length|| consumable[x+1]==null) {
-					break;
-				}
+				nonNullConsumables.add("("+playerRunID+", "+(x+1)+", "+consumable[x].getConsumable_id()+", 'ACTIVE')");
 			}
-			else if(consumable[x]==null & x==0) {
-				return;
+//			else, it skips over it by doing nothing(does not add to the arraylist) until it reaches the end
+		}
+		
+//		Now, it will go through the array list and create the insert statement with the strings in the arraylist
+		for(int y=0; y<nonNullConsumables.size(); y++) {
+			insertStatement+=nonNullConsumables.get(y);
+//			if it is not last, add a comma
+			if(y+1!=nonNullConsumables.size()) {
+				insertStatement+=", ";
 			}
-			else {
-				break;
-			}
-			insertStatement+=", ";
 		}
 		insertStatement += ";";
 		try {
@@ -228,8 +229,8 @@ public class SQL_Db {
 		catch(SQLException e) {
 			System.out.println("Insert Skills unsuccessful");
 		}
-		System.out.println(insertStatement);
 	}
+	
 //	Get number of rows
 	public int countRows(String table) {
 		ResultSet rs_rCount;
@@ -246,6 +247,8 @@ public class SQL_Db {
 		}
 		return rows;
 	}
+//	Counts how many rows in a given table based by runID
+//	Used to count how many consumables, equipment and skills available
 	public int countRowsbyID(String table, int runID) {
 		ResultSet rs_rCount;
 		int rows = 0;
@@ -261,6 +264,7 @@ public class SQL_Db {
 		}
 		return rows;
 	}
+//	Gets all consumable attributes from SQL Database
 	public ResultSet pickConsumable(int cs_id) {
 		ResultSet rs_pickItem;
 		String pickItem_Query =
@@ -275,6 +279,7 @@ public class SQL_Db {
 		}
 		return rs_pickItem=null;
 	}
+//	Gets equipment attributes from SQL Database
 	public ResultSet pickEquipment(int eq_id) {
 		ResultSet rs_pickItem;
 		String pickItem_Query =
@@ -289,6 +294,7 @@ public class SQL_Db {
 		}
 		return rs_pickItem=null;
 	}
+//	Get the run ID of incomplete runs
 	public int getIncompleteRunsDB() {
 		ResultSet rs_incompleteID;
 		int incompleteID = 0;
@@ -304,6 +310,7 @@ public class SQL_Db {
 		}
 		return incompleteID;
 	}
+//	Get all the player's stats in int[] to continue run
 	public int[] setPlayerStats(int runID) {
 		int[] returnStats = new int[8];
 		ResultSet rs_returnStats;
@@ -326,6 +333,7 @@ public class SQL_Db {
 		}
 		return returnStats;
 	}
+//	Gets the ID of equipments that the player previously had
 	public int[] pullPrevRunEquipment(int runID) {
 		int[] returnEquip = new int[countRowsbyID("current_equipment", runID)];
 		String returnEquipQuery = "SELECT equipment_equipment_id FROM current_equipment WHERE run_id = " + runID + ";";
@@ -343,6 +351,7 @@ public class SQL_Db {
 		}
 		return returnEquip;
 	}
+//	Retrieves consumable id's from previous run (runID)
 	public int[] pullPrevRunConsumable(int runID) {
 		int[] returnConsumable = new int[countRowsbyID("inventory", runID)];
 		String returnConsumableQuery = "SELECT items_item_id FROM inventory WHERE run_id = " + runID + ";";
@@ -360,6 +369,7 @@ public class SQL_Db {
 		}
 		return returnConsumable;
 	}
+//	Retrieves skill id from previous run
 	public int[] pullPrevRunSkills(int runID) {
 		int[] returnSkills = new int[countRowsbyID("skills_list", runID)];
 		String returnSkillsQuery = "SELECT skills_skill_id FROM skills_list WHERE run_id = " + runID + ";";
@@ -394,6 +404,7 @@ public class SQL_Db {
 		}
 		
 	}
+//	Retrieves the attributes of the skill from the database
 	public ResultSet createSkill(int id) {
 		ResultSet returnSkill;
 		String skill_query =
@@ -408,6 +419,7 @@ public class SQL_Db {
 		}
 		return returnSkill=null;
 	}
+//	Close Database connection
 	public void close() {
 		try {
 			connection.close();

@@ -88,6 +88,8 @@ public class ReplaceEquipment{
 		eq2.prefWidth(btReplaceWidth);
 		eq3.prefWidth(btReplaceWidth);
 		eq4.prefWidth(btReplaceWidth);
-		
+
+		String textStyle = "-fx-font-size:18";
+		replaceMessage.setStyle(textStyle);
 	}
 }

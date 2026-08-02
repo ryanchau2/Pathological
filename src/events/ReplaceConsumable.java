@@ -40,9 +40,11 @@ public class ReplaceConsumable {
 		this.pathFloor = pathFloor;
 		consumableList = player.getConsumableList();
 		populateButtons();
+		createReplaceCListener();
 		setupReplaceUI();
 		styleReplaceUI();
 	}
+//	Populate buttons to give player the option to replace any of the items in their inventory
 	private void populateButtons() {
 		cs1.setText(consumableList[0].getItemName());
 		cs2.setText(consumableList[1].getItemName());
@@ -54,6 +56,48 @@ public class ReplaceConsumable {
 		cs8.setText(consumableList[7].getItemName());
 		cs9.setText(consumableList[8].getItemName());
 		cs10.setText(consumableList[9].getItemName());
+	}
+	private void createReplaceCListener() {
+		cs1.setOnAction(e->{
+			player.replaceConsumable(0, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs2.setOnAction(e->{
+			player.replaceConsumable(1, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs3.setOnAction(e->{
+			player.replaceConsumable(2, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs4.setOnAction(e->{
+			player.replaceConsumable(3, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs5.setOnAction(e->{
+			player.replaceConsumable(4, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs6.setOnAction(e->{
+			player.replaceConsumable(5, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs7.setOnAction(e->{
+			player.replaceConsumable(6, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs8.setOnAction(e->{
+			player.replaceConsumable(7, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs9.setOnAction(e->{
+			player.replaceConsumable(8, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
+		cs10.setOnAction(e->{
+			player.replaceConsumable(9, consumable);
+			new ChoosePath(window, pathFloor, player);
+		});
 	}
 	private void setupReplaceUI() {
 		window.setCenter(null);
