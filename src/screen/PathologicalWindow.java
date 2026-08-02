@@ -153,38 +153,38 @@ public class PathologicalWindow extends BorderPane{
 		btContinue.setOnAction(e->{
 			//change players stats to what they were
 			database = new SQL_Db();
-			System.out.println("Setting player stats");
+//			System.out.println("Setting player stats");
 			int[] prevStats = database.setPlayerStats(prevRunID);
 			newPlayer = new Player(prevStats[0], prevStats[1], prevStats[2], prevStats[3], prevStats[4], prevStats[5], prevStats[6]);
 			pathFloor = prevStats[7];
-			System.out.println("Finished Setting player stats and floor");
+//			System.out.println("Finished Setting player stats and floor");
 			
 			//equip the player with the gear if there is any
-			System.out.println("Setting current equipment");
+//			System.out.println("Setting current equipment");
 			if(database.countRowsbyID("current_Equipment", prevRunID)!=0) {
 				int[] prevEquip = database.pullPrevRunEquipment(prevRunID);
 				for(int x=0; x<prevEquip.length; x++) {
 					newPlayer.addToEquipment(new Equipment(prevEquip[x]), this);
 				}
-				System.out.println("Finished Equipment");
+//				System.out.println("Finished Equipment");
 			}
 		
-			System.out.println("Setting Current Consumables");
+//			System.out.println("Setting Current Consumables");
 			//give player consumables if there are any
 			if(database.countRowsbyID("inventory", prevRunID)!=0) {
 				int[] prevConsumables = database.pullPrevRunConsumable(prevRunID);
 				for(int x=0; x<prevConsumables.length; x++) {
 					newPlayer.addToConsumables(new Consumable(prevConsumables[x]), this);
 				}
-				System.out.println("Finished Settin Current Consumables");
+//				System.out.println("Finished Setting Current Consumables");
 			}
-			System.out.println("Setting Up Skills");
+//			System.out.println("Setting Up Skills");
 			if(database.countRowsbyID("skills_list", prevRunID)!=0) {
 				int[] prevSkills = database.pullPrevRunSkills(prevRunID);
 				for(int x=0; x<prevSkills.length; x++) {
 					newPlayer.addToSkills(new Skill(prevSkills[x]));
 				}
-				System.out.println("Finished Setting Skills");
+//				System.out.println("Finished Setting Skills");
 			}
 //			pathFloor = 0;
 			//delete items from SQL

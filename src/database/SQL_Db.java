@@ -61,7 +61,7 @@ public class SQL_Db {
 			returnEquip = statement.executeQuery(selectStatement);
 			int eqIterator = 0;
 			while(returnEquip.next()) {
-				System.out.println(returnEquip.getString("equipment_name"));
+//				System.out.println(returnEquip.getString("equipment_name"));
 				returnEquips[eqIterator] = returnEquip.getString("equipment_name");
 				eqIterator++;
 			}
@@ -148,8 +148,8 @@ public class SQL_Db {
 		catch (SQLException e) {
 			System.out.println("Insert PlayerRunStats Unsuccessful");
 		}
-		System.out.println(insertStatement);
-		System.out.println("finished inserting player stats");
+//		System.out.println(insertStatement);
+//		System.out.println("finished inserting player stats");
 	}
 //	Insert into player equipment
 	private void insertEquipment(int playerRunID, Equipment[] equipment) {
@@ -188,7 +188,9 @@ public class SQL_Db {
 			}
 //			else, it skips over it by doing nothing(does not add to the arraylist) until it reaches the end
 		}
-		
+		if(nonNullConsumables.isEmpty()==true) {
+			return;
+		}
 //		Now, it will go through the array list and create the insert statement with the strings in the arraylist
 		for(int y=0; y<nonNullConsumables.size(); y++) {
 			insertStatement+=nonNullConsumables.get(y);
@@ -204,7 +206,7 @@ public class SQL_Db {
 		catch(SQLException e) {
 			System.out.println("Insert Consumable unsuccessful");
 		}
-		System.out.println(insertStatement);
+//		System.out.println(insertStatement);
 	}
 //	Insert into player skills
 	private void insertSkills(int playerRunID, Skill[] skills) {

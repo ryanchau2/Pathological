@@ -4,7 +4,6 @@ import entity.Player;
 import items.Consumable;
 import items.Equipment;
 import items.Item;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -61,21 +60,18 @@ public class Treasure extends Event{
 			btItem2.setDisable(true);
 			btItem3.setDisable(true);
 			window.setBottom(null);
-//			new ChoosePath(window, pathFloor, player);
 		});
 		btItem2.setOnAction(e->{
 			addToInventory(treasure_i2);
 			btItem1.setDisable(true);
 			btItem3.setDisable(true);
 			window.setBottom(null);
-//			new ChoosePath(window, pathFloor, player);
 		});
 		btItem3.setOnAction(e->{
 			addToInventory(treasure_i3);
 			btItem1.setDisable(true);
 			btItem2.setDisable(true);
 			window.setBottom(null);
-//			new ChoosePath(window, pathFloor, player);
 		});
 	}
 	private void compileTreasureWindow() {
@@ -136,6 +132,7 @@ public class Treasure extends Event{
 		txtItem3.setText(treasure_i3.getItemName());
 		vb_item3.getChildren().add(new ImageView(treasure_i3.getItem_sprite()));
 	}
+//	Generates 3 items at a random. Can be either Consumable or Equipment
 	private Item generateItems() {
 		int item_type = (int)(Math.random()*2)+1;
 		Item returnItem = null;

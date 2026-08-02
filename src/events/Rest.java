@@ -39,17 +39,20 @@ public class Rest extends Event {
 		createButtonListeners();
 		styleRestButtons();
 	}
+//	Update path floor text and pathfloor
 	private void updatePathFloor() {
 		pathProgressText.setText("Path "+pathFloor+": Rest");
 		pathProgressBox.getChildren().addAll(pathProgressText);
 		window.setTop(pathProgressBox);
 	}
+//	Builds the screen
 	private void displayRestScreen() {
 		mainDisplayContainer.getChildren().addAll(imageContainerPlayer, imageContainerFire);
 		buttonContainer.getChildren().addAll(btRest, btUpgradeHP, btUpgradeAtk, btUpgradeDef);
 		window.setCenter(mainDisplayContainer);
 		window.setBottom(buttonContainer);
 	}
+//	Creates listeners for the different upgrade options
 	private void createButtonListeners() {
 		btRest.setOnAction(e->{
 			if(player.getCurrentHP()+20>player.getMaxHP())

@@ -12,7 +12,6 @@ import javafx.scene.text.Text;
 public class Player extends Entity{
 	private Equipment[] currentEquipment = new Equipment[4];
 	private Consumable[] currentConsumables = new Consumable[10];
-	private int pathFloor;
 	private int runID;
 	
 	
@@ -42,9 +41,10 @@ public class Player extends Entity{
 		setMaxMP(mp);
 		setCurrentHP(cHP);
 		setCurrentMP(cMP);
-		System.out.println("ID: " + runID);
+//		System.out.println("ID: " + runID);
 		setEntity_sprite("file:images/sprites/player_idle.gif");
-		returnCurrentStats();
+//		Returns Current Stats for Debugging
+//		returnCurrentStats();
 	}
 	private void setRunID() {
 		database = new SQL_Db();
@@ -103,7 +103,7 @@ public class Player extends Entity{
 		currentEquipment[index] = equipment;
 	}
 	public void useConsumable(Consumable c) {
-		System.out.println(c.getConsumable_id() + "<ID");
+//		System.out.println(c.getConsumable_id() + "<ID");
 		if(c.getConsumable_HP()>0) {
 			if(getCurrentHP()+c.getConsumable_HP()>getMaxHP())
 				setCurrentHP(getMaxHP());
@@ -121,7 +121,6 @@ public class Player extends Entity{
 	
 //	Save Stats to SQLDB
 	public void saveStats(int pathFloor) {
-		this.pathFloor = pathFloor;
 		database = new SQL_Db();
 		database.saveRun(runID, getAtk(), getDef(), getMaxHP(), getMaxMP(), pathFloor, getCurrentMP(), currentEquipment, currentConsumables, skills);
 		database.close();
@@ -138,7 +137,7 @@ public class Player extends Entity{
 			for(int skillIndex = 0; skillIndex<skills.length; skillIndex++) {
 				if(skills[skillIndex]==null) {
 					skills[skillIndex] = new Skill(skillIndex+1);
-					System.out.println("Skill added");
+//					System.out.println("Skill added");
 					break;
 				}
 			}

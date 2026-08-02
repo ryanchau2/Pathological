@@ -756,7 +756,7 @@ public class Battle extends Event {
 //	============================================================================================================
 //	This section controls the actions when the player hits a GameOver
 	private void gameOverScreen() {
-		System.out.println("Player Lost");
+//		System.out.println("Player Lost");
 		window.setCenter(null);
 		window.setTop(null);
 		window.setBottom(null);

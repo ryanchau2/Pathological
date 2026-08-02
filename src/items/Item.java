@@ -1,7 +1,6 @@
 package items;
 
 public class Item {
-	private int item_id;
 	protected String item_name;
 	protected String item_description;
 
