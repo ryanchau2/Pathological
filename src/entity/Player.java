@@ -78,9 +78,6 @@ public class Player extends Entity{
 			if(currentEquipment[x]==null)
 			{
 				currentEquipment[x] = e;
-				setAtk(this.getAtk()+e.getEq_atk());
-				setDef(this.getDef()+e.getEq_def());
-				setMaxHP(this.getMaxHP()+e.getEq_HP());
 				equipmentCount++;
 				break;
 			}
