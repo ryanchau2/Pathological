@@ -7,12 +7,12 @@ public class Enemy extends Entity{
 		floorLevel = floor;
 		setStats();
 		setEntity_sprite("file:images/sprites/enemy_idle.gif");
-		returnCurrentStats();
+//		returnCurrentStats();
 		
 	}
 	private void setStats() {
 		diffModifier=floorLevel*0.35;			//allows scaling for enemies at higher difficulty
-		setAtk((int)((5)*diffModifier+5+floorLevel-(floorLevel/2)));
+		setAtk((int)((5)*diffModifier+5-(floorLevel/2)));
 		setDef((int)(2*diffModifier+2));
 		setMaxHP((int)(20*diffModifier+4));
 		setMaxMP((int)(15*diffModifier));

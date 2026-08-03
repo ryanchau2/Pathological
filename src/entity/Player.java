@@ -126,8 +126,8 @@ public class Player extends Entity{
 //		Automatically increases the player's stats after every battle
 		setMaxHP(this.getMaxHP()+6);
 		setMaxMP(this.getMaxMP()+2);
-		setAtk(this.getAtk()+3);
-		setDef(this.getDef()+2);
+		setAtk(this.getAtk()+5);
+		setDef(this.getDef()+3);
 //		If the skill list is not full, add a skill from the skill list
 //		Should not enter this if-statement if the skills list is full (after 4th battle, player should have acquired all learnable skills)
 		if(skills[3]==null) {
